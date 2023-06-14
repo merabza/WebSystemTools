@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="11.5.2" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
+        <PackageReference Include="MediatR" Version="12.0.1" />
+        <PackageReference Include="OneOf" Version="3.0.243" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\SystemTools\MessagingAbstractions\MessagingAbstractions.csproj" />
+        <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
+    </ItemGroup>
+
+</Project>
