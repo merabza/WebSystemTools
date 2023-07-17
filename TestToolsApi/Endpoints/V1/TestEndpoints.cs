@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +9,7 @@ using TestToolsData.Contracts.V1;
 using TestToolsData.Models;
 using WebInstallers;
 
-namespace TestToolsMini.Endpoints.V1;
+namespace TestToolsApi.Endpoints.V1;
 
 // ReSharper disable once UnusedType.Global
 public sealed class TestEndpoints : IInstaller

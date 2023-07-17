@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace TestToolsMini;
+namespace TestToolsApi;
 
 public static class AssemblyReference
 {
