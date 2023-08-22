@@ -19,11 +19,14 @@ public sealed class CorsInstaller : IInstaller
         //Console.WriteLine("CorsInstaller.InstallServices Started");
 
         //builder.Services.AddCors();
+        //.AllowAnyOrigin() არ მუშაობს sygnalR-სთვის
+        //.WithOrigins("http://localhost:3000", "*")//* არ გამოდგება sygnalR-სთვის
         builder.Services.AddCors(options =>
         {
             options.AddPolicy(MyAllowSpecificOrigins,
-                policy => policy.AllowAnyOrigin() /*.WithOrigins("http://localhost:5022", "*")*/.AllowAnyHeader()
-                    .AllowAnyMethod());
+                policy => policy.WithOrigins("http://localhost:3000", "https://app.grammar.ge",
+                        "https://devapp.grammar.ge", "https://dev2app.grammar.ge").AllowAnyHeader()
+                    .AllowAnyMethod().AllowCredentials());
         });
 
         //Console.WriteLine("CorsInstaller.InstallServices Finished");
@@ -38,7 +41,6 @@ public sealed class CorsInstaller : IInstaller
         //app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(_ => true).AllowCredentials());
         //app.UseCors();
         app.UseCors(MyAllowSpecificOrigins);
-
         Console.WriteLine("CorsInstaller.UseMiddleware Finished");
     }
 }
