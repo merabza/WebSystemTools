@@ -27,8 +27,8 @@ public sealed class ApiKeysDomain
             logger.LogInformation("ApiKey={apiKey} for {remoteIpAddress}", apiKey, remoteIpAddress);
             if (apiKeyByRemoteIpAddressModel.ApiKey is null || apiKeyByRemoteIpAddressModel.RemoteIpAddress is null)
             {
-                logger.LogError(
-                    $"Invalid ApiKey or RemoteIpAddress ApiKey={apiKeyByRemoteIpAddressModel.ApiKey} for {apiKeyByRemoteIpAddressModel.RemoteIpAddress}");
+                logger.LogError("Invalid ApiKey or RemoteIpAddress ApiKey={apiKey} for {remoteIpAddress}", apiKey,
+                    remoteIpAddress);
                 continue;
             }
 
