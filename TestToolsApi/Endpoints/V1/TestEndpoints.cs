@@ -52,7 +52,7 @@ public sealed class TestEndpoints : IInstaller
     {
         var ret =
             $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
-        logger.LogInformation($"Test from {ret}");
+        logger.LogInformation("Test from {ret}",ret);
         return Results.Ok(ret);
     }
 
@@ -61,7 +61,7 @@ public sealed class TestEndpoints : IInstaller
     private static IResult Version(ILogger<TestEndpoints> logger)
     {
         var ret = $"{Assembly.GetEntryAssembly()?.GetName().Version}";
-        logger.LogInformation($"Version Test {ret}");
+        logger.LogInformation("Version Test {ret}",ret);
         return Results.Ok(ret);
     }
 
@@ -73,7 +73,7 @@ public sealed class TestEndpoints : IInstaller
         {
             var versionInfo = VersionInfo.Create(config);
             var ret = versionInfo == null ? "Version not detected" : $"{versionInfo.AppSettingsVersion}";
-            logger.LogInformation($"Version Test {ret}");
+            logger.LogInformation("Version Test {ret}",ret);
             return Results.Ok(ret);
         }
         catch (Exception e)
