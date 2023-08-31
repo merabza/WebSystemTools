@@ -55,7 +55,7 @@ public sealed class TestEndpoints : IInstaller
         var ret =
             $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
         logger.LogInformation("Test from {ret}", ret);
-        return Results.Ok(GetStringResponse(ret));
+        return Results.Text(ret, "text/plain", Encoding.UTF8);
     }
 
     //// GET api/test/v1/getversion
@@ -64,7 +64,7 @@ public sealed class TestEndpoints : IInstaller
     {
         var ret = Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
         logger.LogInformation("Version Test {ret}", ret);
-        return Results.Ok(GetStringResponse(ret));
+        return Results.Text(ret, "text/plain", Encoding.UTF8);
     }
 
     // GET api/test/v1/getappsettingsversion
@@ -74,7 +74,7 @@ public sealed class TestEndpoints : IInstaller
         var versionInfo = VersionInfo.Create(config);
         var ret = versionInfo == null ? "Version not detected" : versionInfo.AppSettingsVersion;
         logger.LogInformation("Version Test {ret}", ret);
-        return Results.Ok(GetStringResponse(ret));
+        return Results.Text(ret, "text/plain", Encoding.UTF8);
     }
 
     // GET api/test/v1/getsettings
@@ -94,14 +94,5 @@ public sealed class TestEndpoints : IInstaller
 
         //sb.AppendLine("View Api Keys Finished");
         return Results.Ok(sb.ToString());
-    }
-
-    private static HttpResponseMessage GetStringResponse(string? toReturn)
-    {
-        var resp = new HttpResponseMessage(HttpStatusCode.OK)
-        {
-            Content = new StringContent(toReturn ?? "", Encoding.UTF8, "text/plain")
-        };
-        return resp;
     }
 }
