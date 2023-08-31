@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
@@ -52,35 +54,27 @@ public sealed class TestEndpoints : IInstaller
     {
         var ret =
             $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
-        logger.LogInformation("Test from {ret}",ret);
-        return Results.Ok(ret);
+        logger.LogInformation("Test from {ret}", ret);
+        return Results.Ok(GetStringResponse(ret));
     }
 
     //// GET api/test/v1/getversion
     //[HttpGet(TestApiRoutes.Test.GetVersion)]
     private static IResult Version(ILogger<TestEndpoints> logger)
     {
-        var ret = $"{Assembly.GetEntryAssembly()?.GetName().Version}";
-        logger.LogInformation("Version Test {ret}",ret);
-        return Results.Ok(ret);
+        var ret = Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
+        logger.LogInformation("Version Test {ret}", ret);
+        return Results.Ok(GetStringResponse(ret));
     }
 
     // GET api/test/v1/getappsettingsversion
     //[HttpGet(TestApiRoutes.Test.GetAppSettingsVersion)]
     private static IResult AppSettingsVersion(ILogger<TestEndpoints> logger, IConfiguration config)
     {
-        try
-        {
-            var versionInfo = VersionInfo.Create(config);
-            var ret = versionInfo == null ? "Version not detected" : $"{versionInfo.AppSettingsVersion}";
-            logger.LogInformation("Version Test {ret}",ret);
-            return Results.Ok(ret);
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, null);
-            throw;
-        }
+        var versionInfo = VersionInfo.Create(config);
+        var ret = versionInfo == null ? "Version not detected" : versionInfo.AppSettingsVersion;
+        logger.LogInformation("Version Test {ret}", ret);
+        return Results.Ok(GetStringResponse(ret));
     }
 
     // GET api/test/v1/getsettings
@@ -100,5 +94,14 @@ public sealed class TestEndpoints : IInstaller
 
         //sb.AppendLine("View Api Keys Finished");
         return Results.Ok(sb.ToString());
+    }
+
+    private static HttpResponseMessage GetStringResponse(string? toReturn)
+    {
+        var resp = new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(toReturn ?? "", Encoding.UTF8, "text/plain")
+        };
+        return resp;
     }
 }
