@@ -46,8 +46,7 @@ public sealed class TestEndpoints : IInstaller
     }
 
 
-    // GET api/test/v1/getip
-    //[HttpGet(TestApiRoutes.Test.GetIp)]
+    // GET api/v1/test/getip
     private static IResult Ip(ILogger<TestEndpoints> logger, HttpRequest request)
     {
         var ret =
@@ -56,8 +55,7 @@ public sealed class TestEndpoints : IInstaller
         return Results.Text(ret, "text/plain", Encoding.UTF8);
     }
 
-    //// GET api/test/v1/getversion
-    //[HttpGet(TestApiRoutes.Test.GetVersion)]
+    // GET api/v1/test/getversion
     private static IResult Version(ILogger<TestEndpoints> logger)
     {
         var ret = Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
@@ -65,7 +63,7 @@ public sealed class TestEndpoints : IInstaller
         return Results.Text(ret, "text/plain", Encoding.UTF8);
     }
 
-    // GET api/test/v1/getappsettingsversion
+    // GET api/v1/test/getappsettingsversion
     //[HttpGet(TestApiRoutes.Test.GetAppSettingsVersion)]
     private static IResult AppSettingsVersion(ILogger<TestEndpoints> logger, IConfiguration config)
     {
@@ -75,7 +73,7 @@ public sealed class TestEndpoints : IInstaller
         return Results.Text(ret, "text/plain", Encoding.UTF8);
     }
 
-    // GET api/test/v1/getsettings
+    // GET api/v1/test/getsettings
     //[HttpGet(TestApiRoutes.Test.GetSettings)]
     private static IResult Settings()
     {
