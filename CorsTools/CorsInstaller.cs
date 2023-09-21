@@ -1,13 +1,15 @@
 //Created by ReactInstallerClassCreator at 8/1/2022 8:38:26 PM
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using WebInstallers;
 
 namespace CorsTools;
 
-// ReSharper disable once UnusedType.Global
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CorsInstaller : IInstaller
 {
     public const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -17,16 +19,22 @@ public sealed class CorsInstaller : IInstaller
     public void InstallServices(WebApplicationBuilder builder, string[] args)
     {
         //Console.WriteLine("CorsInstaller.InstallServices Started");
+        var corsSettings = builder.Configuration.GetSection("CorsSettings");
 
-        //builder.Services.AddCors();
-        //.AllowAnyOrigin() არ მუშაობს sygnalR-სთვის
-        //.WithOrigins("http://localhost:3000", "*")//* არ გამოდგება sygnalR-სთვის
+        var originsSection = corsSettings.GetChildren().SingleOrDefault(s => s.Key == "Origins");
+
+        if ( originsSection is null )
+            return;
+
+
+        //.WithOrigins("*")//* არ გამოდგება sygnalR-სთვის
         builder.Services.AddCors(options =>
         {
             options.AddPolicy(MyAllowSpecificOrigins,
-                policy => policy.WithOrigins("http://localhost:3000", "https://app.grammar.ge",
-                        "https://devapp.grammar.ge", "https://dev2app.grammar.ge").AllowAnyHeader()
-                    .AllowAnyMethod().AllowCredentials());
+                policy => policy
+                    .WithOrigins((from child in originsSection.GetChildren()
+                        where child.Value is not null
+                        select child.Value).ToArray()).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
         });
 
         //Console.WriteLine("CorsInstaller.InstallServices Finished");
