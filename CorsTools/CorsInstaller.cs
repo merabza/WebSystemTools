@@ -22,7 +22,7 @@ public sealed class CorsInstaller : IInstaller
 
         var originsSection = corsSettings.GetChildren().SingleOrDefault(s => s.Key == "Origins");
 
-        if ( originsSection is null )
+        if (originsSection is null)
             return;
 
 
