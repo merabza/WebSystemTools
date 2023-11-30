@@ -3,19 +3,14 @@ using ApiToolsShared.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+// ReSharper disable ReplaceWithPrimaryConstructorParameter
 
 namespace ApiToolsShared;
 
-public sealed class ApiKeysChecker : IEndpointFilter
+public sealed class ApiKeysChecker(ILoggerFactory loggerFactory, IConfiguration configuration) : IEndpointFilter
 {
-    private readonly IConfiguration _configuration;
-    private readonly ILogger _logger;
-
-    public ApiKeysChecker(ILoggerFactory loggerFactory, IConfiguration configuration)
-    {
-        _logger = loggerFactory.CreateLogger<ApiKeysChecker>();
-        _configuration = configuration;
-    }
+    private readonly IConfiguration _configuration = configuration;
+    private readonly ILogger _logger = loggerFactory.CreateLogger<ApiKeysChecker>();
 
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
