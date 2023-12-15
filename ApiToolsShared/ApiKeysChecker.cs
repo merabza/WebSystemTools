@@ -3,6 +3,7 @@ using ApiToolsShared.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 // ReSharper disable ReplaceWithPrimaryConstructorParameter
 
 namespace ApiToolsShared;
