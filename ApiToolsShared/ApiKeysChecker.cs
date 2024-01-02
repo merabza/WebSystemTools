@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiToolsShared;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class ApiKeysChecker(ILoggerFactory loggerFactory, IConfiguration configuration) : IEndpointFilter
 {
     private readonly IConfiguration _configuration = configuration;
