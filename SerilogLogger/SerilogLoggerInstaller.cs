@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using SystemToolsShared;
 using WebInstallers;
 
 namespace SerilogLogger;
@@ -98,7 +97,8 @@ public sealed class SerilogLoggerInstaller : IInstaller
             return;
         }
 
-        FileStat.CreateFolderIfNotExists(path.Path, true);
+        //if ( path.Value is not null)
+        //    FileStat.CreateFolderIfNotExists(path.Value, true);
 
         Console.WriteLine($"Serilog WriteTo File Path is: {path.Value}");
     }
