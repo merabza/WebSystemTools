@@ -12,7 +12,7 @@ namespace FluentValidationInstaller;
 
 public sealed class
     ValidationBehavior<TCommandOrQuery, TResponse> : IPipelineBehavior<TCommandOrQuery,
-        OneOf<TResponse, IEnumerable<Err>>>
+    OneOf<TResponse, IEnumerable<Err>>>
     where TCommandOrQuery : ICommand, ICommand<TResponse>, IQuery<TResponse>
 {
     private readonly IEnumerable<IValidator<TCommandOrQuery>> _validators;
