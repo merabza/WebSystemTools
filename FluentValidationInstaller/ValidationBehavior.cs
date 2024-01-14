@@ -17,6 +17,7 @@ public sealed class
 {
     private readonly IEnumerable<IValidator<TCommandOrQuery>> _validators;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public ValidationBehavior(IEnumerable<IValidator<TCommandOrQuery>> validators)
     {
         _validators = validators;
@@ -32,7 +33,7 @@ public sealed class
         var failures = _validators.Select(x => x.Validate(context)).SelectMany(x => x.Errors).Where(x => x is not null)
             .ToList();
 
-        if (failures.Any())
+        if (failures.Count != 0)
             return await Task.FromResult(failures
                 .Select(x => new Err { ErrorCode = x.ErrorCode, ErrorMessage = x.ErrorMessage }).Distinct().ToArray());
 
