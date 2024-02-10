@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SystemToolsShared;
+using SystemToolsShared.ErrorModels;
 using WebInstallers;
 
 namespace ApiExceptionHandler;
@@ -40,7 +40,7 @@ public sealed class ApiExceptionHandlerInstaller : IInstaller
                 var e = exceptionHandlerPathFeature?.Error;
                 if (e is not null)
                 {
-                    var mess = new[] { Errors.UnexpectedApiException(e) };
+                    var mess = new[] { SystemToolsErrors.UnexpectedApiException(e) };
                     var serializerSettings = new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
