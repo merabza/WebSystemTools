@@ -20,7 +20,7 @@ public static class InstallerExtensions
 
         foreach (var assembly in assemblies)
             installers.AddRange(assembly.ExportedTypes
-                .Where(x => typeof(IInstaller).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+                .Where(x => typeof(IInstaller).IsAssignableFrom(x) && x is { IsInterface: false, IsAbstract: false })
                 .Select(Activator.CreateInstance).Cast<IInstaller>());
 
         foreach (var installer in installers.OrderBy(x => x.InstallPriority)) installer.InstallServices(builder, args);
