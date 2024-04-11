@@ -26,7 +26,8 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
 
         if (!Debugger.IsAttached && SystemStat.IsWindows())
         {
-            var processModule = Process.GetCurrentProcess().MainModule;
+            // ReSharper disable once using
+            using var processModule = Process.GetCurrentProcess().MainModule;
             var pathToExe = processModule?.FileName;
             if (pathToExe != null)
             {
