@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WebAgentContracts\WebAgentMessagesContracts\WebAgentMessagesContracts.csproj" />
     <ProjectReference Include="..\ApiToolsShared\ApiToolsShared.csproj" />
+    <ProjectReference Include="..\SignalRMessagesContracts\SignalRMessagesContracts.csproj" />
     <ProjectReference Include="..\WebInstallers\WebInstallers.csproj" />
   </ItemGroup>
 

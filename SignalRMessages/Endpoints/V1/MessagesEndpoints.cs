@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Connections;
-using WebAgentMessagesContracts.V1.Routes;
+using SignalRMessagesContracts.V1.Routes;
 using WebInstallers;
 
 namespace SignalRMessages.Endpoints.V1;
