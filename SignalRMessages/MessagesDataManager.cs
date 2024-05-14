@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using SignalRClient;
-using SystemToolsShared;
+using SignalRContracts;
 
 namespace SignalRMessages;
 
-public class MessagesDataManager : IMessagesDataManager, IDisposable
+public class MessagesDataManager : IMessagesDataManager
 {
     private readonly Dictionary<string, List<string>> _connectedUsers = [];
     private readonly IHubContext<MessagesHub, IMessenger> _hub;
@@ -22,10 +20,6 @@ public class MessagesDataManager : IMessagesDataManager, IDisposable
         _logger = logger;
     }
 
-    public void Dispose()
-    {
-    }
-
     public async Task SendMessage(string? userName, string message, CancellationToken cancellationToken)
     {
         if (userName is null)
@@ -36,7 +30,7 @@ public class MessagesDataManager : IMessagesDataManager, IDisposable
         _logger.LogInformation("Try to send message: {message}", message);
         foreach (var connectionId in conList)
             await _hub.Clients.Client(connectionId).SendMessage(message, cancellationToken);
-        //await _hub.Clients.All.SendMessage(message);
+        await _hub.Clients.All.SendMessage(message, cancellationToken);
     }
 
     public void UserConnected(string connectionId, string userName)

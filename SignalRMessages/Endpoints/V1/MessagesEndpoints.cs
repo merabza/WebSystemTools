@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Connections;
 using SignalRMessagesContracts.V1.Routes;
 using WebInstallers;
@@ -12,7 +13,7 @@ public sealed class MessagesEndpoints : IInstaller
 
     public int ServiceUsePriority => 70;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
     }
 

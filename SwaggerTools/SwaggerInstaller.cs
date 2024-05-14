@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,23 +9,32 @@ using WebInstallers;
 
 namespace SwaggerTools;
 
-// ReSharper disable once UnusedType.Global
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class SwaggerInstaller : IInstaller
 {
     public int InstallPriority => 25;
     public int ServiceUsePriority => 0;
+    public const string AppNameKey = nameof(AppNameKey);
+    public const string VersionCountKey = nameof(VersionCountKey);
+    public const string UseSwaggerWithJwtBearerKey = nameof(UseSwaggerWithJwtBearerKey);
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    private Dictionary<string, string>? _parameters;
+
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
+        _parameters = parameters;
         //Console.WriteLine("SwaggerInstaller.InstallServices Started");
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         //builder.Services.AddSwaggerGen();
 
-        var appName = ProgramAttributes.Instance.GetAttribute<string>("AppName");
-        //var appVersion = ProgramAttributes.Instance.GetAttribute<string>("AppVersion");
-        var versionCount = ProgramAttributes.Instance.GetAttribute<int>("VersionCount");
-        var useSwaggerWithJwtBearer = ProgramAttributes.Instance.GetAttribute<bool>("UseSwaggerWithJWTBearer");
+        var appName = StShared.GetMainModuleFileName();
+        if (parameters.TryGetValue(AppNameKey, out var parameter))
+            appName = parameter;
+
+        var versionCount = GetVersionCount(parameters);
+
+        var useSwaggerWithJwtBearer = parameters.ContainsKey(UseSwaggerWithJwtBearerKey);
 
         builder.Services.AddSwaggerGen(x =>
         {
@@ -53,11 +63,23 @@ public sealed class SwaggerInstaller : IInstaller
                         Reference = new OpenApiReference
                             { Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme }
                     },
-                    new string[] { }
+                    System.Array.Empty<string>()
                 }
             });
         });
         //Console.WriteLine("SwaggerInstaller.InstallServices Finished");
+    }
+
+    private static int GetVersionCount(Dictionary<string, string>? parameters)
+    {
+        var versionCount = 1;
+        if (parameters is null || !parameters.TryGetValue(VersionCountKey, out var parameter)) 
+            return versionCount;
+
+        if (int.TryParse(parameter, out var vc))
+            versionCount = vc;
+
+        return versionCount;
     }
 
     public void UseServices(WebApplication app)
@@ -68,7 +90,7 @@ public sealed class SwaggerInstaller : IInstaller
             return;
         app.UseSwagger();
 
-        var versionCount = ProgramAttributes.Instance.GetAttribute<int>("VersionCount");
+        var versionCount = GetVersionCount(_parameters);
 
         app.UseSwaggerUI(config =>
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
@@ -8,33 +9,31 @@ using WebInstallers;
 
 namespace ConfigurationEncrypt;
 
-// ReSharper disable once UnusedType.Global
+// ReSharper disable once ClassNeverInstantiated.Global
 public sealed class ConfigurationEncryptInstaller : IInstaller
 {
     public int InstallPriority => 10;
     public int ServiceUsePriority => 10;
+    public const string AppKeyKey = nameof(AppKeyKey);
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
         //Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Started");
 
+        var appKey = string.Empty;
+        if ( parameters.TryGetValue(AppKeyKey, out var parameter))
+            appKey = parameter;
 
-        var key = ProgramAttributes.Instance.GetAttribute<string>("AppKey") + Environment.MachineName.Capitalize();
+        var key = appKey + Environment.MachineName.Capitalize();
 
         var pathToContentRoot = Directory.GetCurrentDirectory();
 
 
         if (!Debugger.IsAttached && SystemStat.IsWindows())
         {
-            // ReSharper disable once using
-            using var processModule = Process.GetCurrentProcess().MainModule;
-            var pathToExe = processModule?.FileName;
-            if (pathToExe != null)
-            {
-                var newPathToContentRoot = Path.GetDirectoryName(pathToExe);
-                if (newPathToContentRoot != null)
-                    pathToContentRoot = newPathToContentRoot;
-            }
+            var newPathToContentRoot = StShared.GetMainModulePath();
+            if (newPathToContentRoot != null)
+                pathToContentRoot = newPathToContentRoot;
 
             Console.WriteLine("!Debugger.IsAttached && IsWindows() so pathToContentRoot=" + pathToContentRoot);
         }

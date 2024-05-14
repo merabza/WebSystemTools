@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
@@ -13,7 +14,7 @@ public sealed class UseWindowsServiceInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string,string> parameters)
     {
         //Console.WriteLine("WindowsServiceInstaller.InstallServices Started");
 

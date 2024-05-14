@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ public sealed class SerilogLoggerInstaller : IInstaller
     public int InstallPriority => 20;
     public int ServiceUsePriority => 20;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
         //Console.WriteLine("SerilogLoggerInstaller.InstallServices Started");
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
@@ -18,7 +19,7 @@ public sealed class TestEndpoints : IInstaller
     public int InstallPriority => 70;
     public int ServiceUsePriority => 70;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
     }
 
