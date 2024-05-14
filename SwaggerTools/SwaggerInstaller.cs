@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,13 +13,13 @@ namespace SwaggerTools;
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class SwaggerInstaller : IInstaller
 {
-    public int InstallPriority => 25;
-    public int ServiceUsePriority => 0;
     public const string AppNameKey = nameof(AppNameKey);
     public const string VersionCountKey = nameof(VersionCountKey);
     public const string UseSwaggerWithJwtBearerKey = nameof(UseSwaggerWithJwtBearerKey);
 
     private Dictionary<string, string>? _parameters;
+    public int InstallPriority => 25;
+    public int ServiceUsePriority => 0;
 
     public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
@@ -63,23 +64,11 @@ public sealed class SwaggerInstaller : IInstaller
                         Reference = new OpenApiReference
                             { Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme }
                     },
-                    System.Array.Empty<string>()
+                    Array.Empty<string>()
                 }
             });
         });
         //Console.WriteLine("SwaggerInstaller.InstallServices Finished");
-    }
-
-    private static int GetVersionCount(Dictionary<string, string>? parameters)
-    {
-        var versionCount = 1;
-        if (parameters is null || !parameters.TryGetValue(VersionCountKey, out var parameter)) 
-            return versionCount;
-
-        if (int.TryParse(parameter, out var vc))
-            versionCount = vc;
-
-        return versionCount;
     }
 
     public void UseServices(WebApplication app)
@@ -101,5 +90,17 @@ public sealed class SwaggerInstaller : IInstaller
             }
         });
         //Console.WriteLine("SwaggerInstaller.UseServices Finished");
+    }
+
+    private static int GetVersionCount(Dictionary<string, string>? parameters)
+    {
+        var versionCount = 1;
+        if (parameters is null || !parameters.TryGetValue(VersionCountKey, out var parameter))
+            return versionCount;
+
+        if (int.TryParse(parameter, out var vc))
+            versionCount = vc;
+
+        return versionCount;
     }
 }

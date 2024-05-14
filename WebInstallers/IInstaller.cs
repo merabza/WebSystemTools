@@ -9,6 +9,6 @@ public interface IInstaller
     int ServiceUsePriority { get; }
 
 
-    void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string,string> parameters);
+    void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters);
     void UseServices(WebApplication app);
 }

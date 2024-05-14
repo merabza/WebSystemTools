@@ -12,16 +12,16 @@ namespace ConfigurationEncrypt;
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class ConfigurationEncryptInstaller : IInstaller
 {
+    public const string AppKeyKey = nameof(AppKeyKey);
     public int InstallPriority => 10;
     public int ServiceUsePriority => 10;
-    public const string AppKeyKey = nameof(AppKeyKey);
 
     public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
         //Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Started");
 
         var appKey = string.Empty;
-        if ( parameters.TryGetValue(AppKeyKey, out var parameter))
+        if (parameters.TryGetValue(AppKeyKey, out var parameter))
             appKey = parameter;
 
         var key = appKey + Environment.MachineName.Capitalize();

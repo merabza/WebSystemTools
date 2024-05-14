@@ -14,7 +14,7 @@ public sealed class UseWindowsServiceInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string,string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
         //Console.WriteLine("WindowsServiceInstaller.InstallServices Started");
 

@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using System.Collections.Generic;
+using System.Net.Mime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,7 @@ public sealed class ApiExceptionHandlerInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
     }
 
