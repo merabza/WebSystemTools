@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using WebInstallers;
 
@@ -10,7 +11,7 @@ public sealed class RazorPagesInstaller : IInstaller
     public int InstallPriority => 14;
     public int ServiceUsePriority => 136;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
         //Console.WriteLine("StaticFilesInstaller.InstallServices Started");
 

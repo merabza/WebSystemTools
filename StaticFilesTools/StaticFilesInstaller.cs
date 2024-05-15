@@ -1,5 +1,6 @@
 ﻿//Created by StaticFilesInstallerClassCreator at 8/1/2022 8:38:26 PM
 
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using WebInstallers;
@@ -12,7 +13,7 @@ public sealed class StaticFilesInstaller : IInstaller
     public int InstallPriority => 15;
     public int ServiceUsePriority => 135;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
         //Console.WriteLine("StaticFilesInstaller.InstallServices Started");
 
