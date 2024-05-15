@@ -1,6 +1,7 @@
 //Created by ReactInstallerClassCreator at 8/1/2022 8:38:26 PM
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ public sealed class CorsInstaller : IInstaller
     public int InstallPriority => 15;
     public int ServiceUsePriority => 35;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
         //Console.WriteLine("CorsInstaller.InstallServices Started");
         var corsSettings = builder.Configuration.GetSection("CorsSettings");
