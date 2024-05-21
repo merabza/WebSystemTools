@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\SystemTools\ApiToolsShared.csproj\ApiToolsShared.csproj" />
     <ProjectReference Include="..\..\SystemTools\MessagingAbstractions\MessagingAbstractions.csproj" />
     <ProjectReference Include="..\..\SystemTools\ReCounterDom\ReCounterDom.csproj" />
     <ProjectReference Include="..\..\SystemTools\SignalRContracts\SignalRContracts.csproj" />
     <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
-    <ProjectReference Include="..\ApiToolsShared\ApiToolsShared.csproj" />
     <ProjectReference Include="..\WebInstallers\WebInstallers.csproj" />
   </ItemGroup>
 
