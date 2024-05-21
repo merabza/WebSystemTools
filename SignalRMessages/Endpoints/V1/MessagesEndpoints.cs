@@ -21,7 +21,7 @@ public sealed class MessagesEndpoints : IInstaller
     {
         //Console.WriteLine("WebAgentMessagesEndpoints.UseServices Started");
 
-        app.MapHub<MessagesHub>(MessagesRoutes.Messages.MessagesRoute,
+        app.MapHub<MessagesHub>(MessagesRoutes.ApiBase + MessagesRoutes.Messages.MessagesRoute,
             options => { options.Transports = HttpTransportType.LongPolling; }).RequireAuthorization();
 
         //Console.WriteLine("WebAgentMessagesEndpoints.UseServices Finished");
