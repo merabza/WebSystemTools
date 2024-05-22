@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using WebInstallers;
 
@@ -15,7 +16,7 @@ public sealed class ClientInstaller : IInstaller
         //Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Started");
 
         builder.Services.AddHttpClient();
-        
+
         //Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Finished");
     }
 
