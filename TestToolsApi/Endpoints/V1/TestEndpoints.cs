@@ -26,11 +26,13 @@ public sealed class TestEndpoints : IInstaller
     public void UseServices(WebApplication app)
     {
         //Console.WriteLine("TestToolsMini.UseServices Started");
-        app.MapGet(TestApiRoutes.Test.TestConnection, Test);
-        app.MapGet(TestApiRoutes.Test.GetIp, Ip);
-        app.MapGet(TestApiRoutes.Test.GetVersion, Version);
-        app.MapGet(TestApiRoutes.Test.GetAppSettingsVersion, AppSettingsVersion);
-        app.MapGet(TestApiRoutes.Test.GetSettings, Settings);
+        var group = app.MapGroup(TestApiRoutes.ApiBase + TestApiRoutes.Test.TestBase);
+
+        group.MapGet(TestApiRoutes.Test.TestConnection, Test);
+        group.MapGet(TestApiRoutes.Test.GetIp, GetIp);
+        group.MapGet(TestApiRoutes.Test.GetVersion, Version);
+        group.MapGet(TestApiRoutes.Test.GetAppSettingsVersion, AppSettingsVersion);
+        group.MapGet(TestApiRoutes.Test.GetSettings, Settings);
         //Console.WriteLine("TestToolsMini.UseServices Finished");
     }
 
@@ -48,7 +50,7 @@ public sealed class TestEndpoints : IInstaller
 
 
     // GET api/v1/test/getip
-    private static IResult Ip(ILogger<TestEndpoints> logger, HttpRequest request)
+    private static IResult GetIp(ILogger<TestEndpoints> logger, HttpRequest request)
     {
         var ret =
             $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
