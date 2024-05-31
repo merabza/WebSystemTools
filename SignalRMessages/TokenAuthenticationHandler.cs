@@ -35,7 +35,7 @@ public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSc
         if (Request.HttpContext.User.Identity.IsAuthenticated)
             return await Task.FromResult(AuthenticateResult.NoResult());
 
-        var apiKey = Request.Query["ApiKey"].ToString();
+        var apiKey = Request.Query[ApiKeysChecker.ApiKeyParameterName].ToString();
         var remoteAddress = Request.HttpContext.Connection.RemoteIpAddress;
 
         if (remoteAddress is null)
