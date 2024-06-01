@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using ReCounterContracts;
-using ReCounterDom;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
+using ReCounterContracts;
+using ReCounterDom;
 
 namespace SignalRMessages;
 
@@ -24,7 +24,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     private bool _timerStarted;
 
     // ReSharper disable once ConvertToPrimaryConstructor
-    public ProgressDataManager(IHubContext<ReCounterMessagesHub, IProgressDataMessenger> hub, ILogger<ProgressDataManager> logger)
+    public ProgressDataManager(IHubContext<ReCounterMessagesHub, IProgressDataMessenger> hub,
+        ILogger<ProgressDataManager> logger)
     {
         _hub = hub;
         _logger = logger;
