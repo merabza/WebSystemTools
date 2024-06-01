@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
+using ReCounterContracts;
+using ReCounterDom;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using ReCounterDom;
-using SignalRContracts;
-using SignalRContracts.Models;
 
 namespace SignalRMessages;
 

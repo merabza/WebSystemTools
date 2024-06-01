@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using ApiContracts;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using SignalRContracts;
 using SystemToolsShared;
 
 namespace SignalRMessages;

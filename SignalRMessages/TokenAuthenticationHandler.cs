@@ -3,8 +3,9 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using ApiToolsShared;
-using ApiToolsShared.Domain;
+using ApiContracts;
+using ApiKeysManagement;
+using ApiKeysManagement.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSc
         if (Request.HttpContext.User.Identity.IsAuthenticated)
             return await Task.FromResult(AuthenticateResult.NoResult());
 
-        var apiKey = Request.Query[ApiKeysChecker.ApiKeyParameterName].ToString();
+        var apiKey = Request.Query[ApiKeysConstants.ApiKeyParameterName].ToString();
         var remoteAddress = Request.HttpContext.Connection.RemoteIpAddress;
 
         if (remoteAddress is null)

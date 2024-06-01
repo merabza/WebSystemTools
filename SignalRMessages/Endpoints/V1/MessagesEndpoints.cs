@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using ApiContracts.V1.Routes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Connections;
-using SignalRContracts.V1.Routes;
 using WebInstallers;
 
 namespace SignalRMessages.Endpoints.V1;
