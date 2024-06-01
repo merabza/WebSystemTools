@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SignalRContracts;
+using SystemToolsShared;
 
 namespace SignalRMessages;
 
