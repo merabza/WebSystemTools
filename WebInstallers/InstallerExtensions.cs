@@ -25,7 +25,7 @@ public static class InstallerExtensions
                 .Where(x => typeof(IInstaller).IsAssignableFrom(x) && x is { IsInterface: false, IsAbstract: false })
                 .Select(Activator.CreateInstance).Cast<IInstaller>());
 
-        foreach (var installer in installers.OrderBy(x => x.InstallPriority))
+        foreach (var installer in installers.OrderBy(x => x.InstallPriority).Distinct())
             installer.InstallServices(builder, args, parameters);
 
         builder.Services.AddSingleton(installers as IReadOnlyCollection<IInstaller>);
@@ -35,7 +35,7 @@ public static class InstallerExtensions
     {
         var definitions = app.Services.GetRequiredService<IReadOnlyCollection<IInstaller>>();
 
-        foreach (var endpointDefinition in definitions.OrderBy(x => x.ServiceUsePriority))
+        foreach (var endpointDefinition in definitions.OrderBy(x => x.ServiceUsePriority).Distinct())
             endpointDefinition.UseServices(app);
     }
 }
