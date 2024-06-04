@@ -31,7 +31,8 @@ public class MessagesDataManager : IMessagesDataManager
         _logger.LogInformation("Try to send message: {message}", message);
         foreach (var connectionId in conList)
             await _hub.Clients.Client(connectionId).SendMessage(message, cancellationToken);
-        await _hub.Clients.All.SendMessage(message, cancellationToken);
+        //ესეც მუშაობს, უბრალოდ მომხმარებლიდ არ არის გაფილტრული
+        //await _hub.Clients.All.SendMessage(message, cancellationToken);
     }
 
     public void UserConnected(string connectionId, string userName)
