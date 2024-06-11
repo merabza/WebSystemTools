@@ -16,7 +16,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     private readonly IHubContext<ReCounterMessagesHub, IProgressDataMessenger> _hub;
     private readonly ILogger<ProgressDataManager> _logger;
     private int _currentChangeId;
-    private ProgressData? _currentData;
+    private ProgressData? _accumulatedProgressData;
     private ProgressData? _lastChangesData;
     private int _sentChangeId;
 
@@ -46,7 +46,6 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     public void UserConnected(string connectionId)
     {
         _connectedIds.Add(connectionId);
-        _lastChangesData = _currentData;
     }
 
     public void UserDisconnected(string connectionId)
@@ -67,30 +66,30 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         CheckTimer();
         lock (SyncRoot)
         {
+            _accumulatedProgressData ??= new ProgressData();
+            _accumulatedProgressData.Add(name, message);
             _lastChangesData ??= new ProgressData();
             _lastChangesData.Add(name, message);
-            _currentData ??= new ProgressData();
-            _currentData.Add(name, message);
             _currentChangeId++;
         }
 
         if (instantly && _connectedIds.Count > 0)
-            await SendData(_lastChangesData, cancellationToken);
+            await SendData(cancellationToken);
     }
 
     public async Task SetProgressData(string name, bool value, bool instantly, CancellationToken cancellationToken)
     {
         lock (SyncRoot)
         {
+            _accumulatedProgressData ??= new ProgressData();
+            _accumulatedProgressData.Add(name, value);
             _lastChangesData ??= new ProgressData();
             _lastChangesData.Add(name, value);
-            _currentData ??= new ProgressData();
-            _currentData.Add(name, value);
             _currentChangeId++;
         }
 
         if (instantly && _connectedIds.Count > 0)
-            await SendData(_lastChangesData, cancellationToken);
+            await SendData(cancellationToken);
     }
 
     public async Task SetProgressData(string name, int value, bool instantly, CancellationToken cancellationToken)
@@ -98,15 +97,15 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         CheckTimer();
         lock (SyncRoot)
         {
+            _accumulatedProgressData ??= new ProgressData();
+            _accumulatedProgressData.Add(name, value);
             _lastChangesData ??= new ProgressData();
             _lastChangesData.Add(name, value);
-            _currentData ??= new ProgressData();
-            _currentData.Add(name, value);
             _currentChangeId++;
         }
 
         if (instantly && _connectedIds.Count > 0)
-            await SendData(_lastChangesData, cancellationToken);
+            await SendData(cancellationToken);
     }
 
     private void StartTimer()
@@ -121,17 +120,21 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     {
         if (_sentChangeId == _currentChangeId)
             return;
-        if (_lastChangesData is not null)
-            SendData(_lastChangesData, CancellationToken.None).Wait();
+        SendData(CancellationToken.None).Wait();
     }
 
-    private async Task SendData(ProgressData progressData, CancellationToken cancellationToken)
+
+    private static int _sentCount;
+
+    private async Task SendData(CancellationToken cancellationToken)
     {
         _sentChangeId = _currentChangeId;
-        //SendNotificationAsync(progressData).Wait();
-        await _hub.Clients.All.SendProgressData(progressData, cancellationToken);
-
-        _lastChangesData = null;
+        _sentCount++;
+        var progressData = _lastChangesData;
+        if (_sentCount % 10 == 0)
+            progressData = _accumulatedProgressData;
+        if (progressData is not null)
+            await _hub.Clients.All.SendProgressData(progressData, cancellationToken);
     }
 
     //private Task SendNotificationAsync(object objectToSend)
