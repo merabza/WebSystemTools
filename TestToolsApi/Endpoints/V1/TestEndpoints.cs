@@ -71,7 +71,7 @@ public sealed class TestEndpoints : IInstaller
     private static IResult AppSettingsVersion(ILogger<TestEndpoints> logger, IConfiguration config)
     {
         var versionInfo = VersionInfo.Create(config);
-        var ret = versionInfo == null ? "Version not detected" : versionInfo.AppSettingsVersion;
+        var ret = versionInfo is null ? "Version not detected" : versionInfo.AppSettingsVersion;
         logger.LogInformation("Version Test {ret}", ret);
         return Results.Text(ret, "text/plain", Encoding.UTF8);
     }

@@ -61,7 +61,7 @@ public sealed class SerilogLoggerInstaller : IInstaller
     {
         var serilogSettings = config.GetSection("Serilog");
 
-        //if (serilogSettings == null)
+        //if (serilogSettings is null)
         //{
         //    Console.WriteLine("Serilog settings not set");
         //    return;
@@ -70,7 +70,7 @@ public sealed class SerilogLoggerInstaller : IInstaller
         var writeToSection =
             serilogSettings.GetChildren().SingleOrDefault(s => s.Key == "WriteTo");
 
-        if (writeToSection == null)
+        if (writeToSection is null)
         {
             Console.WriteLine("Serilog WriteTo Section not set");
             return;
@@ -78,21 +78,21 @@ public sealed class SerilogLoggerInstaller : IInstaller
 
         var writeToWithNameFile =
             writeToSection.GetChildren().FirstOrDefault(child => child["Name"] == "File");
-        if (writeToWithNameFile == null)
+        if (writeToWithNameFile is null)
         {
             Console.WriteLine("Serilog WriteTo File Section not set");
             return;
         }
 
         var argsSection = writeToWithNameFile.GetChildren().SingleOrDefault(s => s.Key == "Args");
-        if (argsSection == null)
+        if (argsSection is null)
         {
             Console.WriteLine("Serilog WriteTo File Args Section not set");
             return;
         }
 
         var path = argsSection.GetChildren().SingleOrDefault(s => s.Key == "path");
-        if (path == null)
+        if (path is null)
         {
             Console.WriteLine("Serilog WriteTo File Args path not set");
             return;

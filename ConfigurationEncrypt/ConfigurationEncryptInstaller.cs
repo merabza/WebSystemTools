@@ -32,7 +32,7 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
         if (!Debugger.IsAttached && SystemStat.IsWindows())
         {
             var newPathToContentRoot = StShared.GetMainModulePath();
-            if (newPathToContentRoot != null)
+            if (newPathToContentRoot is not null)
                 pathToContentRoot = newPathToContentRoot;
 
             Console.WriteLine("!Debugger.IsAttached && IsWindows() so pathToContentRoot=" + pathToContentRoot);
