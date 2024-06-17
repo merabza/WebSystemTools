@@ -7,7 +7,7 @@ public static class DependencyInjectionExtensions
     public static AuthenticationBuilder AddApiKeyAuthenticationSchema(this AuthenticationBuilder authentication)
     {
         authentication.AddScheme<AuthenticationSchemeOptions, TokenAuthenticationHandler>(
-            AuthenticationSchemaNames.ApiKeyAuthentication, o => { });
+            AuthenticationSchemaNames.ApiKeyAuthentication, _ => { });
         return authentication;
     }
 }
