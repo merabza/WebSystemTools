@@ -23,6 +23,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     private Timer? _timer;
     private bool _timerStarted;
 
+    public ProgressData? AccumulatedProgressData => _accumulatedProgressData;
+
     // ReSharper disable once ConvertToPrimaryConstructor
     public ProgressDataManager(IHubContext<ReCounterMessagesHub, IProgressDataMessenger> hub,
         ILogger<ProgressDataManager> logger)
@@ -68,7 +70,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         {
             _accumulatedProgressData ??= new ProgressData();
             _accumulatedProgressData.Add(name, message);
-            _lastChangesData ??= new ProgressData();
+            _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, message);
             _currentChangeId++;
         }
@@ -83,7 +85,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         {
             _accumulatedProgressData ??= new ProgressData();
             _accumulatedProgressData.Add(name, value);
-            _lastChangesData ??= new ProgressData();
+            _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, value);
             _currentChangeId++;
         }
@@ -99,7 +101,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         {
             _accumulatedProgressData ??= new ProgressData();
             _accumulatedProgressData.Add(name, value);
-            _lastChangesData ??= new ProgressData();
+            _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, value);
             _currentChangeId++;
         }
