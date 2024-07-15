@@ -12,18 +12,18 @@ namespace SignalRMessages;
 public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisposable
 {
     private static readonly object SyncRoot = new();
+
+
+    private static int _sentCount;
     private readonly HashSet<string> _connectedIds = [];
     private readonly IHubContext<ReCounterMessagesHub, IProgressDataMessenger> _hub;
     private readonly ILogger<ProgressDataManager> _logger;
     private int _currentChangeId;
-    private ProgressData? _accumulatedProgressData;
     private ProgressData? _lastChangesData;
     private int _sentChangeId;
 
     private Timer? _timer;
     private bool _timerStarted;
-
-    public ProgressData? AccumulatedProgressData => _accumulatedProgressData;
 
     // ReSharper disable once ConvertToPrimaryConstructor
     public ProgressDataManager(IHubContext<ReCounterMessagesHub, IProgressDataMessenger> hub,
@@ -44,6 +44,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         GC.SuppressFinalize(this);
         _timer?.Dispose();
     }
+
+    public ProgressData? AccumulatedProgressData { get; private set; }
 
     public void UserConnected(string connectionId)
     {
@@ -68,8 +70,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         CheckTimer();
         lock (SyncRoot)
         {
-            _accumulatedProgressData ??= new ProgressData();
-            _accumulatedProgressData.Add(name, message);
+            AccumulatedProgressData ??= new ProgressData();
+            AccumulatedProgressData.Add(name, message);
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, message);
             _currentChangeId++;
@@ -83,8 +85,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     {
         lock (SyncRoot)
         {
-            _accumulatedProgressData ??= new ProgressData();
-            _accumulatedProgressData.Add(name, value);
+            AccumulatedProgressData ??= new ProgressData();
+            AccumulatedProgressData.Add(name, value);
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, value);
             _currentChangeId++;
@@ -99,8 +101,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         CheckTimer();
         lock (SyncRoot)
         {
-            _accumulatedProgressData ??= new ProgressData();
-            _accumulatedProgressData.Add(name, value);
+            AccumulatedProgressData ??= new ProgressData();
+            AccumulatedProgressData.Add(name, value);
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, value);
             _currentChangeId++;
@@ -125,16 +127,13 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         SendData(CancellationToken.None).Wait();
     }
 
-
-    private static int _sentCount;
-
     private async Task SendData(CancellationToken cancellationToken)
     {
         _sentChangeId = _currentChangeId;
         _sentCount++;
         var progressData = _lastChangesData;
         if (_sentCount % 10 == 0)
-            progressData = _accumulatedProgressData;
+            progressData = AccumulatedProgressData;
         if (progressData is not null)
             await _hub.Clients.All.SendProgressData(progressData, cancellationToken);
     }
