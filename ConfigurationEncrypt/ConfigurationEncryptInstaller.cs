@@ -16,9 +16,11 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
     public int InstallPriority => 10;
     public int ServiceUsePriority => 10;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
-        //Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Started");
+        if (debugMode)
+            Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Started");
 
         var appKey = string.Empty;
         if (parameters.TryGetValue(AppKeyKey, out var parameter))
@@ -44,10 +46,12 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
                 Path.Combine(pathToContentRoot, "appsetenkeys.json")).Build();
         builder.Configuration.AddConfiguration(config);
 
-        //Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Finished");
+        if (debugMode)
+            Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Finished");
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
+
     }
 }

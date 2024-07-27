@@ -1,5 +1,3 @@
-//Created by ReactInstallerClassCreator at 8/1/2022 8:38:26 PM
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +14,11 @@ public sealed class CorsInstaller : IInstaller
     public int InstallPriority => 15;
     public int ServiceUsePriority => 35;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
-        //Console.WriteLine("CorsInstaller.InstallServices Started");
+        if (debugMode)
+            Console.WriteLine("CorsInstaller.InstallServices Started");
         var corsSettings = builder.Configuration.GetSection("CorsSettings");
 
         var originsSection = corsSettings.GetChildren().SingleOrDefault(s => s.Key == "Origins");
@@ -37,18 +37,18 @@ public sealed class CorsInstaller : IInstaller
                         select child.Value).ToArray()).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
         });
 
-        //Console.WriteLine("CorsInstaller.InstallServices Finished");
+        if (debugMode)
+            Console.WriteLine("CorsInstaller.InstallServices Finished");
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
-        Console.WriteLine("CorsInstaller.UseMiddleware Started");
+        if (debugMode)
+            Console.WriteLine("CorsInstaller.UseMiddleware Started");
 
-        // global cors policy
-        //.AllowAnyOrigin()
-        //app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(_ => true).AllowCredentials());
-        //app.UseCors();
         app.UseCors(MyAllowSpecificOrigins);
-        Console.WriteLine("CorsInstaller.UseMiddleware Finished");
+
+        if (debugMode)
+            Console.WriteLine("CorsInstaller.UseMiddleware Finished");
     }
 }

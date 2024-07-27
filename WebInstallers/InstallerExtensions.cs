@@ -9,13 +9,8 @@ namespace WebInstallers;
 
 public static class InstallerExtensions
 {
-    //public static void InstallServices(this WebApplicationBuilder builder, string[] args,
-    //    Dictionary<string, string> parameters, params Type[] scanMarkers)
-    //{
-    //    InstallServices(builder, args, parameters, scanMarkers.Select(x => x.Assembly).ToArray());
-    //}
 
-    public static void InstallServices(this WebApplicationBuilder builder, string[] args,
+    public static void InstallServices(this WebApplicationBuilder builder, bool debugMode, string[] args,
         Dictionary<string, string> parameters, params Assembly[] assemblies)
     {
         var installers = new List<IInstaller>();
@@ -26,16 +21,16 @@ public static class InstallerExtensions
                 .Select(Activator.CreateInstance).Cast<IInstaller>());
 
         foreach (var installer in installers.OrderBy(x => x.InstallPriority).Distinct())
-            installer.InstallServices(builder, args, parameters);
+            installer.InstallServices(builder, debugMode, args, parameters);
 
         builder.Services.AddSingleton(installers as IReadOnlyCollection<IInstaller>);
     }
 
-    public static void UseServices(this WebApplication app)
+    public static void UseServices(this WebApplication app, bool debugMode)
     {
         var definitions = app.Services.GetRequiredService<IReadOnlyCollection<IInstaller>>();
 
         foreach (var endpointDefinition in definitions.OrderBy(x => x.ServiceUsePriority).Distinct())
-            endpointDefinition.UseServices(app);
+            endpointDefinition.UseServices(app, debugMode);
     }
 }
