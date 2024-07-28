@@ -27,7 +27,7 @@ public sealed class SwaggerInstaller : IInstaller
         _parameters = parameters;
 
         if (debugMode)
-            Console.WriteLine("SwaggerInstaller.InstallServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -74,14 +74,14 @@ public sealed class SwaggerInstaller : IInstaller
         });
 
         if (debugMode)
-            Console.WriteLine("SwaggerInstaller.InstallServices Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
     }
 
     public void UseServices(WebApplication app, bool debugMode)
     {
 
         if (debugMode)
-            Console.WriteLine("SwaggerInstaller.UseServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         if (!app.Environment.IsDevelopment())
             return;
@@ -99,7 +99,7 @@ public sealed class SwaggerInstaller : IInstaller
         });
 
         if (debugMode)
-            Console.WriteLine("SwaggerInstaller.UseServices Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
     }
 
     private static int GetVersionCount(Dictionary<string, string>? parameters)

@@ -20,12 +20,13 @@ public sealed class ApiExceptionHandlerInstaller : IInstaller
     public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
         Dictionary<string, string> parameters)
     {
+
     }
 
     public void UseServices(WebApplication app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine("ApiExceptionHandlerInstaller.UseMiddleware Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         app.UseExceptionHandler(exceptionHandlerApp =>
         {
@@ -56,6 +57,6 @@ public sealed class ApiExceptionHandlerInstaller : IInstaller
         });
 
         if (debugMode)
-            Console.WriteLine("ApiExceptionHandlerInstaller.UseMiddleware Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
     }
 }

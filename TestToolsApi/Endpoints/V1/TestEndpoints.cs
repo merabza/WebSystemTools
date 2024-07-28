@@ -28,7 +28,7 @@ public sealed class TestEndpoints : IInstaller
     public void UseServices(WebApplication app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine("TestToolsMini.UseServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         var group = app.MapGroup(TestApiRoutes.ApiBase + TestApiRoutes.Test.TestBase);
 
@@ -39,7 +39,7 @@ public sealed class TestEndpoints : IInstaller
         group.MapGet(TestApiRoutes.Test.GetSettings, Settings);
 
         if (debugMode)
-            Console.WriteLine("TestToolsMini.UseServices Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
     }
 
     //შესასვლელი წერტილი (endpoint)

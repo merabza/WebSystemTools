@@ -17,10 +17,11 @@ public sealed class SerilogLoggerInstaller : IInstaller
     public int InstallPriority => 20;
     public int ServiceUsePriority => 20;
 
-    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
         if (debugMode)
-            Console.WriteLine("SerilogLoggerInstaller.InstallServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
         //როცა სერვისი გაშვებულია კონსოლის ცვლილებები პრობლემებს იწვევს
         //ამიტომ აქ ვამოწმებთ და კონსოლს ვეხებით მხოლოდ დებაგერით გაშვებისას
@@ -39,7 +40,7 @@ public sealed class SerilogLoggerInstaller : IInstaller
         builder.Host.UseSerilog();
 
         if (debugMode)
-            Console.WriteLine("SerilogLoggerInstaller.InstallUse Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
     }
 
     public void UseServices(WebApplication app, bool debugMode)

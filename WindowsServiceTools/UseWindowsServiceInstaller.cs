@@ -19,7 +19,7 @@ public sealed class UseWindowsServiceInstaller : IInstaller
         Dictionary<string, string> parameters)
     {
         if (debugMode)
-            Console.WriteLine("WindowsServiceInstaller.InstallServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
         //ასე გადაკეთება საჭიროა იმისათვის, რომ შესაძლებელი იყოს
         //პროგრამის გაშვება, როგორც კონსოლიდან,
@@ -30,7 +30,7 @@ public sealed class UseWindowsServiceInstaller : IInstaller
             builder.Host.UseWindowsService();
 
         if (debugMode)
-            Console.WriteLine("WindowsServiceInstaller.InstallServices Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
     }
 
     public void UseServices(WebApplication app, bool debugMode)

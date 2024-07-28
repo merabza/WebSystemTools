@@ -20,7 +20,7 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
         Dictionary<string, string> parameters)
     {
         if (debugMode)
-            Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
         var appKey = string.Empty;
         if (parameters.TryGetValue(AppKeyKey, out var parameter))
@@ -47,7 +47,7 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
         builder.Configuration.AddConfiguration(config);
 
         if (debugMode)
-            Console.WriteLine("ConfigurationEncryptInstaller.InstallServices Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
     }
 
     public void UseServices(WebApplication app, bool debugMode)
