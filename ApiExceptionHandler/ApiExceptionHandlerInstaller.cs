@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -16,13 +17,15 @@ public sealed class ApiExceptionHandlerInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
-        //Console.WriteLine("ApiExceptionHandlerInstaller.UseMiddleware Started");
+        if (debugMode)
+            Console.WriteLine("ApiExceptionHandlerInstaller.UseMiddleware Started");
 
         app.UseExceptionHandler(exceptionHandlerApp =>
         {
@@ -52,6 +55,7 @@ public sealed class ApiExceptionHandlerInstaller : IInstaller
             });
         });
 
-        //Console.WriteLine("ApiExceptionHandlerInstaller.UseMiddleware Finished");
+        if (debugMode)
+            Console.WriteLine("ApiExceptionHandlerInstaller.UseMiddleware Finished");
     }
 }

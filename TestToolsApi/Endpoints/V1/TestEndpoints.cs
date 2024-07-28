@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 using SystemToolsShared;
 using TestApiContracts.V1.Routes;
 using TestToolsData.Models;
@@ -19,13 +19,17 @@ public sealed class TestEndpoints : IInstaller
     public int InstallPriority => 70;
     public int ServiceUsePriority => 70;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
+
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
-        //Console.WriteLine("TestToolsMini.UseServices Started");
+        if (debugMode)
+            Console.WriteLine("TestToolsMini.UseServices Started");
+
         var group = app.MapGroup(TestApiRoutes.ApiBase + TestApiRoutes.Test.TestBase);
 
         group.MapGet(TestApiRoutes.Test.TestConnection, Test);
@@ -33,7 +37,9 @@ public sealed class TestEndpoints : IInstaller
         group.MapGet(TestApiRoutes.Test.GetVersion, Version);
         group.MapGet(TestApiRoutes.Test.GetAppSettingsVersion, AppSettingsVersion);
         group.MapGet(TestApiRoutes.Test.GetSettings, Settings);
-        //Console.WriteLine("TestToolsMini.UseServices Finished");
+
+        if (debugMode)
+            Console.WriteLine("TestToolsMini.UseServices Finished");
     }
 
     //შესასვლელი წერტილი (endpoint)
@@ -83,15 +89,19 @@ public sealed class TestEndpoints : IInstaller
         var sb = new StringBuilder();
         sb.AppendLine($"Host name: {Environment.MachineName.Capitalize()}");
         sb.AppendLine($"Version: {Assembly.GetEntryAssembly()?.GetName().Version}");
-        //ApiKeysDomain apiKeys = ApiKeysDomain.Create(_configuration, _logger);
-        //sb.AppendLine($"View Api Keys. count is - {apiKeys.ApiKeys.Count}");
-        //foreach (ApiKeyAndRemoteIpAddressDomain key in apiKeys.ApiKeys)
+        //if (_debugMode)
         //{
-        //    sb.AppendLine($"RemoteIpAddress is - {key.RemoteIpAddress}");
-        //    sb.AppendLine($"ApiKey is - {key.ApiKey}");
+        //    ApiKeysDomain apiKeys = ApiKeysDomain.Create(_configuration, _logger);
+        //    sb.AppendLine($"View Api Keys. count is - {apiKeys.ApiKeys.Count}");
+        //    foreach (ApiKeyAndRemoteIpAddressDomain key in apiKeys.ApiKeys)
+        //    {
+        //        sb.AppendLine($"RemoteIpAddress is - {key.RemoteIpAddress}");
+        //        sb.AppendLine($"ApiKey is - {key.ApiKey}");
+        //    }
+
+        //    sb.AppendLine("View Api Keys Finished");
         //}
 
-        //sb.AppendLine("View Api Keys Finished");
         return Results.Ok(sb.ToString());
     }
 }

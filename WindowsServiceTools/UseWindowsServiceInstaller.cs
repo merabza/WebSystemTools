@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
@@ -14,9 +15,11 @@ public sealed class UseWindowsServiceInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
-        //Console.WriteLine("WindowsServiceInstaller.InstallServices Started");
+        if (debugMode)
+            Console.WriteLine("WindowsServiceInstaller.InstallServices Started");
 
         //ასე გადაკეთება საჭიროა იმისათვის, რომ შესაძლებელი იყოს
         //პროგრამის გაშვება, როგორც კონსოლიდან,
@@ -25,10 +28,12 @@ public sealed class UseWindowsServiceInstaller : IInstaller
 
         if (isService && SystemStat.IsWindows())
             builder.Host.UseWindowsService();
-        //Console.WriteLine("WindowsServiceInstaller.InstallServices Finished");
+
+        if (debugMode)
+            Console.WriteLine("WindowsServiceInstaller.InstallServices Finished");
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
     }
 }

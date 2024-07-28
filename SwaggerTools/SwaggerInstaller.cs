@@ -21,10 +21,14 @@ public sealed class SwaggerInstaller : IInstaller
     public int InstallPriority => 25;
     public int ServiceUsePriority => 0;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
         _parameters = parameters;
-        //Console.WriteLine("SwaggerInstaller.InstallServices Started");
+
+        if (debugMode)
+            Console.WriteLine("SwaggerInstaller.InstallServices Started");
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         //builder.Services.AddSwaggerGen();
@@ -68,12 +72,16 @@ public sealed class SwaggerInstaller : IInstaller
                 }
             });
         });
-        //Console.WriteLine("SwaggerInstaller.InstallServices Finished");
+
+        if (debugMode)
+            Console.WriteLine("SwaggerInstaller.InstallServices Finished");
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
-        //Console.WriteLine("SwaggerInstaller.UseServices Started");
+
+        if (debugMode)
+            Console.WriteLine("SwaggerInstaller.UseServices Started");
 
         if (!app.Environment.IsDevelopment())
             return;
@@ -89,7 +97,9 @@ public sealed class SwaggerInstaller : IInstaller
                 config.SwaggerEndpoint($"/swagger/{appVersion}/swagger.json", appVersion);
             }
         });
-        //Console.WriteLine("SwaggerInstaller.UseServices Finished");
+
+        if (debugMode)
+            Console.WriteLine("SwaggerInstaller.UseServices Finished");
     }
 
     private static int GetVersionCount(Dictionary<string, string>? parameters)

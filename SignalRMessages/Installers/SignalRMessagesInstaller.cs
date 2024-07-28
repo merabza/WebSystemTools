@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,9 +17,12 @@ public sealed class SignalRMessagesInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
-        //Console.WriteLine("WebAgentMessagesInstaller.InstallServices Started");
+        if (debugMode)
+            Console.WriteLine("WebAgentMessagesInstaller.InstallServices Started");
+
         var useReCounter = parameters.ContainsKey(SignalRReCounterKey);
 
         if (useReCounter)
@@ -39,10 +43,12 @@ public sealed class SignalRMessagesInstaller : IInstaller
         if (useReCounter)
             signalRServerBuilder.AddHubOptions<ReCounterMessagesHub>(
                 options => { options.EnableDetailedErrors = true; });
-        //Console.WriteLine("WebAgentMessagesInstaller.InstallServices Finished");
+
+        if (debugMode)
+            Console.WriteLine("WebAgentMessagesInstaller.InstallServices Finished");
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
         app.UseAuthorization();
     }

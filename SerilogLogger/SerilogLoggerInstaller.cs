@@ -13,21 +13,14 @@ namespace SerilogLogger;
 // ReSharper disable once UnusedType.Global
 public sealed class SerilogLoggerInstaller : IInstaller
 {
-    //public void InstallUse(ConfigureHostBuilder configureHostBuilder)
-    //{
-    //    //Console.WriteLine("SerilogLoggerInstaller.InstallUse Started");
-
-    //    //configureHostBuilder.UseSerilog();
-
-    //    //Console.WriteLine("SerilogLoggerInstaller.InstallUse Finished");
-    //}
 
     public int InstallPriority => 20;
     public int ServiceUsePriority => 20;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args, Dictionary<string, string> parameters)
     {
-        //Console.WriteLine("SerilogLoggerInstaller.InstallServices Started");
+        if (debugMode)
+            Console.WriteLine("SerilogLoggerInstaller.InstallServices Started");
 
         //როცა სერვისი გაშვებულია კონსოლის ცვლილებები პრობლემებს იწვევს
         //ამიტომ აქ ვამოწმებთ და კონსოლს ვეხებით მხოლოდ დებაგერით გაშვებისას
@@ -45,10 +38,11 @@ public sealed class SerilogLoggerInstaller : IInstaller
 
         builder.Host.UseSerilog();
 
-        //Console.WriteLine("SerilogLoggerInstaller.InstallUse Finished");
+        if (debugMode)
+            Console.WriteLine("SerilogLoggerInstaller.InstallUse Finished");
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
     }
 
