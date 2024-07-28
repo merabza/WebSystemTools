@@ -12,7 +12,8 @@ public sealed class ClientInstaller : IInstaller
     public int InstallPriority => 10;
     public int ServiceUsePriority => 10;
 
-    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
