@@ -18,7 +18,8 @@ public sealed class CorsInstaller : IInstaller
         Dictionary<string, string> parameters)
     {
         if (debugMode)
-            Console.WriteLine("CorsInstaller.InstallServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
+
         var corsSettings = builder.Configuration.GetSection("CorsSettings");
 
         var originsSection = corsSettings.GetChildren().SingleOrDefault(s => s.Key == "Origins");
@@ -38,17 +39,18 @@ public sealed class CorsInstaller : IInstaller
         });
 
         if (debugMode)
-            Console.WriteLine("CorsInstaller.InstallServices Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
     }
 
     public void UseServices(WebApplication app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine("CorsInstaller.UseMiddleware Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         app.UseCors(MyAllowSpecificOrigins);
 
+
         if (debugMode)
-            Console.WriteLine("CorsInstaller.UseMiddleware Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
     }
 }

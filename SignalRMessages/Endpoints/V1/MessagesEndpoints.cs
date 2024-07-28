@@ -22,12 +22,13 @@ public sealed class MessagesEndpoints : IInstaller
     public void UseServices(WebApplication app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine("WebAgentMessagesEndpoints.UseServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         app.MapHub<MessagesHub>(MessagesRoutes.ApiBase + MessagesRoutes.Messages.MessagesRoute,
             options => { options.Transports = HttpTransportType.LongPolling; }).RequireAuthorization();
 
+
         if (debugMode)
-            Console.WriteLine("WebAgentMessagesEndpoints.UseServices Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
     }
 }

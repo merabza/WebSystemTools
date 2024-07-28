@@ -26,7 +26,7 @@ public sealed class StaticFilesInstaller : IInstaller
     public void UseServices(WebApplication app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine("StaticFilesInstaller.UseMiddleware Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment()) app.UseExceptionHandler("/Error");
@@ -35,6 +35,6 @@ public sealed class StaticFilesInstaller : IInstaller
         app.UseStaticFiles();
 
         if (debugMode)
-            Console.WriteLine("StaticFilesInstaller.UseMiddleware Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
     }
 }

@@ -21,7 +21,7 @@ public sealed class SignalRMessagesInstaller : IInstaller
         Dictionary<string, string> parameters)
     {
         if (debugMode)
-            Console.WriteLine("WebAgentMessagesInstaller.InstallServices Started");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
         var useReCounter = parameters.ContainsKey(SignalRReCounterKey);
 
@@ -45,11 +45,17 @@ public sealed class SignalRMessagesInstaller : IInstaller
                 options => { options.EnableDetailedErrors = true; });
 
         if (debugMode)
-            Console.WriteLine("WebAgentMessagesInstaller.InstallServices Finished");
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
     }
 
     public void UseServices(WebApplication app, bool debugMode)
     {
+        if (debugMode)
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
+
         app.UseAuthorization();
+
+        if (debugMode)
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
     }
 }
