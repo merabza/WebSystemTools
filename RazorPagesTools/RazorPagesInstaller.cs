@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using WebInstallers;
@@ -11,18 +12,22 @@ public sealed class RazorPagesInstaller : IInstaller
     public int InstallPriority => 14;
     public int ServiceUsePriority => 136;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
-        //Console.WriteLine("StaticFilesInstaller.InstallServices Started");
+        if (debugMode)
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         builder.Services.AddRazorPages();
 
-        //Console.WriteLine("StaticFilesInstaller.InstallServices Finished");
+        if (debugMode)
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
-        //Console.WriteLine("StaticFilesInstaller.UseMiddleware Started");
+        if (debugMode)
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         app.UseRouting();
 
@@ -30,6 +35,7 @@ public sealed class RazorPagesInstaller : IInstaller
 
         app.MapRazorPages();
 
-        //Console.WriteLine("StaticFilesInstaller.UseMiddleware Finished");
+        if (debugMode)
+            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
     }
 }
