@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\SystemTools\ApiKeysManagement\ApiKeysManagement.csproj" />
         <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
         <ProjectReference Include="..\..\SystemTools\TestApiContracts\TestApiContracts.csproj" />
         <ProjectReference Include="..\TestToolsData\TestToolsData.csproj" />
