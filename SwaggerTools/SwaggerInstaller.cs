@@ -21,7 +21,7 @@ public sealed class SwaggerInstaller : IInstaller
     public int InstallPriority => 25;
     public int ServiceUsePriority => 0;
 
-    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
         Dictionary<string, string> parameters)
     {
         _parameters = parameters;
@@ -75,16 +75,18 @@ public sealed class SwaggerInstaller : IInstaller
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+
+        return true;
     }
 
-    public void UseServices(WebApplication app, bool debugMode)
+    public bool UseServices(WebApplication app, bool debugMode)
     {
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         if (!app.Environment.IsDevelopment())
-            return;
+            return true;
         app.UseSwagger();
 
         var versionCount = GetVersionCount(_parameters);
@@ -100,6 +102,8 @@ public sealed class SwaggerInstaller : IInstaller
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+
+        return true;
     }
 
     private static int GetVersionCount(Dictionary<string, string>? parameters)

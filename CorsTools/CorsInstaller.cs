@@ -14,7 +14,7 @@ public sealed class CorsInstaller : IInstaller
     public int InstallPriority => 15;
     public int ServiceUsePriority => 35;
 
-    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
         Dictionary<string, string> parameters)
     {
         if (debugMode)
@@ -25,7 +25,7 @@ public sealed class CorsInstaller : IInstaller
         var originsSection = corsSettings.GetChildren().SingleOrDefault(s => s.Key == "Origins");
 
         if (originsSection is null)
-            return;
+            return true;
 
 
         //.WithOrigins("*")//* არ გამოდგება sygnalR-სთვის
@@ -40,9 +40,11 @@ public sealed class CorsInstaller : IInstaller
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+
+        return true;
     }
 
-    public void UseServices(WebApplication app, bool debugMode)
+    public bool UseServices(WebApplication app, bool debugMode)
     {
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
@@ -52,5 +54,7 @@ public sealed class CorsInstaller : IInstaller
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+
+        return true;
     }
 }

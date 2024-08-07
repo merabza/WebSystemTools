@@ -16,7 +16,7 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
     public int InstallPriority => 10;
     public int ServiceUsePriority => 10;
 
-    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
         Dictionary<string, string> parameters)
     {
         if (debugMode)
@@ -48,10 +48,12 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+
+        return true;
     }
 
-    public void UseServices(WebApplication app, bool debugMode)
+    public bool UseServices(WebApplication app, bool debugMode)
     {
-
+        return true;
     }
 }
