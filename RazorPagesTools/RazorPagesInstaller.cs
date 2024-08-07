@@ -12,7 +12,7 @@ public sealed class RazorPagesInstaller : IInstaller
     public int InstallPriority => 14;
     public int ServiceUsePriority => 136;
 
-    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
         Dictionary<string, string> parameters)
     {
         if (debugMode)
@@ -22,9 +22,11 @@ public sealed class RazorPagesInstaller : IInstaller
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+
+        return true;
     }
 
-    public void UseServices(WebApplication app, bool debugMode)
+    public bool UseServices(WebApplication app, bool debugMode)
     {
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
@@ -37,5 +39,7 @@ public sealed class RazorPagesInstaller : IInstaller
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+
+        return true;
     }
 }
