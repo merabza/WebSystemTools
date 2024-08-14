@@ -13,7 +13,6 @@ namespace SerilogLogger;
 // ReSharper disable once UnusedType.Global
 public sealed class SerilogLoggerInstaller : IInstaller
 {
-
     public int InstallPriority => 20;
     public int ServiceUsePriority => 20;
 

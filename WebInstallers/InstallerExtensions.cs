@@ -9,7 +9,6 @@ namespace WebInstallers;
 
 public static class InstallerExtensions
 {
-
     public static bool InstallServices(this WebApplicationBuilder builder, bool debugMode, string[] args,
         Dictionary<string, string> parameters, params Assembly[] assemblies)
     {

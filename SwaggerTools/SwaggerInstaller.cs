@@ -81,7 +81,6 @@ public sealed class SwaggerInstaller : IInstaller
 
     public bool UseServices(WebApplication app, bool debugMode)
     {
-
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
