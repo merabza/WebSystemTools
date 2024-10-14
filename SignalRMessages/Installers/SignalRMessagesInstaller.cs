@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConfigurationEncrypt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +14,7 @@ namespace SignalRMessages.Installers;
 public sealed class SignalRMessagesInstaller : IInstaller
 {
     public const string SignalRReCounterKey = nameof(SignalRReCounterKey);
+    public const string UseApiKeyKey = nameof(UseApiKeyKey);
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
@@ -25,16 +25,20 @@ public sealed class SignalRMessagesInstaller : IInstaller
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
         var useReCounter = parameters.ContainsKey(SignalRReCounterKey);
+        var useApiKey = parameters.ContainsKey(UseApiKeyKey);
 
         if (useReCounter)
             builder.Services.AddSingleton<IProgressDataManager, ProgressDataManager>();
 
         builder.Services.AddSingleton<IMessagesDataManager, MessagesDataManager>();
 
-        if ( ConfigurationEncryptInstaller.AppKeyKey )
-        builder.Services.AddAuthentication(x =>
-                x.DefaultAuthenticateScheme = AuthenticationSchemaNames.ApiKeyAuthentication)
-            .AddApiKeyAuthenticationSchema();
+        if (useApiKey)
+            builder.Services
+                .AddAuthentication(x => x.DefaultAuthenticateScheme = AuthenticationSchemaNames.ApiKeyAuthentication)
+                .AddApiKeyAuthenticationSchema();
+        else
+            builder.Services.AddAuthentication();
+
         builder.Services.AddAuthorization();
         builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
         var signalRServerBuilder = builder.Services.AddSignalR().AddJsonProtocol(options =>
