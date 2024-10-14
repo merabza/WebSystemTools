@@ -24,7 +24,7 @@ public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSc
         ILoggerFactory loggerFactory, UrlEncoder encoder, IConfiguration configuration) : base(
         options, loggerFactory, encoder)
     {
-        _logger = loggerFactory.CreateLogger<ApiKeysChecker>();
+        _logger = loggerFactory.CreateLogger<TokenAuthenticationHandler>();
         _configuration = configuration;
     }
 

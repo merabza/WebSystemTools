@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ConfigurationEncrypt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,7 @@ public sealed class SignalRMessagesInstaller : IInstaller
 
         builder.Services.AddSingleton<IMessagesDataManager, MessagesDataManager>();
 
+        if ( ConfigurationEncryptInstaller.AppKeyKey )
         builder.Services.AddAuthentication(x =>
                 x.DefaultAuthenticateScheme = AuthenticationSchemaNames.ApiKeyAuthentication)
             .AddApiKeyAuthenticationSchema();
