@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.SignalR;
 
-namespace SignalRMessages.Authorization;
+namespace ApiKeyIdentity;
 
 public class CustomUserIdProvider : IUserIdProvider
 {

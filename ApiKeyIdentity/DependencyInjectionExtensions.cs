@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace SignalRMessages;
+namespace ApiKeyIdentity;
 
 public static class DependencyInjectionExtensions
 {

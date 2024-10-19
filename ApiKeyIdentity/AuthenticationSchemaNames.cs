@@ -1,4 +1,4 @@
-﻿namespace SignalRMessages;
+﻿namespace ApiKeyIdentity;
 
 public static class AuthenticationSchemaNames
 {

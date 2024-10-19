@@ -31,11 +31,11 @@ public sealed class CorsInstaller : IInstaller
         //.WithOrigins("*")//* არ გამოდგება sygnalR-სთვის
         builder.Services.AddCors(options =>
         {
+            var origins = (from child in originsSection.GetChildren() where child.Value is not null select child.Value)
+                .ToArray();
             options.AddPolicy(MyAllowSpecificOrigins,
-                policy => policy
-                    .WithOrigins((from child in originsSection.GetChildren()
-                        where child.Value is not null
-                        select child.Value).ToArray()).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+                policy => policy.WithOrigins(origins).AllowAnyHeader().AllowAnyMethod());
+            //.AllowCredentials()
         });
 
         if (debugMode)
