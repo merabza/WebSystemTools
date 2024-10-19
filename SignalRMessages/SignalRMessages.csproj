@@ -11,7 +11,6 @@
         <ProjectReference Include="..\..\SystemTools\MessagingAbstractions\MessagingAbstractions.csproj" />
         <ProjectReference Include="..\..\SystemTools\ReCounterDom\ReCounterDom.csproj" />
         <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
-        <ProjectReference Include="..\ApiKeyIdentity\ApiKeyIdentity.csproj" />
         <ProjectReference Include="..\WebInstallers\WebInstallers.csproj" />
     </ItemGroup>
 

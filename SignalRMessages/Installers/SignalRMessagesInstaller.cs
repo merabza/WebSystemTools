@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ApiKeyIdentity;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using ReCounterDom;
 using SystemToolsShared;
@@ -31,19 +29,6 @@ public sealed class SignalRMessagesInstaller : IInstaller
             builder.Services.AddSingleton<IProgressDataManager, ProgressDataManager>();
 
         builder.Services.AddSingleton<IMessagesDataManager, MessagesDataManager>();
-
-        //if (useApiKey)
-            builder.Services
-                .AddAuthentication(x => x.DefaultAuthenticateScheme = AuthenticationSchemaNames.ApiKeyAuthentication)
-                .AddApiKeyAuthenticationSchema();
-        //else
-        //    builder.Services.AddAuthentication();
-
-        builder.Services.AddAuthorization();
-        
-        //if (useApiKey)
-            builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
-
         var signalRServerBuilder = builder.Services.AddSignalR().AddJsonProtocol(options =>
         {
             options.PayloadSerializerOptions.PropertyNamingPolicy = null;
