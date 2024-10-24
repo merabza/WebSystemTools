@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\SystemTools\MessagingAbstractions\MessagingAbstractions.csproj" />
     <ProjectReference Include="..\..\SystemTools\ReCounterDom\ReCounterDom.csproj" />
-    <ProjectReference Include="..\SignalRMessages\SignalRMessages.csproj" />
     <ProjectReference Include="..\WebInstallers\WebInstallers.csproj" />
   </ItemGroup>
 
