@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
 using ReCounterContracts.V1.Routes;
 using ReCounterDom;
-using SignalRMessages.CommandRequests;
+using SignalRRecounterMessages.CommandRequests;
 using SignalRRecounterMessages.Handlers;
 using SignalRRecounterMessages.QueryRequests;
 using SystemToolsShared;

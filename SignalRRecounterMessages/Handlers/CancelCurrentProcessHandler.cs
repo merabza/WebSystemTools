@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MessagingAbstractions;
 using OneOf;
 using ReCounterDom;
-using SignalRMessages.CommandRequests;
+using SignalRRecounterMessages.CommandRequests;
 using SystemToolsShared.Errors;
 
 namespace SignalRRecounterMessages.Handlers;
