@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using ReCounterDom;
 using SignalRMessages;
+using SystemToolsShared;
 using WebInstallers;
 
 namespace SignalRRecounterMessages.Installers;
