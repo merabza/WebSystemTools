@@ -5,7 +5,7 @@ using MessagingAbstractions;
 using OneOf;
 using ReCounterContracts;
 using ReCounterDom;
-using SignalRMessages.QueryRequests;
+using SignalRRecounterMessages.QueryRequests;
 using SystemToolsShared.Errors;
 
 namespace SignalRRecounterMessages.Handlers;
