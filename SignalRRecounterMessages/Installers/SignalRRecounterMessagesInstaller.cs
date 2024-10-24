@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using SystemToolsShared;
+using ReCounterDom;
+using SignalRMessages;
 using WebInstallers;
 
-namespace SignalRMessages.Installers;
+namespace SignalRRecounterMessages.Installers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class SignalRMessagesInstaller : IInstaller
+public sealed class SignalRRecounterMessagesInstaller : IInstaller
 {
+
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
@@ -19,11 +21,14 @@ public sealed class SignalRMessagesInstaller : IInstaller
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
+        builder.Services.AddSingleton<IProgressDataManager, ProgressDataManager>();
 
-        builder.Services.AddSingleton<IMessagesDataManager, MessagesDataManager>();
-        builder.Services.AddSignalR()
-            .AddJsonProtocol(options => { options.PayloadSerializerOptions.PropertyNamingPolicy = null; })
-            .AddHubOptions<MessagesHub>(options => { options.EnableDetailedErrors = true; });
+        var signalRServerBuilder = builder.Services.AddSignalR().AddJsonProtocol(options =>
+        {
+            options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+        }).AddHubOptions<MessagesHub>(options => { options.EnableDetailedErrors = true; });
+
+        signalRServerBuilder.AddHubOptions<ReCounterMessagesHub>(options => { options.EnableDetailedErrors = true; });
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
