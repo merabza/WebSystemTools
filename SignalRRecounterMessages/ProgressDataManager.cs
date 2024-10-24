@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using ReCounterContracts;
 using ReCounterDom;
 
-namespace SignalRMessages;
+namespace SignalRRecounterMessages;
 
 public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisposable
 {
