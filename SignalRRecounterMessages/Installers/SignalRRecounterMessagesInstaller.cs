@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using ReCounterDom;
-using SignalRMessages;
-using SystemToolsShared;
 using WebInstallers;
 
 namespace SignalRRecounterMessages.Installers;
@@ -24,12 +22,9 @@ public sealed class SignalRRecounterMessagesInstaller : IInstaller
 
         builder.Services.AddSingleton<IProgressDataManager, ProgressDataManager>();
 
-        var signalRServerBuilder = builder.Services.AddSignalR().AddJsonProtocol(options =>
-        {
-            options.PayloadSerializerOptions.PropertyNamingPolicy = null;
-        }).AddHubOptions<MessagesHub>(options => { options.EnableDetailedErrors = true; });
-
-        signalRServerBuilder.AddHubOptions<ReCounterMessagesHub>(options => { options.EnableDetailedErrors = true; });
+        builder.Services.AddSignalR()
+            .AddJsonProtocol(options => { options.PayloadSerializerOptions.PropertyNamingPolicy = null; })
+            .AddHubOptions<ReCounterMessagesHub>(options => { options.EnableDetailedErrors = true; });
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
