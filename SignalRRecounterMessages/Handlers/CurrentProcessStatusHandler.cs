@@ -5,10 +5,10 @@ using MessagingAbstractions;
 using OneOf;
 using ReCounterContracts;
 using ReCounterDom;
-using SignalRMessages.QueryRequests;
+using SignalRRecounterMessages.QueryRequests;
 using SystemToolsShared.Errors;
 
-namespace SignalRMessages.Handlers;
+namespace SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public class CurrentProcessStatusHandler : IQueryHandler<CurrentProcessStatusQueryRequest, ProgressData>
