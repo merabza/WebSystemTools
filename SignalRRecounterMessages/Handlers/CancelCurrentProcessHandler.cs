@@ -5,24 +5,24 @@ using System.Threading.Tasks;
 using MessagingAbstractions;
 using OneOf;
 using ReCounterDom;
-using SignalRMessages.QueryRequests;
+using SignalRMessages.CommandRequests;
 using SystemToolsShared.Errors;
 
-namespace SignalRMessages.Handlers;
+namespace SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class IsProcessRunningHandler : IQueryHandler<IsProcessRunningQueryRequest, bool>
+public class CancelCurrentProcessHandler : ICommandHandler<CancelCurrentProcessCommandRequest, bool>
 {
     private readonly IServiceProvider _services;
 
     //IReCounterBackgroundTaskQueue backgroundTaskQueue, 
     // ReSharper disable once ConvertToPrimaryConstructor
-    public IsProcessRunningHandler(IServiceProvider services)
+    public CancelCurrentProcessHandler(IServiceProvider services)
     {
         _services = services;
     }
 
-    public Task<OneOf<bool, IEnumerable<Err>>> Handle(IsProcessRunningQueryRequest request,
+    public async Task<OneOf<bool, IEnumerable<Err>>> Handle(CancelCurrentProcessCommandRequest request,
         CancellationToken cancellationToken)
     {
         var service = _services.GetService(typeof(ReCounterQueuedHostedService));
@@ -33,6 +33,8 @@ public class IsProcessRunningHandler : IQueryHandler<IsProcessRunningQueryReques
         // ReSharper disable once using
         using var reCounterQueuedHostedService = (ReCounterQueuedHostedService)service;
 
-        return Task.FromResult(OneOf<bool, IEnumerable<Err>>.FromT0(reCounterQueuedHostedService.IsProcessRunning()));
+        await reCounterQueuedHostedService.StopAsync(cancellationToken);
+        await reCounterQueuedHostedService.StartAsync(cancellationToken);
+        return await Task.FromResult(true);
     }
 }
