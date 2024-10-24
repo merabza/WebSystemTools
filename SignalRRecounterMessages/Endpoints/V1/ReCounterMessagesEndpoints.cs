@@ -9,7 +9,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
 using ReCounterContracts.V1.Routes;
 using ReCounterDom;
+<<<<<<< HEAD
 using SignalRRecounterMessages.CommandRequests;
+=======
+>>>>>>> e83fa74762384e415dc27824f3f60bea63130395
 using SignalRRecounterMessages.Handlers;
 using SignalRRecounterMessages.QueryRequests;
 using SystemToolsShared;
