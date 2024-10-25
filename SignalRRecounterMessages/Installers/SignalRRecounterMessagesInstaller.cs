@@ -10,7 +10,6 @@ namespace SignalRRecounterMessages.Installers;
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class SignalRRecounterMessagesInstaller : IInstaller
 {
-
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
