@@ -12,7 +12,6 @@ using ReCounterDom;
 using SignalRRecounterMessages.CommandRequests;
 using SignalRRecounterMessages.Handlers;
 using SignalRRecounterMessages.QueryRequests;
-using SystemToolsShared;
 using WebInstallers;
 
 namespace SignalRRecounterMessages.Endpoints.V1;
@@ -58,46 +57,46 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
 
     // GET api/v1/recounter/currentprocessstatus
     private static async Task<IResult> CurrentProcessStatus(HttpRequest httpRequest, IMediator mediator,
-        IMessagesDataManager messagesDataManager, CancellationToken cancellationToken)
+        IProgressDataManager messagesDataManager, CancellationToken cancellationToken)
     {
         var userName = httpRequest.HttpContext.User.Identity?.Name;
-        await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} started", cancellationToken);
+        //await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} started", true, cancellationToken);
         Debug.WriteLine($"Call {nameof(CurrentProcessStatusHandler)} from {nameof(CurrentProcessStatus)}");
 
         var query = new CurrentProcessStatusQueryRequest();
         var result = await mediator.Send(query, cancellationToken);
 
-        await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} finished", cancellationToken);
+        //await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} finished", cancellationToken);
         return result.Match(Results.Ok, Results.BadRequest);
     }
 
     // POST api/v1/recounter/isprocessrunning
     private static async Task<IResult> IsProcessRunning(HttpRequest httpRequest, IMediator mediator,
-        IMessagesDataManager messagesDataManager, CancellationToken cancellationToken)
+        IProgressDataManager messagesDataManager, CancellationToken cancellationToken)
     {
         var userName = httpRequest.HttpContext.User.Identity?.Name;
-        await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} started", cancellationToken);
+        //await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} started", cancellationToken);
         Debug.WriteLine($"Call {nameof(IsProcessRunningHandler)} from {nameof(IsProcessRunning)}");
 
         var query = new IsProcessRunningQueryRequest();
         var result = await mediator.Send(query, cancellationToken);
 
-        await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} finished", cancellationToken);
+        //await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} finished", cancellationToken);
         return result.Match(Results.Ok, Results.BadRequest);
     }
 
     // POST api/v1/recounter/cancelcurrentprocess
     private static async Task<IResult> CancelCurrentProcess(HttpRequest httpRequest, IMediator mediator,
-        IMessagesDataManager messagesDataManager, CancellationToken cancellationToken)
+        IProgressDataManager messagesDataManager, CancellationToken cancellationToken)
     {
         var userName = httpRequest.HttpContext.User.Identity?.Name;
-        await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} started", cancellationToken);
+        //await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} started", cancellationToken);
         Debug.WriteLine($"Call {nameof(CancelCurrentProcessHandler)} from {nameof(CancelCurrentProcess)}");
 
         var query = new CancelCurrentProcessCommandRequest();
         var result = await mediator.Send(query, cancellationToken);
 
-        await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} finished", cancellationToken);
+        //await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} finished", cancellationToken);
         return result.Match(Results.Ok, Results.BadRequest);
     }
 }
