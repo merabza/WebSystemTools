@@ -25,10 +25,11 @@ public class MessagesDataManager : IMessagesDataManager
     {
         if (userName is null)
             return;
+
         if (!_connectedUsers.TryGetValue(userName, out var conList))
             return;
 
-        _logger.LogInformation("Try to send message: {message}", message);
+        //_logger.LogInformation("Try to send message: {message}", message);
         foreach (var connectionId in conList)
             await _hub.Clients.Client(connectionId).SendMessage(message, cancellationToken);
         //ესეც მუშაობს, უბრალოდ მომხმარებლიდ არ არის გაფილტრული
