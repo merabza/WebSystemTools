@@ -15,7 +15,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
 
 
     private static int _sentCount;
-    private readonly HashSet<string> _connectedIds = [];
+    private readonly Dictionary<string, List<string>> _connectedUsers = [];
     private readonly IHubContext<ReCounterMessagesHub, IProgressDataMessenger> _hub;
     private readonly ILogger<ProgressDataManager> _logger;
     private int _currentChangeId;
@@ -47,14 +47,28 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
 
     public ProgressData? AccumulatedProgressData { get; private set; }
 
-    public void UserConnected(string connectionId)
+    public void UserConnected(string connectionId, string? userName)
     {
-        _connectedIds.Add(connectionId);
+        if (userName is null)
+            return;
+        if (!_connectedUsers.ContainsKey(userName))
+            _connectedUsers.Add(userName, []);
+        var conList = _connectedUsers[userName];
+        if (!conList.Contains(connectionId))
+            conList.Add(connectionId);
     }
 
-    public void UserDisconnected(string connectionId)
+    public void UserDisconnected(string connectionId, string? userName)
     {
-        _connectedIds.Remove(connectionId);
+        if (userName is null)
+            return;
+        if (!_connectedUsers.TryGetValue(userName, out var conList))
+            return;
+        if (!conList.Contains(connectionId))
+            return;
+        conList.Remove(connectionId);
+        if (conList.Count == 0)
+            _connectedUsers.Remove(userName);
     }
 
     public void StopTimer()
@@ -65,7 +79,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     }
 
 
-    public async Task SetProgressData(string name, string message, bool instantly, CancellationToken cancellationToken)
+    public async Task SetProgressData(string? userName, string name, string message, bool instantly, CancellationToken cancellationToken)
     {
         CheckTimer();
         lock (SyncRoot)
@@ -77,26 +91,11 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             _currentChangeId++;
         }
 
-        if (instantly && _connectedIds.Count > 0)
-            await SendData(cancellationToken);
+        if (instantly && _connectedUsers.Count > 0)
+            await SendData(userName, cancellationToken);
     }
 
-    public async Task SetProgressData(string name, bool value, bool instantly, CancellationToken cancellationToken)
-    {
-        lock (SyncRoot)
-        {
-            AccumulatedProgressData ??= new ProgressData();
-            AccumulatedProgressData.Add(name, value);
-            _lastChangesData = new ProgressData();
-            _lastChangesData.Add(name, value);
-            _currentChangeId++;
-        }
-
-        if (instantly && _connectedIds.Count > 0)
-            await SendData(cancellationToken);
-    }
-
-    public async Task SetProgressData(string name, int value, bool instantly, CancellationToken cancellationToken)
+    public async Task SetProgressData(string? userName, string name, bool value, bool instantly, CancellationToken cancellationToken)
     {
         CheckTimer();
         lock (SyncRoot)
@@ -108,8 +107,24 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             _currentChangeId++;
         }
 
-        if (instantly && _connectedIds.Count > 0)
-            await SendData(cancellationToken);
+        if (instantly && _connectedUsers.Count > 0)
+            await SendData(userName, cancellationToken);
+    }
+
+    public async Task SetProgressData(string? userName, string name, int value, bool instantly, CancellationToken cancellationToken)
+    {
+        CheckTimer();
+        lock (SyncRoot)
+        {
+            AccumulatedProgressData ??= new ProgressData();
+            AccumulatedProgressData.Add(name, value);
+            _lastChangesData = new ProgressData();
+            _lastChangesData.Add(name, value);
+            _currentChangeId++;
+        }
+
+        if (instantly && _connectedUsers.Count > 0)
+            await SendData(userName, cancellationToken);
     }
 
     private void StartTimer()
@@ -124,18 +139,26 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     {
         if (_sentChangeId == _currentChangeId)
             return;
-        SendData(CancellationToken.None).Wait();
+        foreach (var user in _connectedUsers)
+            SendData(user.Key, CancellationToken.None).Wait();
     }
 
-    private async Task SendData(CancellationToken cancellationToken)
+    private async Task SendData(string? userName, CancellationToken cancellationToken)
     {
+        if (userName is null)
+            return;
+
+        if (!_connectedUsers.TryGetValue(userName, out var conList))
+            return;
+
         _sentChangeId = _currentChangeId;
         _sentCount++;
         var progressData = _lastChangesData;
         if (_sentCount % 10 == 0)
             progressData = AccumulatedProgressData;
         if (progressData is not null)
-            await _hub.Clients.All.SendProgressData(progressData, cancellationToken);
+            foreach (var connectionId in conList)
+                await _hub.Clients.Client(connectionId).SendProgressData(progressData, cancellationToken);
     }
 
     //private Task SendNotificationAsync(object objectToSend)
@@ -143,11 +166,22 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     //    return _hub.Clients.All.SendAsync("sendtoall", objectToSend);
     //}
 
+
     private void CheckTimer()
     {
-        if (!_timerStarted && _connectedIds.Count > 0)
+        if (!_timerStarted && _connectedUsers.Count > 0)
             StartTimer();
-        if (_timerStarted && _connectedIds.Count == 0)
+        if (_timerStarted && _connectedUsers.Count == 0)
             StopTimer();
     }
+
+
+    //private List<string>? CheckConnectionsAndTimer(string? userName)
+    //{
+    //    if (!_timerStarted && _connectedUsers.Count > 0)
+    //        StartTimer();
+    //    if (_timerStarted && _connectedUsers.Count == 0)
+    //        StopTimer();
+    //    return userName is null ? null : _connectedUsers.GetValueOrDefault(userName);
+    //}
 }
