@@ -36,9 +36,9 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
 
         var group = app
             .MapGroup(RecountMessagesRoutes.ApiBase +
-                      RecountMessagesRoutes.ReCounterRoute.MessagesRoute).RequireAuthorization();
+                      RecountMessagesRoutes.ReCounterRoute.Recounter).RequireAuthorization();
 
-        group.MapHub<ReCounterMessagesHub>(RecountMessagesRoutes.ReCounterRoute.RecountMessages,
+        group.MapHub<ReCounterMessagesHub>(RecountMessagesRoutes.ReCounterRoute.Messages,
             options => { options.Transports = /*HttpTransportType.WebSockets | */HttpTransportType.LongPolling; });
 
         // POST api/v1/recounter/cancelcurrentprocess
