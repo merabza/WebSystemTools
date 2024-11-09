@@ -7,7 +7,7 @@ using WebInstallers;
 
 namespace SignalRMessages.Installers;
 
-// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable once UnusedType.Global
 public sealed class SignalRMessagesInstaller : IInstaller
 {
     public int InstallPriority => 30;
