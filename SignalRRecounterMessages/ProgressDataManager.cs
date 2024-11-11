@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
@@ -49,6 +50,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
 
     public void UserConnected(string connectionId, string? userName)
     {
+        Debug.WriteLine($"---===UserConnected connectionId={connectionId}, userName={userName}");
         if (userName is null)
             return;
         if (!_connectedUsers.ContainsKey(userName))
@@ -60,6 +62,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
 
     public void UserDisconnected(string connectionId, string? userName)
     {
+        Debug.WriteLine($"---===UserDisconnected connectionId={connectionId}, userName={userName}");
         if (userName is null)
             return;
         if (!_connectedUsers.TryGetValue(userName, out var conList))
