@@ -56,10 +56,10 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
     }
 
     // GET api/v1/recounter/currentprocessstatus
-    private static async Task<IResult> CurrentProcessStatus(HttpRequest httpRequest, IMediator mediator,
+    private static async Task<IResult> CurrentProcessStatus(IMediator mediator,
         IProgressDataManager messagesDataManager, CancellationToken cancellationToken)
     {
-        var userName = httpRequest.HttpContext.User.Identity?.Name;
+        //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} started", true, cancellationToken);
         Debug.WriteLine($"Call {nameof(CurrentProcessStatusHandler)} from {nameof(CurrentProcessStatus)}");
 
@@ -71,10 +71,10 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
     }
 
     // POST api/v1/recounter/isprocessrunning
-    private static async Task<IResult> IsProcessRunning(HttpRequest httpRequest, IMediator mediator,
-        IProgressDataManager messagesDataManager, CancellationToken cancellationToken)
+    private static async Task<IResult> IsProcessRunning(IMediator mediator, IProgressDataManager messagesDataManager,
+        CancellationToken cancellationToken)
     {
-        var userName = httpRequest.HttpContext.User.Identity?.Name;
+        //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} started", cancellationToken);
         Debug.WriteLine($"Call {nameof(IsProcessRunningHandler)} from {nameof(IsProcessRunning)}");
 
@@ -86,10 +86,10 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
     }
 
     // POST api/v1/recounter/cancelcurrentprocess
-    private static async Task<IResult> CancelCurrentProcess(HttpRequest httpRequest, IMediator mediator,
+    private static async Task<IResult> CancelCurrentProcess(IMediator mediator,
         IProgressDataManager messagesDataManager, CancellationToken cancellationToken)
     {
-        var userName = httpRequest.HttpContext.User.Identity?.Name;
+        //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} started", cancellationToken);
         Debug.WriteLine($"Call {nameof(CancelCurrentProcessHandler)} from {nameof(CancelCurrentProcess)}");
 
