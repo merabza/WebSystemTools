@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
 using StringMessagesApiContracts;
 using SystemToolsShared;
 
@@ -12,13 +11,11 @@ public class MessagesDataManager : IMessagesDataManager
 {
     private readonly Dictionary<string, List<string>> _connectedUsers = [];
     private readonly IHubContext<MessagesHub, IMessenger> _hub;
-    private readonly ILogger<MessagesDataManager> _logger;
 
     // ReSharper disable once ConvertToPrimaryConstructor
-    public MessagesDataManager(IHubContext<MessagesHub, IMessenger> hub, ILogger<MessagesDataManager> logger)
+    public MessagesDataManager(IHubContext<MessagesHub, IMessenger> hub)
     {
         _hub = hub;
-        _logger = logger;
     }
 
     public async Task SendMessage(string? userName, string message, CancellationToken cancellationToken)
