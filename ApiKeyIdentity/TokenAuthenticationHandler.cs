@@ -1,6 +1,8 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using ApiContracts;
 using ApiKeysManagement.Domain;
 using Microsoft.AspNetCore.Authentication;
