@@ -91,8 +91,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             AccumulatedProgressData.Add(name, message);
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, message);
-            _currentChangeId++;
         }
+        _currentChangeId++;
 
         if (instantly && _connectedUsers.Count > 0)
             await SendData(userName, cancellationToken);
@@ -107,8 +107,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             AccumulatedProgressData.Add(name, value);
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, value);
-            _currentChangeId++;
         }
+        _currentChangeId++;
 
         if (instantly && _connectedUsers.Count > 0)
             await SendData(userName, cancellationToken);
@@ -123,8 +123,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             AccumulatedProgressData.Add(name, value);
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, value);
-            _currentChangeId++;
         }
+        _currentChangeId++;
 
         if (instantly && _connectedUsers.Count > 0)
             await SendData(userName, cancellationToken);
