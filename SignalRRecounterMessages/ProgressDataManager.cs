@@ -12,7 +12,7 @@ namespace SignalRRecounterMessages;
 
 public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisposable
 {
-    private static readonly object SyncRoot = new();
+    private static readonly Lock SyncRoot = new();
 
 
     private static int _sentCount;

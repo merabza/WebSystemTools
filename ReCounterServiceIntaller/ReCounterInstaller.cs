@@ -8,10 +8,10 @@ using Microsoft.Extensions.Hosting;
 using ReCounterDom;
 using WebInstallers;
 
-namespace ReCounterServiceInstaller.Installers;
+namespace ReCounterServiceInstaller;
 
 // ReSharper disable once UnusedType.Global
-public sealed class ReCounterDomInstaller : IInstaller
+public sealed class ReCounterInstaller : IInstaller
 {
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
