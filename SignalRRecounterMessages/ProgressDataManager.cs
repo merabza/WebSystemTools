@@ -82,7 +82,8 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     }
 
 
-    public async Task SetProgressData(string? userName, string name, string message, bool instantly, CancellationToken cancellationToken)
+    public async Task SetProgressData(string? userName, string name, string message, bool instantly,
+        CancellationToken cancellationToken)
     {
         CheckTimer();
         lock (SyncRoot)
@@ -92,13 +93,15 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, message);
         }
+
         _currentChangeId++;
 
         if (instantly && _connectedUsers.Count > 0)
             await SendData(userName, cancellationToken);
     }
 
-    public async Task SetProgressData(string? userName, string name, bool value, bool instantly, CancellationToken cancellationToken)
+    public async Task SetProgressData(string? userName, string name, bool value, bool instantly,
+        CancellationToken cancellationToken)
     {
         CheckTimer();
         lock (SyncRoot)
@@ -108,13 +111,15 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, value);
         }
+
         _currentChangeId++;
 
         if (instantly && _connectedUsers.Count > 0)
             await SendData(userName, cancellationToken);
     }
 
-    public async Task SetProgressData(string? userName, string name, int value, bool instantly, CancellationToken cancellationToken)
+    public async Task SetProgressData(string? userName, string name, int value, bool instantly,
+        CancellationToken cancellationToken)
     {
         CheckTimer();
         lock (SyncRoot)
@@ -124,6 +129,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             _lastChangesData = new ProgressData();
             _lastChangesData.Add(name, value);
         }
+
         _currentChangeId++;
 
         if (instantly && _connectedUsers.Count > 0)
