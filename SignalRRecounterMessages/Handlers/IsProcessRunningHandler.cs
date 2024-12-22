@@ -23,7 +23,7 @@ public class IsProcessRunningHandler : IQueryHandler<IsProcessRunningQueryReques
     }
 
     public Task<OneOf<bool, IEnumerable<Err>>> Handle(IsProcessRunningQueryRequest request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var service = _services.GetService(typeof(ReCounterQueuedHostedService));
 

@@ -83,7 +83,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
 
 
     public async Task SetProgressData(string? userName, string name, string message, bool instantly,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         CheckTimer();
         lock (SyncRoot)
@@ -101,7 +101,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     }
 
     public async Task SetProgressData(string? userName, string name, bool value, bool instantly,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         CheckTimer();
         lock (SyncRoot)
@@ -119,7 +119,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     }
 
     public async Task SetProgressData(string? userName, string name, int value, bool instantly,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         CheckTimer();
         lock (SyncRoot)
@@ -152,7 +152,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             SendData(user.Key, CancellationToken.None).Wait();
     }
 
-    private async Task SendData(string? userName, CancellationToken cancellationToken)
+    private async Task SendData(string? userName, CancellationToken cancellationToken = default)
     {
         if (userName is null)
             return;

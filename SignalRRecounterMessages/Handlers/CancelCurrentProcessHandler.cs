@@ -23,7 +23,7 @@ public class CancelCurrentProcessHandler : ICommandHandler<CancelCurrentProcessC
     }
 
     public async Task<OneOf<bool, IEnumerable<Err>>> Handle(CancelCurrentProcessCommandRequest request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var service = _services.GetService(typeof(ReCounterQueuedHostedService));
 

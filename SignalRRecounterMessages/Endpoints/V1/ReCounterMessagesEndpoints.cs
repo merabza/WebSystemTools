@@ -57,7 +57,7 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
 
     // GET api/v1/recounter/currentprocessstatus
     private static async Task<IResult> CurrentProcessStatus(IMediator mediator,
-        IProgressDataManager messagesDataManager, CancellationToken cancellationToken)
+        IProgressDataManager messagesDataManager, CancellationToken cancellationToken = default)
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} started", true, cancellationToken);
@@ -72,7 +72,7 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
 
     // POST api/v1/recounter/isprocessrunning
     private static async Task<IResult> IsProcessRunning(IMediator mediator, IProgressDataManager messagesDataManager,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} started", cancellationToken);
@@ -87,7 +87,7 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
 
     // POST api/v1/recounter/cancelcurrentprocess
     private static async Task<IResult> CancelCurrentProcess(IMediator mediator,
-        IProgressDataManager messagesDataManager, CancellationToken cancellationToken)
+        IProgressDataManager messagesDataManager, CancellationToken cancellationToken = default)
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} started", cancellationToken);

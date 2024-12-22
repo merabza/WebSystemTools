@@ -22,7 +22,7 @@ public class CurrentProcessStatusHandler : IQueryHandler<CurrentProcessStatusQue
     }
 
     public Task<OneOf<ProgressData, IEnumerable<Err>>> Handle(CurrentProcessStatusQueryRequest request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         return Task.FromResult(
             OneOf<ProgressData, IEnumerable<Err>>.FromT0(_progressDataManager.AccumulatedProgressData ??
