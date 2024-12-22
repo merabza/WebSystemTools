@@ -82,7 +82,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     }
 
 
-    public async Task SetProgressData(string? userName, string name, string message, bool instantly,
+    public async ValueTask SetProgressData(string? userName, string name, string message, bool instantly,
         CancellationToken cancellationToken = default)
     {
         CheckTimer();
@@ -100,7 +100,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             await SendData(userName, cancellationToken);
     }
 
-    public async Task SetProgressData(string? userName, string name, bool value, bool instantly,
+    public async ValueTask SetProgressData(string? userName, string name, bool value, bool instantly,
         CancellationToken cancellationToken = default)
     {
         CheckTimer();
@@ -118,7 +118,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
             await SendData(userName, cancellationToken);
     }
 
-    public async Task SetProgressData(string? userName, string name, int value, bool instantly,
+    public async ValueTask SetProgressData(string? userName, string name, int value, bool instantly,
         CancellationToken cancellationToken = default)
     {
         CheckTimer();
@@ -149,10 +149,10 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         if (_sentChangeId == _currentChangeId)
             return;
         foreach (var user in _connectedUsers)
-            SendData(user.Key, CancellationToken.None).Wait();
+            SendData(user.Key, CancellationToken.None).GetAwaiter().GetResult();
     }
 
-    private async Task SendData(string? userName, CancellationToken cancellationToken = default)
+    private async ValueTask SendData(string? userName, CancellationToken cancellationToken = default)
     {
         if (userName is null)
             return;
@@ -162,7 +162,12 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
 
         _sentChangeId = _currentChangeId;
         _sentCount++;
-        var progressData = _lastChangesData;
+
+        ProgressData? progressData;
+        lock (SyncRoot)
+        {
+            progressData = _lastChangesData;
+        }
         if (_sentCount % 10 == 0)
             progressData = AccumulatedProgressData;
         if (progressData is not null)
