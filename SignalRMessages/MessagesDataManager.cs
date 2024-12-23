@@ -18,7 +18,7 @@ public class MessagesDataManager : IMessagesDataManager
         _hub = hub;
     }
 
-    public async Task SendMessage(string? userName, string message, CancellationToken cancellationToken)
+    public async ValueTask SendMessage(string? userName, string message, CancellationToken cancellationToken = default)
     {
         if (userName is null)
             return;

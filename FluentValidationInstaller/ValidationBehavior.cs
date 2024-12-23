@@ -24,7 +24,7 @@ public sealed class
     }
 
     public async Task<OneOf<TResponse, IEnumerable<Err>>> Handle(TCommandOrQuery request,
-        RequestHandlerDelegate<OneOf<TResponse, IEnumerable<Err>>> next, CancellationToken cancellationToken)
+        RequestHandlerDelegate<OneOf<TResponse, IEnumerable<Err>>> next, CancellationToken cancellationToken = default)
     {
         if (!_validators.Any())
             return await next();
