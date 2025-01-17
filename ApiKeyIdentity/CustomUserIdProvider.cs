@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.SignalR;
+using System.Linq;
 using System.Security.Claims;
-using Microsoft.AspNetCore.SignalR;
 
 namespace ApiKeyIdentity;
 

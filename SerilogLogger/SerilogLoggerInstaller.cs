@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Serilog;
 using WebInstallers;
 
 namespace SerilogLogger;
