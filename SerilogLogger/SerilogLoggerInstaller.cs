@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 using WebInstallers;
 
 namespace SerilogLogger;
@@ -64,8 +64,7 @@ public sealed class SerilogLoggerInstaller : IInstaller
         //    return;
         //}
 
-        var writeToSection =
-            serilogSettings.GetChildren().SingleOrDefault(s => s.Key == "WriteTo");
+        var writeToSection = serilogSettings.GetChildren().SingleOrDefault(s => s.Key == "WriteTo");
 
         if (writeToSection is null)
         {
@@ -73,8 +72,7 @@ public sealed class SerilogLoggerInstaller : IInstaller
             return;
         }
 
-        var writeToWithNameFile =
-            writeToSection.GetChildren().FirstOrDefault(child => child["Name"] == "File");
+        var writeToWithNameFile = writeToSection.GetChildren().FirstOrDefault(child => child["Name"] == "File");
         if (writeToWithNameFile is null)
         {
             Console.WriteLine("Serilog WriteTo File Section not set");

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Connections;
 using StringMessagesApiContracts.V1.Routes;
-using System;
-using System.Collections.Generic;
 using WebInstallers;
 
 namespace SignalRMessages.Endpoints.V1;

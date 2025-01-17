@@ -1,19 +1,18 @@
-﻿using FluentValidation;
-using MediatR;
-using MessagingAbstractions;
-using OneOf;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
+using MediatR;
+using MessagingAbstractions;
+using OneOf;
 using SystemToolsShared.Errors;
 
 namespace FluentValidationInstaller;
 
 public sealed class
     ValidationBehavior<TCommandOrQuery, TResponse> : IPipelineBehavior<TCommandOrQuery,
-    OneOf<TResponse, IEnumerable<Err>>>
-    where TCommandOrQuery : ICommand, ICommand<TResponse>, IQuery<TResponse>
+    OneOf<TResponse, IEnumerable<Err>>> where TCommandOrQuery : ICommand, ICommand<TResponse>, IQuery<TResponse>
 {
     private readonly IEnumerable<IValidator<TCommandOrQuery>> _validators;
 

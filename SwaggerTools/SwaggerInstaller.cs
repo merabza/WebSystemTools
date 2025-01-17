@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
 using SystemToolsShared;
 using WebInstallers;
 
@@ -66,7 +66,9 @@ public sealed class SwaggerInstaller : IInstaller
                     new OpenApiSecurityScheme
                     {
                         Reference = new OpenApiReference
-                            { Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme }
+                        {
+                            Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme
+                        }
                     },
                     Array.Empty<string>()
                 }

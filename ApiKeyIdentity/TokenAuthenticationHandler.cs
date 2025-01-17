@@ -1,14 +1,14 @@
-﻿using ApiContracts;
+﻿using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using ApiContracts;
 using ApiKeysManagement.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace ApiKeyIdentity;
 
@@ -20,8 +20,8 @@ public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSc
 
     // ReSharper disable once ConvertToPrimaryConstructor
     public TokenAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
-        ILoggerFactory loggerFactory, UrlEncoder encoder, IConfiguration configuration) : base(
-        options, loggerFactory, encoder)
+        ILoggerFactory loggerFactory, UrlEncoder encoder, IConfiguration configuration) : base(options, loggerFactory,
+        encoder)
     {
         _logger = loggerFactory.CreateLogger<TokenAuthenticationHandler>();
         _configuration = configuration;

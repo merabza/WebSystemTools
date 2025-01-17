@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Mime;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Net.Mime;
 using SystemToolsShared.Errors;
 using WebInstallers;
 
@@ -39,8 +39,7 @@ public sealed class ApiExceptionHandlerInstaller : IInstaller
 
                 //await context.Response.WriteAsync("An exception was thrown.");
 
-                var exceptionHandlerPathFeature =
-                    context.Features.Get<IExceptionHandlerPathFeature>();
+                var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
 
                 var e = exceptionHandlerPathFeature?.Error;
                 if (e is not null)

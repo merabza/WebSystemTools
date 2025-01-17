@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using SystemToolsShared;
 using TestApiContracts.V1.Routes;
 using TestToolsData.Models;
@@ -60,8 +60,7 @@ public sealed class TestEndpoints : IInstaller
     // GET api/v1/test/getip
     private static IResult GetIp(ILogger<TestEndpoints> logger, HttpRequest request)
     {
-        var ret =
-            $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
+        var ret = $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
         logger.LogInformation("Test from {ret}", ret);
         return Results.Text(ret, "text/plain", Encoding.UTF8);
     }
