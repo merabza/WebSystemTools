@@ -168,6 +168,7 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         {
             progressData = _lastChangesData;
         }
+
         if (_sentCount % 10 == 0)
             progressData = AccumulatedProgressData;
         if (progressData is not null)

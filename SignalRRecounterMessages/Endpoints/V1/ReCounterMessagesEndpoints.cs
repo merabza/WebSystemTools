@@ -34,9 +34,8 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
-        var group = app
-            .MapGroup(RecountMessagesRoutes.ApiBase +
-                      RecountMessagesRoutes.ReCounterRoute.Recounter).RequireAuthorization();
+        var group = app.MapGroup(RecountMessagesRoutes.ApiBase + RecountMessagesRoutes.ReCounterRoute.Recounter)
+            .RequireAuthorization();
 
         group.MapHub<ReCounterMessagesHub>(RecountMessagesRoutes.ReCounterRoute.Messages,
             options => { options.Transports = /*HttpTransportType.WebSockets | */HttpTransportType.LongPolling; });
