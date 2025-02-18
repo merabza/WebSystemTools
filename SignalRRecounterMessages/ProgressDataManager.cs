@@ -149,10 +149,10 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         if (_sentChangeId == _currentChangeId)
             return;
         foreach (var user in _connectedUsers)
-            SendData(user.Key, CancellationToken.None).GetAwaiter().GetResult();
+            SendData(user.Key, CancellationToken.None).Wait();
     }
 
-    private async ValueTask SendData(string? userName, CancellationToken cancellationToken = default)
+    private async Task SendData(string? userName, CancellationToken cancellationToken = default)
     {
         if (userName is null)
             return;
