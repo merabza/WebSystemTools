@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebInstallers;
 
 namespace ApiKeyIdentity;
@@ -21,6 +23,9 @@ public sealed class ApiKeysInstaller : IInstaller
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
+        builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        builder.Services.AddScoped<ICurrentUserByApiKey, CurrentUserByApiKey>();
+
         builder.Services
             .AddAuthentication(x => x.DefaultAuthenticateScheme = AuthenticationSchemaNames.ApiKeyAuthentication)
             .AddApiKeyAuthenticationSchema();
@@ -28,7 +33,6 @@ public sealed class ApiKeysInstaller : IInstaller
         builder.Services.AddAuthorization();
 
         builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
-        builder.Services.AddSingleton<ICurrentUserByApiKey, CurrentUserByApiKey>();
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
