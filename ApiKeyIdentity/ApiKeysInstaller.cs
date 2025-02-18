@@ -28,7 +28,7 @@ public sealed class ApiKeysInstaller : IInstaller
         builder.Services.AddAuthorization();
 
         builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
-
+        builder.Services.AddSingleton<ICurrentUserByApiKey, CurrentUserByApiKey>();
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
