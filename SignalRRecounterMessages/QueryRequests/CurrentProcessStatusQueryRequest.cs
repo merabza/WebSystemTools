@@ -1,4 +1,4 @@
-﻿using MessagingAbstractions;
+﻿using MediatRMessagingAbstractions;
 using ReCounterContracts;
 
 namespace SignalRRecounterMessages.QueryRequests;

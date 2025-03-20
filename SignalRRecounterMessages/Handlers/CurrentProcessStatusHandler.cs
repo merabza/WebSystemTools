@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MessagingAbstractions;
+using MediatRMessagingAbstractions;
 using OneOf;
 using ReCounterContracts;
 using ReCounterDom;
