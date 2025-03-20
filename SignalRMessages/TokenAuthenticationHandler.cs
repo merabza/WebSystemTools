@@ -76,7 +76,6 @@
 
 //        var ak = apiKeys.AppSettingsByApiKey(apiKey, remoteIpAddress);
 
-
 //        if (ak != null)
 //            return true;
 //        _logger.LogError("RemoteIpAddress is - {remoteIpAddress}", remoteIpAddress);

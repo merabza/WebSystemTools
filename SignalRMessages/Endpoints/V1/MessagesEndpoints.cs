@@ -28,7 +28,6 @@ public sealed class MessagesEndpoints : IInstaller
         app.MapHub<MessagesHub>(MessagesRoutes.ApiBase + MessagesRoutes.Messages.MessagesRoute,
             options => { options.Transports = HttpTransportType.LongPolling; }).RequireAuthorization();
 
-
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
 

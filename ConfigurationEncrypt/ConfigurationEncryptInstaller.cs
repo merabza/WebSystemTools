@@ -30,7 +30,6 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
 
         var pathToContentRoot = Directory.GetCurrentDirectory();
 
-
         if (!Debugger.IsAttached && SystemStat.IsWindows())
         {
             var newPathToContentRoot = StShared.GetMainModulePath();
@@ -39,7 +38,6 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
 
             Console.WriteLine("!Debugger.IsAttached && IsWindows() so pathToContentRoot=" + pathToContentRoot);
         }
-
 
         var config = new ConfigurationBuilder().SetBasePath(pathToContentRoot)
             .AddEncryptedJsonFile(Path.Combine(pathToContentRoot, "appsettingsEncoded.json"), false, true, key,

@@ -27,7 +27,6 @@ public sealed class CorsInstaller : IInstaller
         if (originsSection is null)
             return true;
 
-
         //.WithOrigins("*")//* არ გამოდგება sygnalR-სთვის
         builder.Services.AddCors(options =>
         {
@@ -50,7 +49,6 @@ public sealed class CorsInstaller : IInstaller
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
         app.UseCors(MyAllowSpecificOrigins);
-
 
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");

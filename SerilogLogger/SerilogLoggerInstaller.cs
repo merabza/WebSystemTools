@@ -49,7 +49,6 @@ public sealed class SerilogLoggerInstaller : IInstaller
         return true;
     }
 
-
     //ეს მეთოდი წამოღებულია SystemToolsShared.StShared კლასიდან.
     //როცა შესაძლებელი იქნება ამ SystemToolsShared ბიბლიოთეკის მიერთება,
     //ამ მეთოდის გამოძახება უნდა მოხდეს ამ ბიბლიოთეკიდან

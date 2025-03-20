@@ -19,7 +19,6 @@ public sealed class SignalRMessagesInstaller : IInstaller
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
-
         builder.Services.AddSingleton<IMessagesDataManager, MessagesDataManager>();
         builder.Services.AddSignalR()
             .AddJsonProtocol(options => { options.PayloadSerializerOptions.PropertyNamingPolicy = null; })

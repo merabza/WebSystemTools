@@ -39,7 +39,6 @@
 //            return Task.CompletedTask;
 //        }
 
-
 //        //var apiKey = _httpContextAccessor.HttpContext.Request.Query["ApiKey"].ToString();
 //        //var remoteAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress;
 
@@ -76,7 +75,6 @@
 //    //    //_logger.LogInformation("View Api Keys Finished");
 
 //    //    var ak = apiKeys.AppSettingsByApiKey(apiKey, remoteIpAddress);
-
 
 //    //    if (ak != null)
 //    //        return true;

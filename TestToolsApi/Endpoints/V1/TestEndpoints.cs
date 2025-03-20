@@ -56,7 +56,6 @@ public sealed class TestEndpoints : IInstaller
         return Results.Ok(true);
     }
 
-
     // GET api/v1/test/getip
     private static IResult GetIp(ILogger<TestEndpoints> logger, HttpRequest request)
     {

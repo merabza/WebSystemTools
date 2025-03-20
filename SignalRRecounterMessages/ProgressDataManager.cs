@@ -14,7 +14,6 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
 {
     private static readonly Lock SyncRoot = new();
 
-
     private static int _sentCount;
     private readonly Dictionary<string, List<string>> _connectedUsers = [];
     private readonly IHubContext<ReCounterMessagesHub, IProgressDataMessenger> _hub;
@@ -80,7 +79,6 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         _timerStarted = false;
         _logger.LogInformation("ProgressDataManager Timer stopped.");
     }
-
 
     public async ValueTask SetProgressData(string? userName, string name, string message, bool instantly,
         CancellationToken cancellationToken = default)
@@ -181,7 +179,6 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
     //    return _hub.Clients.All.SendAsync("sendtoall", objectToSend);
     //}
 
-
     private void CheckTimer()
     {
         if (!_timerStarted && _connectedUsers.Count > 0)
@@ -189,7 +186,6 @@ public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisp
         if (_timerStarted && _connectedUsers.Count == 0)
             StopTimer();
     }
-
 
     //private List<string>? CheckConnectionsAndTimer(string? userName)
     //{
