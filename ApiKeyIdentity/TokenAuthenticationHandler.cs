@@ -4,9 +4,8 @@ using System.Security.Principal;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using ApiContracts;
-using ApiKeysManagement.Domain;
+using ApiKeysManagement;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -15,16 +14,16 @@ namespace ApiKeyIdentity;
 //https://dejanstojanovic.net/aspnet/2021/december/supporting-multiple-authentication-schemes-in-aspnet-core-webapi/
 public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
-    private readonly IConfiguration _configuration;
+    private readonly IApiKeyFinder _apiKeyFinder;
     private readonly ILogger _logger;
 
     // ReSharper disable once ConvertToPrimaryConstructor
     public TokenAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
-        ILoggerFactory loggerFactory, UrlEncoder encoder, IConfiguration configuration) : base(options, loggerFactory,
+        ILoggerFactory loggerFactory, UrlEncoder encoder, IApiKeyFinder apiKeyFinder) : base(options, loggerFactory,
         encoder)
     {
         _logger = loggerFactory.CreateLogger<TokenAuthenticationHandler>();
-        _configuration = configuration;
+        _apiKeyFinder = apiKeyFinder;
     }
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -64,7 +63,7 @@ public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSc
         if (string.IsNullOrWhiteSpace(apiKey))
             return false;
 
-        var apiKeys = ApiKeysDomain.Create(_configuration, _logger);
+        //var apiKeys = ApiKeysDomain.Create(_apiKeyFinder, _logger);
 
         //_logger.LogInformation($"View Api Keys. count is - {apiKeys.ApiKeys.Count}");
         //foreach (ApiKeyAndRemoteIpAddressDomain key in apiKeys.ApiKeys)
@@ -74,7 +73,7 @@ public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSc
         //}
         //_logger.LogInformation("View Api Keys Finished");
 
-        var ak = apiKeys.AppSettingsByApiKey(apiKey, remoteIpAddress);
+        var ak = _apiKeyFinder.GetApiKeyAndRemAddress(apiKey, remoteIpAddress);
 
         if (ak != null)
             return true;

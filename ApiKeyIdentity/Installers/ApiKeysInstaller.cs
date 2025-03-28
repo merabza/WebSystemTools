@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ApiKeysManagement;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
@@ -7,13 +8,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebInstallers;
 
-namespace ApiKeyIdentity;
+namespace ApiKeyIdentity.Installers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 
 // ReSharper disable once UnusedType.Global
 public sealed class ApiKeysInstaller : IInstaller
 {
+    public const string UseApiKeyFromConfig = nameof(UseApiKeyFromConfig);
+
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
@@ -25,6 +28,11 @@ public sealed class ApiKeysInstaller : IInstaller
 
         builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddScoped<ICurrentUserByApiKey, CurrentUserByApiKey>();
+
+        var useApiKeyFromConfig = parameters.ContainsKey(UseApiKeyFromConfig);
+
+        if (useApiKeyFromConfig)
+            builder.Services.AddScoped<IApiKeyFinder, ApiKeyByConfigFinder>();
 
         builder.Services
             .AddAuthentication(x => x.DefaultAuthenticateScheme = AuthenticationSchemaNames.ApiKeyAuthentication)
