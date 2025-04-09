@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 namespace ApiKeyIdentity;
 
 //https://dejanstojanovic.net/aspnet/2021/december/supporting-multiple-authentication-schemes-in-aspnet-core-webapi/
-public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public sealed class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
     private readonly IApiKeyFinder _apiKeyFinder;
     private readonly ILogger _logger;

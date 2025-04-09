@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ApiKeyIdentity;
 
-public class CurrentUserByApiKey : ICurrentUserByApiKey
+public sealed class CurrentUserByApiKey : ICurrentUserByApiKey
 {
     private readonly IHttpContextAccessor _httpContext;
 

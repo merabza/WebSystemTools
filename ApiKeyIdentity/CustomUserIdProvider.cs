@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace ApiKeyIdentity;
 
-public class CustomUserIdProvider : IUserIdProvider
+public sealed class CustomUserIdProvider : IUserIdProvider
 {
     public string? GetUserId(HubConnectionContext connection)
     {
