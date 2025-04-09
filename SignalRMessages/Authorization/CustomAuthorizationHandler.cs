@@ -9,7 +9,7 @@
 //namespace LibWebAgentMessages.Authorization;
 
 ////https://dejanstojanovic.net/aspnet/2020/march/custom-signalr-hub-authorization-in-aspnet-core/
-//public class CustomAuthorizationHandler : AuthorizationHandler<CustomAuthorizationRequirement>
+//public sealed class CustomAuthorizationHandler : AuthorizationHandler<CustomAuthorizationRequirement>
 //{
 //    readonly IHttpContextAccessor _httpContextAccessor;
 

@@ -6,7 +6,7 @@ using SystemToolsShared;
 
 namespace SignalRMessages;
 
-public class MessagesHub : Hub<IMessenger>
+public sealed class MessagesHub : Hub<IMessenger>
 {
     private readonly IMessagesDataManager _messagesDataManager;
 

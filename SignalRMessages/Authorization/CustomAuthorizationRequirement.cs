@@ -2,7 +2,7 @@
 
 //namespace LibWebAgentMessages.Authorization;
 
-//public class CustomAuthorizationRequirement : IAuthorizationRequirement
+//public sealed class CustomAuthorizationRequirement : IAuthorizationRequirement
 //{
 //}
 

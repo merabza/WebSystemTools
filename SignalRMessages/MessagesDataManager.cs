@@ -7,7 +7,7 @@ using SystemToolsShared;
 
 namespace SignalRMessages;
 
-public class MessagesDataManager : IMessagesDataManager
+public sealed class MessagesDataManager : IMessagesDataManager
 {
     private readonly Dictionary<string, List<string>> _connectedUsers = [];
     private readonly IHubContext<MessagesHub, IMessenger> _hub;
