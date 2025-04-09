@@ -11,7 +11,7 @@ using SystemToolsShared.Errors;
 namespace SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class IsProcessRunningHandler : IQueryHandler<IsProcessRunningQueryRequest, bool>
+public sealed class IsProcessRunningHandler : IQueryHandler<IsProcessRunningQueryRequest, bool>
 {
     private readonly IServiceProvider _services;
 

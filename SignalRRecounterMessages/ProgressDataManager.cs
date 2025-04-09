@@ -10,7 +10,7 @@ using ReCounterDom;
 
 namespace SignalRRecounterMessages;
 
-public class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisposable
+public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisposable
 {
     private static readonly Lock SyncRoot = new();
 

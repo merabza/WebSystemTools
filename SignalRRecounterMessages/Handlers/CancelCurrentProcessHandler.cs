@@ -11,7 +11,7 @@ using SystemToolsShared.Errors;
 namespace SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class CancelCurrentProcessHandler : ICommandHandler<CancelCurrentProcessCommandRequest, bool>
+public sealed class CancelCurrentProcessHandler : ICommandHandler<CancelCurrentProcessCommandRequest, bool>
 {
     private readonly IServiceProvider _services;
 

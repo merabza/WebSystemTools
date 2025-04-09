@@ -11,7 +11,7 @@ using SystemToolsShared.Errors;
 namespace SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class CurrentProcessStatusHandler : IQueryHandler<CurrentProcessStatusQueryRequest, ProgressData>
+public sealed class CurrentProcessStatusHandler : IQueryHandler<CurrentProcessStatusQueryRequest, ProgressData>
 {
     private readonly IProgressDataManager _progressDataManager;
 
