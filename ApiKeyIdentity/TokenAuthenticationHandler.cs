@@ -42,7 +42,7 @@ public sealed class TokenAuthenticationHandler : AuthenticationHandler<Authentic
 
         var remoteIpAddress = remoteAddress.MapToIPv4().ToString();
 
-        if (!Check(apiKey, remoteIpAddress))
+        if (!await Check(apiKey, remoteIpAddress))
             return await Task.FromResult(AuthenticateResult.NoResult());
 
         var claims = new Claim[] { new(ClaimTypes.Name, remoteIpAddress) };
@@ -58,7 +58,7 @@ public sealed class TokenAuthenticationHandler : AuthenticationHandler<Authentic
         return await Task.FromResult(AuthenticateResult.Success(ticket));
     }
 
-    private bool Check(string? apiKey, string remoteIpAddress)
+    private async ValueTask<bool> Check(string? apiKey, string remoteIpAddress)
     {
         if (string.IsNullOrWhiteSpace(apiKey))
             return false;
@@ -73,7 +73,7 @@ public sealed class TokenAuthenticationHandler : AuthenticationHandler<Authentic
         //}
         //_logger.LogInformation("View Api Keys Finished");
 
-        var ak = _apiKeyFinder.GetApiKeyAndRemAddress(apiKey, remoteIpAddress);
+        var ak = await _apiKeyFinder.GetApiKeyAndRemAddress(apiKey, remoteIpAddress);
 
         if (ak != null)
             return true;
