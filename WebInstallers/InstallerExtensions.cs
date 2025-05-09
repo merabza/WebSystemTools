@@ -26,7 +26,7 @@ public static class InstallerExtensions
                 !installer.InstallServices(builder, debugMode, args, parameters)))
             return false;
 
-        builder.Services.AddSingleton(installers as IReadOnlyCollection<IInstaller>);
+        builder.Services.AddSingleton<IReadOnlyCollection<IInstaller>>(installers);
 
         if (debugMode)
             Console.WriteLine("InstallerExtensions.InstallServices Finished");
