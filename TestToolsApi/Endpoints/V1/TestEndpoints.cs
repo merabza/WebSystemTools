@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SystemToolsShared;
@@ -51,40 +52,40 @@ public sealed class TestEndpoints : IInstaller
     //მოქმედება -> უბრალოდ აბრუნებს 200 კოდს. თუ ამ მეთოდმა იმუშავა, კლიენტი მიხვდება, რომ პროგრამა გაშვებულია
     // GET api/v1/test/testconnection
     //[HttpGet(TestApiRoutes.Test.TestConnection)]
-    private static IResult Test()
+    private static Ok<bool> Test()
     {
-        return Results.Ok(true);
+        return TypedResults.Ok(true);
     }
 
     // GET api/v1/test/getip
-    private static IResult GetIp(ILogger<TestEndpoints> logger, HttpRequest request)
+    private static ContentHttpResult GetIp(ILogger<TestEndpoints> logger, HttpRequest request)
     {
         var ret = $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
         logger.LogInformation("Test from {ret}", ret);
-        return Results.Text(ret, "text/plain", Encoding.UTF8);
+        return TypedResults.Text(ret, "text/plain", Encoding.UTF8);
     }
 
     // GET api/v1/test/getversion
-    private static IResult Version(ILogger<TestEndpoints> logger)
+    private static ContentHttpResult Version(ILogger<TestEndpoints> logger)
     {
         var ret = Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
         logger.LogInformation("Version Test {ret}", ret);
-        return Results.Text(ret, "text/plain", Encoding.UTF8);
+        return TypedResults.Text(ret, "text/plain", Encoding.UTF8);
     }
 
     // GET api/v1/test/getappsettingsversion
     //[HttpGet(TestApiRoutes.Test.GetAppSettingsVersion)]
-    private static IResult AppSettingsVersion(ILogger<TestEndpoints> logger, IConfiguration config)
+    private static ContentHttpResult AppSettingsVersion(ILogger<TestEndpoints> logger, IConfiguration config)
     {
         var versionInfo = VersionInfo.Create(config);
         var ret = versionInfo is null ? "Version not detected" : versionInfo.AppSettingsVersion;
         logger.LogInformation("Version Test {ret}", ret);
-        return Results.Text(ret, "text/plain", Encoding.UTF8);
+        return TypedResults.Text(ret, "text/plain", Encoding.UTF8);
     }
 
     // GET api/v1/test/getsettings
     //[HttpGet(TestApiRoutes.Test.GetSettings)]
-    private static IResult Settings()
+    private static Ok<string> Settings()
     {
         var sb = new StringBuilder();
         sb.AppendLine($"Host name: {Environment.MachineName.Capitalize()}");
@@ -102,6 +103,6 @@ public sealed class TestEndpoints : IInstaller
         //    sb.AppendLine("View Api Keys Finished");
         //}
 
-        return Results.Ok(sb.ToString());
+        return TypedResults.Ok(sb.ToString());
     }
 }
