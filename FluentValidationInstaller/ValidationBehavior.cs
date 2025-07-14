@@ -26,7 +26,7 @@ public sealed class
         RequestHandlerDelegate<OneOf<TResponse, IEnumerable<Err>>> next, CancellationToken cancellationToken = default)
     {
         if (!_validators.Any())
-            return await next();
+            return await next(cancellationToken);
 
         var context = new ValidationContext<TCommandOrQuery>(request);
         var failures = _validators.Select(x => x.Validate(context)).SelectMany(x => x.Errors).Where(x => x is not null)
@@ -36,6 +36,6 @@ public sealed class
             return await Task.FromResult(failures
                 .Select(x => new Err { ErrorCode = x.ErrorCode, ErrorMessage = x.ErrorMessage }).Distinct().ToArray());
 
-        return await next();
+        return await next(cancellationToken);
     }
 }
