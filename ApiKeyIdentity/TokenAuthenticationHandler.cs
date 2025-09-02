@@ -28,10 +28,7 @@ public sealed class TokenAuthenticationHandler : AuthenticationHandler<Authentic
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (Request.HttpContext.User.Identity is null)
-            return await Task.FromResult(AuthenticateResult.NoResult());
-
-        if (Request.HttpContext.User.Identity.IsAuthenticated)
+        if (Request.HttpContext.User.Identity is null || Request.HttpContext.User.Identity.IsAuthenticated)
             return await Task.FromResult(AuthenticateResult.NoResult());
 
         var apiKey = Request.Query[ApiKeysConstants.ApiKeyParameterName].ToString();
