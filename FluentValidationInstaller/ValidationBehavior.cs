@@ -12,7 +12,7 @@ namespace FluentValidationInstaller;
 
 public sealed class
     ValidationBehavior<TCommandOrQuery, TResponse> : IPipelineBehavior<TCommandOrQuery,
-    OneOf<TResponse, IEnumerable<Err>>> where TCommandOrQuery : ICommand, ICommand<TResponse>, IQuery<TResponse>
+    OneOf<TResponse, Err[]>> where TCommandOrQuery : ICommand, ICommand<TResponse>, IQuery<TResponse>
 {
     private readonly IEnumerable<IValidator<TCommandOrQuery>> _validators;
 
@@ -22,8 +22,8 @@ public sealed class
         _validators = validators;
     }
 
-    public async Task<OneOf<TResponse, IEnumerable<Err>>> Handle(TCommandOrQuery request,
-        RequestHandlerDelegate<OneOf<TResponse, IEnumerable<Err>>> next, CancellationToken cancellationToken = default)
+    public async Task<OneOf<TResponse, Err[]>> Handle(TCommandOrQuery request,
+        RequestHandlerDelegate<OneOf<TResponse, Err[]>> next, CancellationToken cancellationToken = default)
     {
         if (!_validators.Any())
             return await next(cancellationToken);
