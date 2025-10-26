@@ -21,11 +21,11 @@ public sealed class CurrentProcessStatusHandler : IQueryHandler<CurrentProcessSt
         _progressDataManager = progressDataManager;
     }
 
-    public Task<OneOf<ProgressData, IEnumerable<Err>>> Handle(CurrentProcessStatusQueryRequest request,
+    public Task<OneOf<ProgressData, Err[]>> Handle(CurrentProcessStatusQueryRequest request,
         CancellationToken cancellationToken = default)
     {
         return Task.FromResult(
-            OneOf<ProgressData, IEnumerable<Err>>.FromT0(_progressDataManager.AccumulatedProgressData ??
+            OneOf<ProgressData, Err[]>.FromT0(_progressDataManager.AccumulatedProgressData ??
                                                          new ProgressData()));
     }
 }

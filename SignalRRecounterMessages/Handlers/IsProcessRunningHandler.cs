@@ -22,7 +22,7 @@ public sealed class IsProcessRunningHandler : IQueryHandler<IsProcessRunningQuer
         _services = services;
     }
 
-    public Task<OneOf<bool, IEnumerable<Err>>> Handle(IsProcessRunningQueryRequest request,
+    public Task<OneOf<bool, Err[]>> Handle(IsProcessRunningQueryRequest request,
         CancellationToken cancellationToken = default)
     {
         var service = _services.GetService(typeof(ReCounterQueuedHostedService));
@@ -33,6 +33,6 @@ public sealed class IsProcessRunningHandler : IQueryHandler<IsProcessRunningQuer
         // ReSharper disable once using
         using var reCounterQueuedHostedService = (ReCounterQueuedHostedService)service;
 
-        return Task.FromResult(OneOf<bool, IEnumerable<Err>>.FromT0(reCounterQueuedHostedService.IsProcessRunning()));
+        return Task.FromResult(OneOf<bool, Err[]>.FromT0(reCounterQueuedHostedService.IsProcessRunning()));
     }
 }

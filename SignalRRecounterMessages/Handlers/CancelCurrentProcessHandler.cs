@@ -22,7 +22,7 @@ public sealed class CancelCurrentProcessHandler : ICommandHandler<CancelCurrentP
         _services = services;
     }
 
-    public async Task<OneOf<bool, IEnumerable<Err>>> Handle(CancelCurrentProcessCommandRequest request,
+    public async Task<OneOf<bool, Err[]>> Handle(CancelCurrentProcessCommandRequest request,
         CancellationToken cancellationToken = default)
     {
         var service = _services.GetService(typeof(ReCounterQueuedHostedService));
