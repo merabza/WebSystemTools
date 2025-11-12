@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using SystemToolsShared;
 using WebInstallers;
 
@@ -60,19 +60,28 @@ public sealed class SwaggerInstaller : IInstaller
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey
                 });
-            x.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
+
+
+            var oas = new OpenApiSecurityRequirement();
+            var b = new OpenApiSecuritySchemeReference(JwtBearerDefaults.AuthenticationScheme);
+
+            oas.Add(b, [nameof(ReferenceType.SecurityScheme)]);
+
+            x.AddSecurityRequirement(x=> oas);
+
+            //x.AddSecurityRequirement(new OpenApiSecurityRequirement
+            //{
+            //    {
+            //        new OpenApiSecurityScheme
+            //        {
+            //            Reference = new OpenApiReference
+            //            {
+            //                Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme
+            //            }
+            //        },
+            //        Array.Empty<string>()
+            //    }
+            //});
         });
 
         if (debugMode)
