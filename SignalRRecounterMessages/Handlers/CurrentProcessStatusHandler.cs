@@ -25,7 +25,6 @@ public sealed class CurrentProcessStatusHandler : IQueryHandler<CurrentProcessSt
         CancellationToken cancellationToken = default)
     {
         return Task.FromResult(
-            OneOf<ProgressData, Err[]>.FromT0(_progressDataManager.AccumulatedProgressData ??
-                                                         new ProgressData()));
+            OneOf<ProgressData, Err[]>.FromT0(_progressDataManager.AccumulatedProgressData ?? new ProgressData()));
     }
 }

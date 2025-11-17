@@ -61,13 +61,12 @@ public sealed class SwaggerInstaller : IInstaller
                     Type = SecuritySchemeType.ApiKey
                 });
 
-
             var oas = new OpenApiSecurityRequirement();
             var b = new OpenApiSecuritySchemeReference(JwtBearerDefaults.AuthenticationScheme);
 
             oas.Add(b, [nameof(ReferenceType.SecurityScheme)]);
 
-            x.AddSecurityRequirement(x=> oas);
+            x.AddSecurityRequirement(x => oas);
 
             //x.AddSecurityRequirement(new OpenApiSecurityRequirement
             //{
