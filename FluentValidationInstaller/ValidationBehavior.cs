@@ -11,8 +11,8 @@ using SystemToolsShared.Errors;
 namespace FluentValidationInstaller;
 
 public sealed class
-    ValidationBehavior<TCommandOrQuery, TResponse> : IPipelineBehavior<TCommandOrQuery,
-    OneOf<TResponse, Err[]>> where TCommandOrQuery : ICommand, ICommand<TResponse>, IQuery<TResponse>
+    ValidationBehavior<TCommandOrQuery, TResponse> : IPipelineBehavior<TCommandOrQuery, OneOf<TResponse, Err[]>>
+    where TCommandOrQuery : ICommand, ICommand<TResponse>, IQuery<TResponse>
 {
     private readonly IEnumerable<IValidator<TCommandOrQuery>> _validators;
 
