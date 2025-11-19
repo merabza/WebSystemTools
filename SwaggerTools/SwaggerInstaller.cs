@@ -66,7 +66,7 @@ public sealed class SwaggerInstaller : IInstaller
 
             oas.Add(b, [nameof(ReferenceType.SecurityScheme)]);
 
-            x.AddSecurityRequirement(x => oas);
+            x.AddSecurityRequirement(_ => oas);
 
             //x.AddSecurityRequirement(new OpenApiSecurityRequirement
             //{
