@@ -60,9 +60,9 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} started", true, cancellationToken);
-        Debug.WriteLine($"Call {nameof(CurrentProcessStatusHandler)} from {nameof(CurrentProcessStatus)}");
+        Debug.WriteLine($"Call {nameof(CurrentProcessStatusQueryHandler)} from {nameof(CurrentProcessStatus)}");
 
-        var query = new CurrentProcessStatusQueryRequest();
+        var query = new CurrentProcessStatusRequestQuery();
         var result = await mediator.Send(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} finished", cancellationToken);
@@ -75,9 +75,9 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} started", cancellationToken);
-        Debug.WriteLine($"Call {nameof(IsProcessRunningHandler)} from {nameof(IsProcessRunning)}");
+        Debug.WriteLine($"Call {nameof(IsProcessRunningQueryHandler)} from {nameof(IsProcessRunning)}");
 
-        var query = new IsProcessRunningQueryRequest();
+        var query = new IsProcessRunningRequestQuery();
         var result = await mediator.Send(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} finished", cancellationToken);
@@ -90,9 +90,9 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
         //await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} started", cancellationToken);
-        Debug.WriteLine($"Call {nameof(CancelCurrentProcessHandler)} from {nameof(CancelCurrentProcess)}");
+        Debug.WriteLine($"Call {nameof(CancelCurrentProcessCommandHandler)} from {nameof(CancelCurrentProcess)}");
 
-        var query = new CancelCurrentProcessCommandRequest();
+        var query = new CancelCurrentProcessRequestCommand();
         var result = await mediator.Send(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} finished", cancellationToken);

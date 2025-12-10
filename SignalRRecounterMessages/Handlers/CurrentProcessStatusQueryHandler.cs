@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatRMessagingAbstractions;
 using OneOf;
@@ -11,17 +10,17 @@ using SystemToolsShared.Errors;
 namespace SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class CurrentProcessStatusHandler : IQueryHandler<CurrentProcessStatusQueryRequest, ProgressData>
+public sealed class CurrentProcessStatusQueryHandler : IQueryHandler<CurrentProcessStatusRequestQuery, ProgressData>
 {
     private readonly IProgressDataManager _progressDataManager;
 
     // ReSharper disable once ConvertToPrimaryConstructor
-    public CurrentProcessStatusHandler(IProgressDataManager progressDataManager)
+    public CurrentProcessStatusQueryHandler(IProgressDataManager progressDataManager)
     {
         _progressDataManager = progressDataManager;
     }
 
-    public Task<OneOf<ProgressData, Err[]>> Handle(CurrentProcessStatusQueryRequest request,
+    public Task<OneOf<ProgressData, Err[]>> Handle(CurrentProcessStatusRequestQuery request,
         CancellationToken cancellationToken = default)
     {
         return Task.FromResult(
