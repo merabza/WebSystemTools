@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
@@ -31,6 +30,12 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
     {
         _hub = hub;
         _logger = logger;
+    }
+
+    //implement destructor
+    ~ProgressDataManager()
+    {
+        Dispose();
     }
 
     public async ValueTask DisposeAsync()
