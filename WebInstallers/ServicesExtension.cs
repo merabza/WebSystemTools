@@ -12,4 +12,12 @@ public static class ServicesExtension
                      typeof(IScopedService).IsAssignableFrom(x) && x is { IsInterface: false, IsAbstract: false }))
             services.AddScoped(type);
     }
+    public static void AddScopedServices<T>(this IServiceCollection services)
+    {
+        var assembly = typeof(T).Assembly;
+        foreach (var type in assembly.ExportedTypes.Where(x =>
+                     typeof(T).IsAssignableFrom(x) &&
+                     x is { IsInterface: false, IsAbstract: false }))
+            services.AddScoped(type);
+    }
 }
