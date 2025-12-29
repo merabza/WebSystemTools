@@ -1,53 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
-using WebInstallers;
+
+//using WebInstallers;
 
 namespace SerilogLogger;
 
 // ReSharper disable once UnusedType.Global
-public sealed class SerilogLoggerInstaller : IInstaller
+public static class SerilogLoggerInstaller // : IInstaller
 {
-    public int InstallPriority => 20;
-    public int ServiceUsePriority => 20;
+    //public int InstallPriority => 20;
+    //public int ServiceUsePriority => 20;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
+    public static bool UseSerilogLogger(this IHostBuilder hostBuilder, IConfiguration configuration, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
+            Console.WriteLine($"{nameof(UseSerilogLogger)} Started");
 
         //როცა სერვისი გაშვებულია კონსოლის ცვლილებები პრობლემებს იწვევს
         //ამიტომ აქ ვამოწმებთ და კონსოლს ვეხებით მხოლოდ დებაგერით გაშვებისას
         if (Debugger.IsAttached)
             Console.OutputEncoding = Encoding.UTF8;
 
-        Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
+        Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
         //Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
-        LogSerilogFilePath(builder.Configuration);
+        LogSerilogFilePath(configuration);
 
         //Console.WriteLine("SerilogLoggerInstaller.InstallServices Finished");
         //Log.Information("Hello, world!");
 
         //Console.WriteLine("SerilogLoggerInstaller.InstallUse Started");
 
-        builder.Host.UseSerilog();
+        hostBuilder.UseSerilog();
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+            Console.WriteLine($"{nameof(UseSerilogLogger)} Finished");
 
         return true;
     }
 
-    public bool UseServices(WebApplication app, bool debugMode)
-    {
-        return true;
-    }
+    //public bool UseServices(WebApplication app, bool debugMode)
+    //{
+    //    return true;
+    //}
 
     //ეს მეთოდი წამოღებულია SystemToolsShared.StShared კლასიდან.
     //როცა შესაძლებელი იქნება ამ SystemToolsShared ბიბლიოთეკის მიერთება,

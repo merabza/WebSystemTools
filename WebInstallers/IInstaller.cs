@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
+﻿//using System.Collections.Generic;
+//using Microsoft.AspNetCore.Builder;
 
-namespace WebInstallers;
+//namespace WebInstallers;
 
-public interface IInstaller
-{
-    int InstallPriority { get; }
-    int ServiceUsePriority { get; }
+//public interface IInstaller
+//{
+//    int InstallPriority { get; }
+//    int ServiceUsePriority { get; }
 
-    bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters);
+//    bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+//        Dictionary<string, string> parameters);
 
-    bool UseServices(WebApplication app, bool debugMode);
-}
+//    bool UseServices(WebApplication app, bool debugMode);
+//}

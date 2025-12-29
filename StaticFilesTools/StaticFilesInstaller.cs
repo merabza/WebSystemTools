@@ -1,34 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
-using WebInstallers;
+
+//using WebInstallers;
 
 namespace StaticFilesTools;
 
 // ReSharper disable once UnusedType.Global
-public sealed class StaticFilesInstaller : IInstaller
+public static class StaticFilesInstaller // : IInstaller
 {
-    public int InstallPriority => 15;
-    public int ServiceUsePriority => 135;
+    //public int InstallPriority => 15;
+    //public int ServiceUsePriority => 135;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
-    {
-        //Console.WriteLine("StaticFilesInstaller.InstallServices Started");
+    //public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+    //    Dictionary<string, string> parameters)
+    //{
+    //    //Console.WriteLine("StaticFilesInstaller.InstallServices Started");
 
-        //// In production, the React files will be served from this directory
-        //builder.Services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+    //    //// In production, the React files will be served from this directory
+    //    //builder.Services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
 
-        //Console.WriteLine("StaticFilesInstaller.InstallServices Finished");
+    //    //Console.WriteLine("StaticFilesInstaller.InstallServices Finished");
 
-        return true;
-    }
+    //    return true;
+    //}
 
-    public bool UseServices(WebApplication app, bool debugMode)
+    public static bool UseDefaultAndStaticFiles(this WebApplication app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
+            Console.WriteLine($"{nameof(UseDefaultAndStaticFiles)} Started");
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment()) app.UseExceptionHandler("/Error");
@@ -37,7 +37,7 @@ public sealed class StaticFilesInstaller : IInstaller
         app.UseStaticFiles();
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+            Console.WriteLine($"{nameof(UseDefaultAndStaticFiles)} Finished");
 
         return true;
     }

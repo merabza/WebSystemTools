@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using SystemToolsShared;
-using WebInstallers;
 
 namespace WindowsServiceTools;
 
 // ReSharper disable once UnusedType.Global
-public sealed class UseWindowsServiceInstaller : IInstaller
+public static class UseWindowsServiceInstaller
 {
-    public int InstallPriority => 30;
-    public int ServiceUsePriority => 30;
+    //public int InstallPriority => 30;
+    //public int ServiceUsePriority => 30;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
+    public static bool UseWindowsServiceOnWindows(this IHostBuilder hostBuilder, bool debugMode, string[] args)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
+            Console.WriteLine($"{nameof(UseWindowsServiceOnWindows)} Started");
 
         //ასე გადაკეთება საჭიროა იმისათვის, რომ შესაძლებელი იყოს
         //პროგრამის გაშვება, როგორც კონსოლიდან,
@@ -27,16 +23,11 @@ public sealed class UseWindowsServiceInstaller : IInstaller
         var isService = !(Debugger.IsAttached || args.ToList().Contains("--console"));
 
         if (isService && SystemStat.IsWindows())
-            builder.Host.UseWindowsService();
+            hostBuilder.UseWindowsService();
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+            Console.WriteLine($"{nameof(UseWindowsServiceOnWindows)} Finished");
 
-        return true;
-    }
-
-    public bool UseServices(WebApplication app, bool debugMode)
-    {
         return true;
     }
 }

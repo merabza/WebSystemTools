@@ -1,37 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SystemToolsShared;
 using TestApiContracts.V1.Routes;
 using TestToolsData.Models;
-using WebInstallers;
+
+//using WebInstallers;
 
 namespace TestToolsApi.Endpoints.V1;
 
 // ReSharper disable once UnusedType.Global
-public sealed class TestEndpoints : IInstaller
+public static class TestEndpoints // : IInstaller
 {
-    public int InstallPriority => 70;
-    public int ServiceUsePriority => 70;
+    //public int InstallPriority => 70;
+    //public int ServiceUsePriority => 70;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
-    {
-        return true;
-    }
+    //public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+    //    Dictionary<string, string> parameters)
+    //{
+    //    return true;
+    //}
 
-    public bool UseServices(WebApplication app, bool debugMode)
+    public static bool UseTestEndpoints(this IEndpointRouteBuilder endpoints, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
+            Console.WriteLine($"{nameof(UseTestEndpoints)} Started");
 
-        var group = app.MapGroup(TestApiRoutes.ApiBase + TestApiRoutes.Test.TestBase);
+        var group = endpoints.MapGroup(TestApiRoutes.ApiBase + TestApiRoutes.Test.TestBase);
 
         group.MapGet(TestApiRoutes.Test.TestConnection, Test);
         group.MapGet(TestApiRoutes.Test.GetIp, GetIp);
@@ -40,7 +42,7 @@ public sealed class TestEndpoints : IInstaller
         group.MapGet(TestApiRoutes.Test.GetSettings, Settings);
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+            Console.WriteLine($"{nameof(UseTestEndpoints)} Finished");
 
         return true;
     }
@@ -58,7 +60,7 @@ public sealed class TestEndpoints : IInstaller
     }
 
     // GET api/v1/test/getip
-    private static IResult GetIp(ILogger<TestEndpoints> logger, HttpRequest request)
+    private static IResult GetIp([FromServices] ILogger logger, HttpRequest request)
     {
         var ret = $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
         logger.LogInformation("Test from {ret}", ret);
@@ -66,7 +68,7 @@ public sealed class TestEndpoints : IInstaller
     }
 
     // GET api/v1/test/getversion
-    private static IResult Version(ILogger<TestEndpoints> logger)
+    private static IResult Version([FromServices] ILogger logger)
     {
         var ret = Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
         logger.LogInformation("Version Test {ret}", ret);
@@ -75,7 +77,7 @@ public sealed class TestEndpoints : IInstaller
 
     // GET api/v1/test/getappsettingsversion
     //[HttpGet(TestApiRoutes.Test.GetAppSettingsVersion)]
-    private static IResult AppSettingsVersion(ILogger<TestEndpoints> logger, IConfiguration config)
+    private static IResult AppSettingsVersion([FromServices] ILogger logger, IConfiguration config)
     {
         var versionInfo = VersionInfo.Create(config);
         var ret = versionInfo is null ? "Version not detected" : versionInfo.AppSettingsVersion;

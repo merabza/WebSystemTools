@@ -1,45 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using SystemToolsShared;
-using WebInstallers;
+
+//using WebInstallers;
 
 namespace SignalRMessages.Installers;
 
 // ReSharper disable once UnusedType.Global
-public sealed class SignalRMessagesInstaller : IInstaller
+public static class SignalRMessagesInstaller // : IInstaller
 {
-    public int InstallPriority => 30;
-    public int ServiceUsePriority => 30;
+    //public int InstallPriority => 30;
+    //public int ServiceUsePriority => 30;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
+    public static IServiceCollection AddSignalRMessages(this IServiceCollection services, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
+            Console.WriteLine($"{nameof(AddSignalRMessages)} Started");
 
-        builder.Services.AddSingleton<IMessagesDataManager, MessagesDataManager>();
-        builder.Services.AddSignalR()
+        services.AddSingleton<IMessagesDataManager, MessagesDataManager>();
+        services.AddSignalR()
             .AddJsonProtocol(options => { options.PayloadSerializerOptions.PropertyNamingPolicy = null; })
             .AddHubOptions<MessagesHub>(options => { options.EnableDetailedErrors = true; });
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+            Console.WriteLine($"{nameof(AddSignalRMessages)} Finished");
 
-        return true;
+        return services;
     }
 
-    public bool UseServices(WebApplication app, bool debugMode)
-    {
-        if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
+    //public bool UseServices(WebApplication app, bool debugMode)
+    //{
+    //    if (debugMode)
+    //        Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
 
-        //app.UseAuthorization();
+    //    //app.UseAuthorization();
 
-        if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+    //    if (debugMode)
+    //        Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
 
-        return true;
-    }
+    //    return true;
+    //}
 }

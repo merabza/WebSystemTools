@@ -1,3 +1,3 @@
-﻿namespace WebInstallers;
+﻿//namespace WebInstallers;
 
-public interface IScopedService;
+//public interface IScopedService;

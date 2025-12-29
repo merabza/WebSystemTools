@@ -1,57 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
 using ApiKeysManagement;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using WebInstallers;
+
+//using WebInstallers;
 
 namespace ApiKeyIdentity.Installers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 
 // ReSharper disable once UnusedType.Global
-public sealed class ApiKeysInstaller : IInstaller
+public static class ApiKeysInstaller // : IInstaller
 {
-    public int InstallPriority => 30;
-    public int ServiceUsePriority => 30;
+    //public int InstallPriority => 30;
+    //public int ServiceUsePriority => 30;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
+    public static IServiceCollection AddApiKeyAuthentication(this IServiceCollection services, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
+            Console.WriteLine($"{nameof(AddApiKeyAuthentication)} Started");
 
-        builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        builder.Services.AddScoped<ICurrentUserByApiKey, CurrentUserByApiKey>();
+        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped<ICurrentUserByApiKey, CurrentUserByApiKey>();
 
-        builder.Services.AddScoped<IApiKeyFinder, ApiKeyByConfigFinder>();
+        services.AddScoped<IApiKeyFinder, ApiKeyByConfigFinder>();
 
-        builder.Services
-            .AddAuthentication(x => x.DefaultAuthenticateScheme = AuthenticationSchemaNames.ApiKeyAuthentication)
+        services.AddAuthentication(x => x.DefaultAuthenticateScheme = AuthenticationSchemaNames.ApiKeyAuthentication)
             .AddApiKeyAuthenticationSchema();
 
-        builder.Services.AddAuthorization();
+        services.AddAuthorization();
 
-        builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+        services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+            Console.WriteLine($"{nameof(AddApiKeyAuthentication)} Finished");
 
-        return true;
+        return services;
     }
 
-    public bool UseServices(WebApplication app, bool debugMode)
+    public static bool UseApiKeysAuthorization(this IApplicationBuilder app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
+            Console.WriteLine($"{nameof(UseApiKeysAuthorization)} Started");
 
         app.UseAuthorization();
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+            Console.WriteLine($"{nameof(UseApiKeysAuthorization)} Finished");
 
         return true;
     }

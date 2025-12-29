@@ -1,30 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using SystemToolsShared;
-using WebInstallers;
+
+//using WebInstallers;
 
 namespace ConfigurationEncrypt;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class ConfigurationEncryptInstaller : IInstaller
+public static class ConfigurationEncryptInstaller // : IInstaller
 {
-    public const string AppKeyKey = nameof(AppKeyKey);
-    public int InstallPriority => 10;
-    public int ServiceUsePriority => 10;
+    //public const string AppKeyKey = nameof(AppKeyKey);
+    //public int InstallPriority => 10;
+    //public int ServiceUsePriority => 10;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
+    public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, bool debugMode,
+        string appKey)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
-
-        var appKey = string.Empty;
-        if (parameters.TryGetValue(AppKeyKey, out var parameter))
-            appKey = parameter;
+            Console.WriteLine($"{nameof(AddConfigurationEncryption)} Started");
 
         var key = appKey + Environment.MachineName.Capitalize();
 
@@ -42,16 +37,16 @@ public sealed class ConfigurationEncryptInstaller : IInstaller
         var config = new ConfigurationBuilder().SetBasePath(pathToContentRoot)
             .AddEncryptedJsonFile(Path.Combine(pathToContentRoot, "appsettingsEncoded.json"), false, true, key,
                 Path.Combine(pathToContentRoot, "appsetenkeys.json")).Build();
-        builder.Configuration.AddConfiguration(config);
+        configurationBuilder.AddConfiguration(config);
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+            Console.WriteLine($"{nameof(AddConfigurationEncryption)} Finished");
 
         return true;
     }
 
-    public bool UseServices(WebApplication app, bool debugMode)
-    {
-        return true;
-    }
+    //public bool UseServices(WebApplication app, bool debugMode)
+    //{
+    //    return true;
+    //}
 }

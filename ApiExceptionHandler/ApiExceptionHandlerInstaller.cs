@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -7,26 +6,27 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SystemToolsShared.Errors;
-using WebInstallers;
+
+//using WebInstallers;
 
 namespace ApiExceptionHandler;
 
 // ReSharper disable once UnusedType.Global
-public sealed class ApiExceptionHandlerInstaller : IInstaller
+public static class ApiExceptionHandlerInstaller // : IInstaller
 {
-    public int InstallPriority => 30;
-    public int ServiceUsePriority => 30;
+    //public int InstallPriority => 30;
+    //public int ServiceUsePriority => 30;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
-    {
-        return true;
-    }
+    //public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+    //    Dictionary<string, string> parameters)
+    //{
+    //    return true;
+    //}
 
-    public bool UseServices(WebApplication app, bool debugMode)
+    public static bool UseApiExceptionHandler(this IApplicationBuilder app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
+            Console.WriteLine($"{nameof(UseApiExceptionHandler)} Started");
 
         app.UseExceptionHandler(exceptionHandlerApp =>
         {
@@ -56,7 +56,7 @@ public sealed class ApiExceptionHandlerInstaller : IInstaller
         });
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+            Console.WriteLine($"{nameof(UseApiExceptionHandler)} Finished");
 
         return true;
     }
