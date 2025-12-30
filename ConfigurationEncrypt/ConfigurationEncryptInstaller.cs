@@ -4,17 +4,11 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using SystemToolsShared;
 
-//using WebInstallers;
-
 namespace ConfigurationEncrypt;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public static class ConfigurationEncryptInstaller // : IInstaller
+public static class ConfigurationEncryptInstaller
 {
-    //public const string AppKeyKey = nameof(AppKeyKey);
-    //public int InstallPriority => 10;
-    //public int ServiceUsePriority => 10;
-
     public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, bool debugMode,
         string appKey)
     {
@@ -44,9 +38,4 @@ public static class ConfigurationEncryptInstaller // : IInstaller
 
         return true;
     }
-
-    //public bool UseServices(WebApplication app, bool debugMode)
-    //{
-    //    return true;
-    //}
 }
