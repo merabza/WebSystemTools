@@ -8,7 +8,7 @@ using MediatRMessagingAbstractions;
 using OneOf;
 using SystemToolsShared.Errors;
 
-namespace FluentValidationInstaller;
+namespace ValidationTools;
 
 public sealed class
     ValidationBehavior<TCommandOrQuery, TResponse> : IPipelineBehavior<TCommandOrQuery, OneOf<TResponse, Err[]>>

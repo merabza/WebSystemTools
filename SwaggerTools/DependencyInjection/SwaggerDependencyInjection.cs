@@ -6,38 +6,22 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
 using SystemToolsShared;
 
-//using WebInstallers;
-
-namespace SwaggerTools;
+namespace SwaggerTools.DependencyInjection;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public static class SwaggerInstaller // : IInstaller
+public static class SwaggerDependencyInjection
 {
-    //public const string AppNameKey = nameof(AppNameKey);
-    //public const string VersionCountKey = nameof(VersionCountKey);
-    //public const string UseSwaggerWithJwtBearerKey = nameof(UseSwaggerWithJwtBearerKey);
-
-    //private Dictionary<string, string>? _parameters;
-    //public int InstallPriority => 25;
-    //public int ServiceUsePriority => 0;
 
     public static IServiceCollection AddSwagger(this IServiceCollection services, bool debugMode,
         bool useSwaggerWithJwtBearer, int versionCount = 1, string? applicationName = null)
     {
-        //_parameters = parameters;
-
         if (debugMode)
             Console.WriteLine($"{nameof(AddSwagger)} Started");
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        //builder.Services.AddSwaggerGen();
 
         var appName = applicationName ?? StShared.GetMainModuleFileName();
-
-        //var versionCount = GetVersionCount(parameters);
-
-        //var useSwaggerWithJwtBearer = parameters.ContainsKey(UseSwaggerWithJwtBearerKey);
 
         services.AddSwaggerGen(x =>
         {
@@ -65,20 +49,6 @@ public static class SwaggerInstaller // : IInstaller
             oas.Add(b, [nameof(ReferenceType.SecurityScheme)]);
 
             x.AddSecurityRequirement(_ => oas);
-
-            //x.AddSecurityRequirement(new OpenApiSecurityRequirement
-            //{
-            //    {
-            //        new OpenApiSecurityScheme
-            //        {
-            //            Reference = new OpenApiReference
-            //            {
-            //                Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme
-            //            }
-            //        },
-            //        Array.Empty<string>()
-            //    }
-            //});
         });
 
         if (debugMode)
@@ -96,8 +66,6 @@ public static class SwaggerInstaller // : IInstaller
             return true;
         app.UseSwagger();
 
-        //var versionCount = GetVersionCount(_parameters);
-
         app.UseSwaggerUI(config =>
         {
             for (var version = 1; version <= versionCount; version++)
@@ -112,16 +80,4 @@ public static class SwaggerInstaller // : IInstaller
 
         return true;
     }
-
-    //private static int GetVersionCount(Dictionary<string, string>? parameters)
-    //{
-    //    var versionCount = 1;
-    //    if (parameters is null || !parameters.TryGetValue(VersionCountKey, out var parameter))
-    //        return versionCount;
-
-    //    if (int.TryParse(parameter, out var vc))
-    //        versionCount = vc;
-
-    //    return versionCount;
-    //}
 }

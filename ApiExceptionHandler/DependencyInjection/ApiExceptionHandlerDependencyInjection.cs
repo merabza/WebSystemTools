@@ -7,22 +7,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SystemToolsShared.Errors;
 
-//using WebInstallers;
-
-namespace ApiExceptionHandler;
+namespace ApiExceptionHandler.DependencyInjection;
 
 // ReSharper disable once UnusedType.Global
-public static class ApiExceptionHandlerInstaller // : IInstaller
+public static class ApiExceptionHandlerDependencyInjection
 {
-    //public int InstallPriority => 30;
-    //public int ServiceUsePriority => 30;
-
-    //public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-    //    Dictionary<string, string> parameters)
-    //{
-    //    return true;
-    //}
-
     public static bool UseApiExceptionHandler(this IApplicationBuilder app, bool debugMode)
     {
         if (debugMode)

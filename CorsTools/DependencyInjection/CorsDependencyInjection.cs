@@ -1,57 +1,53 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebInstallers;
 
-namespace CorsTools;
+namespace CorsTools.DependencyInjection;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class CorsInstaller : IInstaller
+public static class CorsDependencyInjection
 {
     public const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-    public int InstallPriority => 15;
-    public int ServiceUsePriority => 35;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
+    public static IServiceCollection AddCorsService(this IServiceCollection services, IConfiguration configuration,
+        bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
+            Console.WriteLine($"{nameof(AddCorsService)} Started");
 
-        var corsSettings = builder.Configuration.GetSection("CorsSettings");
+        var corsSettings = configuration.GetSection("CorsSettings");
 
         var originsSection = corsSettings.GetChildren().SingleOrDefault(s => s.Key == "Origins");
 
         if (originsSection is null)
-            return true;
+            return services;
 
         //.WithOrigins("*")//* არ გამოდგება sygnalR-სთვის
-        builder.Services.AddCors(options =>
+        services.AddCors(options =>
         {
             var origins = (from child in originsSection.GetChildren() where child.Value is not null select child.Value)
                 .ToArray();
             options.AddPolicy(MyAllowSpecificOrigins,
                 policy => policy.WithOrigins(origins).AllowAnyHeader().AllowAnyMethod());
-            //.AllowCredentials()
         });
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
+            Console.WriteLine($"{nameof(AddCorsService)} Finished");
 
-        return true;
+        return services;
     }
 
-    public bool UseServices(WebApplication app, bool debugMode)
+    public static bool UseCorsService(this IApplicationBuilder app, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
+            Console.WriteLine($"{nameof(UseCorsService)} Started");
 
         app.UseCors(MyAllowSpecificOrigins);
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+            Console.WriteLine($"{nameof(UseCorsService)} Finished");
 
         return true;
     }

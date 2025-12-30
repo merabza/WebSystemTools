@@ -3,8 +3,10 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -12,21 +14,11 @@ using SystemToolsShared;
 using TestApiContracts.V1.Routes;
 using TestToolsData.Models;
 
-//using WebInstallers;
-
 namespace TestToolsApi.Endpoints.V1;
 
 // ReSharper disable once UnusedType.Global
 public static class TestEndpoints // : IInstaller
 {
-    //public int InstallPriority => 70;
-    //public int ServiceUsePriority => 70;
-
-    //public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-    //    Dictionary<string, string> parameters)
-    //{
-    //    return true;
-    //}
 
     public static bool UseTestEndpoints(this IEndpointRouteBuilder endpoints, bool debugMode)
     {
