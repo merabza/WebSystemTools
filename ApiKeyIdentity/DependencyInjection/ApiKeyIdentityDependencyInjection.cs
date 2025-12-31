@@ -8,20 +8,17 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 //using WebInstallers;
 
-namespace ApiKeyIdentity.Installers;
+namespace ApiKeyIdentity.DependencyInjection;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 
 // ReSharper disable once UnusedType.Global
-public static class ApiKeysInstaller // : IInstaller
+public static class ApiKeyIdentityDependencyInjection // : IInstaller
 {
-    //public int InstallPriority => 30;
-    //public int ServiceUsePriority => 30;
-
-    public static IServiceCollection AddApiKeyAuthentication(this IServiceCollection services, bool debugMode)
+    public static IServiceCollection AddApiKeyIdentity(this IServiceCollection services, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{nameof(AddApiKeyAuthentication)} Started");
+            Console.WriteLine($"{nameof(AddApiKeyIdentity)} Started");
 
         services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<ICurrentUserByApiKey, CurrentUserByApiKey>();
@@ -36,7 +33,7 @@ public static class ApiKeysInstaller // : IInstaller
         services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
         if (debugMode)
-            Console.WriteLine($"{nameof(AddApiKeyAuthentication)} Finished");
+            Console.WriteLine($"{nameof(AddApiKeyIdentity)} Finished");
 
         return services;
     }
