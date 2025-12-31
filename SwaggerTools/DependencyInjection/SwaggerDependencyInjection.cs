@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
 using SystemToolsShared;
 
@@ -11,7 +10,6 @@ namespace SwaggerTools.DependencyInjection;
 // ReSharper disable once ClassNeverInstantiated.Global
 public static class SwaggerDependencyInjection
 {
-
     public static IServiceCollection AddSwagger(this IServiceCollection services, bool debugMode,
         bool useSwaggerWithJwtBearer, int versionCount = 1, string? applicationName = null)
     {
@@ -57,13 +55,17 @@ public static class SwaggerDependencyInjection
         return services;
     }
 
-    public static bool UseSwaggerServices(this WebApplication app, bool debugMode, int versionCount = 1)
+    public static bool UseSwaggerServices(this IApplicationBuilder app, bool debugMode, int versionCount = 1)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(UseSwaggerServices)} Started");
+        switch (debugMode)
+        {
+            case true:
+                Console.WriteLine($"{nameof(UseSwaggerServices)} Started");
+                break;
+            case false:
+                return true;
+        }
 
-        if (!app.Environment.IsDevelopment())
-            return true;
         app.UseSwagger();
 
         app.UseSwaggerUI(config =>
