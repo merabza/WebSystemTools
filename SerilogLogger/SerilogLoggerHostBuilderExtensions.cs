@@ -9,7 +9,7 @@ using Serilog;
 namespace SerilogLogger;
 
 // ReSharper disable once UnusedType.Global
-public static class SerilogLoggerInstaller
+public static class SerilogLoggerHostBuilderExtensions
 {
     public static bool UseSerilogLogger(this IHostBuilder hostBuilder, IConfiguration configuration, bool debugMode)
     {

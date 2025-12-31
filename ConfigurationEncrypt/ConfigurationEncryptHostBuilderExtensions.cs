@@ -7,7 +7,7 @@ using SystemToolsShared;
 namespace ConfigurationEncrypt;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public static class ConfigurationEncryptInstaller
+public static class ConfigurationEncryptHostBuilderExtensions
 {
     public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, bool debugMode,
         string appKey)

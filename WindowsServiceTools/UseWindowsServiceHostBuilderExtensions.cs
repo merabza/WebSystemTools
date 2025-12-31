@@ -7,7 +7,7 @@ using SystemToolsShared;
 namespace WindowsServiceTools;
 
 // ReSharper disable once UnusedType.Global
-public static class UseWindowsServiceInstaller
+public static class UseWindowsServiceHostBuilderExtensions
 {
     public static bool UseWindowsServiceOnWindows(this IHostBuilder hostBuilder, bool debugMode, string[] args)
     {
