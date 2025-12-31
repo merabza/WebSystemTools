@@ -7,11 +7,8 @@ using SystemToolsShared;
 namespace WindowsServiceTools;
 
 // ReSharper disable once UnusedType.Global
-public static class UseWindowsServiceInstaller
+public static class UseWindowsServiceHostBuilderExtensions
 {
-    //public int InstallPriority => 30;
-    //public int ServiceUsePriority => 30;
-
     public static bool UseWindowsServiceOnWindows(this IHostBuilder hostBuilder, bool debugMode, string[] args)
     {
         if (debugMode)

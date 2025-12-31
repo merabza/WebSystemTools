@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,34 +6,24 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.Routing;
 using ReCounterContracts.V1.Routes;
 using ReCounterDom;
 using SignalRRecounterMessages.CommandRequests;
 using SignalRRecounterMessages.Handlers;
 using SignalRRecounterMessages.QueryRequests;
-using WebInstallers;
 
 namespace SignalRRecounterMessages.Endpoints.V1;
 
 // ReSharper disable once UnusedType.Global
-public sealed class ReCounterMessagesEndpoints : IInstaller
+public static class ReCounterMessagesEndpoints
 {
-    public int InstallPriority => 70;
-
-    public int ServiceUsePriority => 70;
-
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
-        Dictionary<string, string> parameters)
-    {
-        return true;
-    }
-
-    public bool UseServices(WebApplication app, bool debugMode)
+    public static bool MapReCounterMessagesEndpoints(this IEndpointRouteBuilder endpoints, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Started");
+            Console.WriteLine($"{nameof(MapReCounterMessagesEndpoints)} Started");
 
-        var group = app.MapGroup(RecountMessagesRoutes.ApiBase + RecountMessagesRoutes.ReCounterRoute.Recounter)
+        var group = endpoints.MapGroup(RecountMessagesRoutes.ApiBase + RecountMessagesRoutes.ReCounterRoute.Recounter)
             .RequireAuthorization();
 
         group.MapHub<ReCounterMessagesHub>(RecountMessagesRoutes.ReCounterRoute.Messages,
@@ -49,7 +38,7 @@ public sealed class ReCounterMessagesEndpoints : IInstaller
         // POST api/v1/recounter/clearredundantlemmas
 
         if (debugMode)
-            Console.WriteLine($"{GetType().Name}.{nameof(UseServices)} Finished");
+            Console.WriteLine($"{nameof(MapReCounterMessagesEndpoints)} Finished");
 
         return true;
     }

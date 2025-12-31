@@ -3,10 +3,8 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -17,7 +15,7 @@ using TestToolsData.Models;
 namespace TestToolsApi.Endpoints.V1;
 
 // ReSharper disable once UnusedType.Global
-public static class TestEndpoints // : IInstaller
+public static class TestEndpoints
 {
 
     public static bool UseTestEndpoints(this IEndpointRouteBuilder endpoints, bool debugMode)
