@@ -9,7 +9,11 @@
     <ItemGroup>
         <ProjectReference Include="..\..\SystemTools\StringMessagesApiContracts\StringMessagesApiContracts.csproj" />
         <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
-        <ProjectReference Include="..\WebInstallers\WebInstallers.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
 
 </Project>
