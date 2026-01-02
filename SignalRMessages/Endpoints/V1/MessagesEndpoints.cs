@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Routing;
 namespace SignalRMessages.Endpoints.V1;
 
 // ReSharper disable once UnusedType.Global
-public static class MessagesEndpoints// : IInstaller
+public static class MessagesEndpoints
 {
     public static bool UseSignalRMessagesHub(this IEndpointRouteBuilder endpoints, bool debugMode)
     {

@@ -6,14 +6,11 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-//using WebInstallers;
-
 namespace ApiKeyIdentity.DependencyInjection;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-
 // ReSharper disable once UnusedType.Global
-public static class ApiKeyIdentityDependencyInjection // : IInstaller
+public static class ApiKeyIdentityDependencyInjection
 {
     public static IServiceCollection AddApiKeyIdentity(this IServiceCollection services, bool debugMode)
     {

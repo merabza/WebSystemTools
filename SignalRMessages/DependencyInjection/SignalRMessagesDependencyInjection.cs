@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using SystemToolsShared;
 
-namespace SignalRMessages.Installers;
+namespace SignalRMessages.DependencyInjection;
 
 // ReSharper disable once UnusedType.Global
-public static class SignalRMessagesInstaller
+public static class SignalRMessagesDependencyInjection
 {
     public static IServiceCollection AddSignalRMessages(this IServiceCollection services, bool debugMode)
     {
