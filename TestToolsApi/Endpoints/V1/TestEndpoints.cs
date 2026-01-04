@@ -50,7 +50,7 @@ public static class TestEndpoints
     }
 
     // GET api/v1/test/getip
-    private static IResult GetIp([FromServices] ILogger logger, HttpRequest request)
+    private static IResult GetIp([FromServices] ILogger<Api> logger, HttpRequest request)
     {
         var ret = $"{request.HttpContext.Connection.RemoteIpAddress} {Assembly.GetEntryAssembly()?.GetName().Version}";
         logger.LogInformation("Test from {ret}", ret);
@@ -58,7 +58,7 @@ public static class TestEndpoints
     }
 
     // GET api/v1/test/getversion
-    private static IResult Version([FromServices] ILogger logger)
+    private static IResult Version([FromServices] ILogger<Api> logger)
     {
         var ret = Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
         logger.LogInformation("Version Test {ret}", ret);
@@ -67,7 +67,7 @@ public static class TestEndpoints
 
     // GET api/v1/test/getappsettingsversion
     //[HttpGet(TestApiRoutes.Test.GetAppSettingsVersion)]
-    private static IResult AppSettingsVersion([FromServices] ILogger logger, IConfiguration config)
+    private static IResult AppSettingsVersion([FromServices] ILogger<Api> logger, IConfiguration config)
     {
         var versionInfo = VersionInfo.Create(config);
         var ret = versionInfo is null ? "Version not detected" : versionInfo.AppSettingsVersion;
