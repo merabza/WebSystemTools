@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\AppGrammarGe\SystemTools\MediatRMessagingAbstractions\MediatRMessagingAbstractions.csproj" />
-    <ProjectReference Include="..\..\..\AppGrammarGe\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
   </ItemGroup>
 
 </Project>
