@@ -9,7 +9,7 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
+      <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
     </ItemGroup>
 
 </Project>
