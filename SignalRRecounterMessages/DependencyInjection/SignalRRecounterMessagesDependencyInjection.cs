@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using ReCounterDom;
+using ReCounterAbstraction;
 
 namespace SignalRRecounterMessages.DependencyInjection;
 

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using MediatRMessagingAbstractions;
 using OneOf;
+using ReCounterAbstraction;
 using ReCounterContracts;
-using ReCounterDom;
 using SignalRRecounterMessages.QueryRequests;
 using SystemToolsShared.Errors;
 

@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using ReCounterAbstraction;
 using ReCounterContracts;
-using ReCounterDom;
 
 namespace SignalRRecounterMessages;
 
@@ -33,6 +33,8 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         _logger = logger;
     }
 
+    public ProgressData? AccumulatedProgressData { get; private set; }
+
     public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
@@ -44,8 +46,6 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         GC.SuppressFinalize(this);
         _timer?.Dispose();
     }
-
-    public ProgressData? AccumulatedProgressData { get; private set; }
 
     public void UserConnected(string connectionId, string? userName)
     {

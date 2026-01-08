@@ -7,12 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="MediatR" Version="14.0.0" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\SystemTools\MediatRMessagingAbstractions\MediatRMessagingAbstractions.csproj" />
-        <ProjectReference Include="..\..\SystemTools\ReCounterDom\ReCounterDom.csproj" />
+        <ProjectReference Include="..\..\SystemTools\ReCounterAbstraction\ReCounterAbstraction.csproj" />
+        <ProjectReference Include="..\..\SystemTools\ReCounterContracts\ReCounterContracts.csproj" />
     </ItemGroup>
 
 </Project>

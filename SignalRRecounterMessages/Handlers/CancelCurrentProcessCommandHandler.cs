@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatRMessagingAbstractions;
 using OneOf;
-using ReCounterDom;
+using ReCounterAbstraction;
 using SignalRRecounterMessages.CommandRequests;
 using SystemToolsShared.Errors;
 
