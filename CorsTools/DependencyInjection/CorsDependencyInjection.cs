@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace CorsTools.DependencyInjection;
 
@@ -11,11 +12,11 @@ public static class CorsDependencyInjection
 {
     public const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-    public static IServiceCollection AddCorsService(this IServiceCollection services, IConfiguration configuration,
+    public static IServiceCollection AddCorsService(this IServiceCollection services, ILogger logger, IConfiguration configuration,
         bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{nameof(AddCorsService)} Started");
+            logger.Information("{MethodName} Started", nameof(AddCorsService));
 
         var corsSettings = configuration.GetSection("CorsSettings");
 
@@ -34,20 +35,20 @@ public static class CorsDependencyInjection
         });
 
         if (debugMode)
-            Console.WriteLine($"{nameof(AddCorsService)} Finished");
+            logger.Information("{MethodName} Finished", nameof(AddCorsService));
 
         return services;
     }
 
-    public static bool UseCorsService(this IApplicationBuilder app, bool debugMode)
+    public static bool UseCorsService(this IApplicationBuilder app, ILogger logger, bool debugMode)
     {
         if (debugMode)
-            Console.WriteLine($"{nameof(UseCorsService)} Started");
+            logger.Information("{MethodName} Started", nameof(UseCorsService));
 
         app.UseCors(MyAllowSpecificOrigins);
 
         if (debugMode)
-            Console.WriteLine($"{nameof(UseCorsService)} Finished");
+            logger.Information("{MethodName} Finished", nameof(UseCorsService));
 
         return true;
     }
