@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +11,8 @@ public static class CorsDependencyInjection
 {
     public const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-    public static IServiceCollection AddCorsService(this IServiceCollection services, ILogger logger, IConfiguration configuration,
-        bool debugMode)
+    public static IServiceCollection AddCorsService(this IServiceCollection services, ILogger logger,
+        IConfiguration configuration, bool debugMode)
     {
         if (debugMode)
             logger.Information("{MethodName} Started", nameof(AddCorsService));

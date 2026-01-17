@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 using SystemToolsShared;
 
 namespace ConfigurationEncrypt;
@@ -9,11 +10,11 @@ namespace ConfigurationEncrypt;
 // ReSharper disable once ClassNeverInstantiated.Global
 public static class ConfigurationEncryptHostBuilderExtensions
 {
-    public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, bool debugMode,
+    public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, ILogger logger, bool debugMode,
         string appKey)
     {
         if (debugMode)
-            Console.WriteLine($"{nameof(AddConfigurationEncryption)} Started");
+            logger.Information($"{nameof(AddConfigurationEncryption)} Started");
 
         var key = appKey + Environment.MachineName.Capitalize();
 
@@ -34,7 +35,7 @@ public static class ConfigurationEncryptHostBuilderExtensions
         configurationBuilder.AddConfiguration(config);
 
         if (debugMode)
-            Console.WriteLine($"{nameof(AddConfigurationEncryption)} Finished");
+            logger.Information($"{nameof(AddConfigurationEncryption)} Finished");
 
         return true;
     }

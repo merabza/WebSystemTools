@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using SystemToolsShared;
 
 namespace WindowsServiceTools;
@@ -9,10 +10,10 @@ namespace WindowsServiceTools;
 // ReSharper disable once UnusedType.Global
 public static class UseWindowsServiceHostBuilderExtensions
 {
-    public static bool UseWindowsServiceOnWindows(this IHostBuilder hostBuilder, bool debugMode, string[] args)
+    public static bool UseWindowsServiceOnWindows(this IHostBuilder hostBuilder, ILogger logger, bool debugMode, string[] args)
     {
         if (debugMode)
-            Console.WriteLine($"{nameof(UseWindowsServiceOnWindows)} Started");
+            logger.Information($"{nameof(UseWindowsServiceOnWindows)} Started");
 
         //ასე გადაკეთება საჭიროა იმისათვის, რომ შესაძლებელი იყოს
         //პროგრამის გაშვება, როგორც კონსოლიდან,
@@ -23,7 +24,7 @@ public static class UseWindowsServiceHostBuilderExtensions
             hostBuilder.UseWindowsService();
 
         if (debugMode)
-            Console.WriteLine($"{nameof(UseWindowsServiceOnWindows)} Finished");
+            logger.Information($"{nameof(UseWindowsServiceOnWindows)} Finished");
 
         return true;
     }
