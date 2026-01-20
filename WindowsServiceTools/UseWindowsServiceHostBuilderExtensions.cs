@@ -1,16 +1,16 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using SystemToolsShared;
+using SystemTools.SystemToolsShared;
 
 namespace WindowsServiceTools;
 
 // ReSharper disable once UnusedType.Global
 public static class UseWindowsServiceHostBuilderExtensions
 {
-    public static bool UseWindowsServiceOnWindows(this IHostBuilder hostBuilder, ILogger logger, bool debugMode, string[] args)
+    public static bool UseWindowsServiceOnWindows(this IHostBuilder hostBuilder, ILogger logger, bool debugMode,
+        string[] args)
     {
         if (debugMode)
             logger.Information($"{nameof(UseWindowsServiceOnWindows)} Started");

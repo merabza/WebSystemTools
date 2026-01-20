@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using SystemToolsShared;
-using TestApiContracts.V1.Routes;
+using SystemTools.SystemToolsShared;
+using SystemTools.TestApiContracts.V1.Routes;
 using TestToolsData.Models;
 
 namespace TestToolsApi.Endpoints.V1;
@@ -17,7 +17,6 @@ namespace TestToolsApi.Endpoints.V1;
 // ReSharper disable once UnusedType.Global
 public static class TestEndpoints
 {
-
     public static bool UseTestEndpoints(this IEndpointRouteBuilder endpoints, bool debugMode)
     {
         if (debugMode)

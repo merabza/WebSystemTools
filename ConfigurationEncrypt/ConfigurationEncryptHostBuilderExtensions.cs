@@ -3,15 +3,15 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using SystemToolsShared;
+using SystemTools.SystemToolsShared;
 
 namespace ConfigurationEncrypt;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public static class ConfigurationEncryptHostBuilderExtensions
 {
-    public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, ILogger logger, bool debugMode,
-        string appKey)
+    public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, ILogger logger,
+        bool debugMode, string appKey)
     {
         if (debugMode)
             logger.Information($"{nameof(AddConfigurationEncryption)} Started");

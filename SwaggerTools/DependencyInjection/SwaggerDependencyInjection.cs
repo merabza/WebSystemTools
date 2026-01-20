@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
-using SystemToolsShared;
+using SystemTools.SystemToolsShared;
 
 namespace SwaggerTools.DependencyInjection;
 
