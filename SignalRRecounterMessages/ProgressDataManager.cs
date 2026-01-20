@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using ReCounterAbstraction;
+using SystemTools.ReCounterAbstraction;
 using SystemTools.ReCounterContracts;
 
 namespace SignalRRecounterMessages;
