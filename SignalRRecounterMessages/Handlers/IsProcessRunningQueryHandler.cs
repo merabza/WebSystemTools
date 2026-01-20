@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatRMessagingAbstractions;
 using OneOf;
 using ReCounterAbstraction;
 using SignalRRecounterMessages.QueryRequests;
-using SystemToolsShared.Errors;
+using SystemTools.MediatRMessagingAbstractions;
+using SystemTools.SystemToolsShared.Errors;
 
 namespace SignalRRecounterMessages.Handlers;
 

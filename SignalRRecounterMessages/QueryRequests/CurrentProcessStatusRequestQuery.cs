@@ -1,5 +1,5 @@
-﻿using MediatRMessagingAbstractions;
-using ReCounterContracts;
+﻿using SystemTools.MediatRMessagingAbstractions;
+using SystemTools.ReCounterContracts;
 
 namespace SignalRRecounterMessages.QueryRequests;
 
