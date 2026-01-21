@@ -15,9 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\SystemTools\MediatRMessagingAbstractions\MediatRMessagingAbstractions.csproj" />
-        <ProjectReference Include="..\..\SystemTools\ReCounterAbstraction\ReCounterAbstraction.csproj" />
-        <ProjectReference Include="..\..\SystemTools\ReCounterContracts\ReCounterContracts.csproj" />
         <ProjectReference Include="..\..\SystemTools\SystemTools.MediatRMessagingAbstractions\SystemTools.MediatRMessagingAbstractions.csproj" />
         <ProjectReference Include="..\..\SystemTools\SystemTools.ReCounterAbstraction\SystemTools.ReCounterAbstraction.csproj" />
     </ItemGroup>

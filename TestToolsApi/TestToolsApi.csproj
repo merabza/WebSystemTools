@@ -8,7 +8,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\SystemTools\SystemTools.TestApiContracts\SystemTools.TestApiContracts.csproj" />
-        <ProjectReference Include="..\..\SystemTools\TestApiContracts\TestApiContracts.csproj" />
         <ProjectReference Include="..\TestToolsData\TestToolsData.csproj" />
     </ItemGroup>
     <ItemGroup>
