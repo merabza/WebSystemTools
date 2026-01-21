@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using StringMessagesApiContracts;
-using SystemToolsShared;
+using SystemTools.StringMessagesApiContracts;
+using SystemTools.SystemToolsShared;
 
 namespace SignalRMessages;
 

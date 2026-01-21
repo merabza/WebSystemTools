@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using SystemToolsShared;
+using SystemTools.SystemToolsShared;
 
 namespace SignalRMessages.DependencyInjection;
 

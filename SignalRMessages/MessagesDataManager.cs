@@ -2,14 +2,14 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using StringMessagesApiContracts;
-using SystemToolsShared;
+using SystemTools.StringMessagesApiContracts;
+using SystemTools.SystemToolsShared;
 
 namespace SignalRMessages;
 
 public sealed class MessagesDataManager : IMessagesDataManager
 {
-    private readonly Dictionary<string, List<string>> _connectedUsers = [];
+    private readonly Dictionary<string, List<string>> _connectedUsers = new();
     private readonly IHubContext<MessagesHub, IMessenger> _hub;
 
     // ReSharper disable once ConvertToPrimaryConstructor
