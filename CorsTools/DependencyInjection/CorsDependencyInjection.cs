@@ -11,11 +11,10 @@ public static class CorsDependencyInjection
 {
     public const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-    public static IServiceCollection AddCorsService(this IServiceCollection services, ILogger logger,
-        IConfiguration configuration, bool debugMode)
+    public static IServiceCollection AddCorsService(this IServiceCollection services, ILogger? debugLogger,
+        IConfiguration configuration)
     {
-        if (debugMode)
-            logger.Information("{MethodName} Started", nameof(AddCorsService));
+        debugLogger?.Information("{MethodName} Started", nameof(AddCorsService));
 
         var corsSettings = configuration.GetSection("CorsSettings");
 
@@ -33,21 +32,18 @@ public static class CorsDependencyInjection
                 policy => policy.WithOrigins(origins).AllowAnyHeader().AllowAnyMethod());
         });
 
-        if (debugMode)
-            logger.Information("{MethodName} Finished", nameof(AddCorsService));
+        debugLogger?.Information("{MethodName} Finished", nameof(AddCorsService));
 
         return services;
     }
 
-    public static bool UseCorsService(this IApplicationBuilder app, ILogger logger, bool debugMode)
+    public static bool UseCorsService(this IApplicationBuilder app, ILogger? debugLogger)
     {
-        if (debugMode)
-            logger.Information("{MethodName} Started", nameof(UseCorsService));
+        debugLogger?.Information("{MethodName} Started", nameof(UseCorsService));
 
         app.UseCors(MyAllowSpecificOrigins);
 
-        if (debugMode)
-            logger.Information("{MethodName} Finished", nameof(UseCorsService));
+        debugLogger?.Information("{MethodName} Finished", nameof(UseCorsService));
 
         return true;
     }

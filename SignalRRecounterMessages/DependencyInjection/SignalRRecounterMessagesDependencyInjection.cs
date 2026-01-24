@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using SystemTools.ReCounterAbstraction;
 
 namespace SignalRRecounterMessages.DependencyInjection;
@@ -7,10 +7,9 @@ namespace SignalRRecounterMessages.DependencyInjection;
 // ReSharper disable once UnusedType.Global
 public static class SignalRRecounterMessagesDependencyInjection
 {
-    public static IServiceCollection AddSignalRRecounterMessages(this IServiceCollection services, bool debugMode)
+    public static IServiceCollection AddSignalRRecounterMessages(this IServiceCollection services, ILogger? debugLogger)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddSignalRRecounterMessages)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(AddSignalRRecounterMessages));
 
         services.AddSingleton<IProgressDataManager, ProgressDataManager>();
 
@@ -18,8 +17,7 @@ public static class SignalRRecounterMessagesDependencyInjection
             .AddJsonProtocol(options => { options.PayloadSerializerOptions.PropertyNamingPolicy = null; })
             .AddHubOptions<ReCounterMessagesHub>(options => { options.EnableDetailedErrors = true; });
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddSignalRRecounterMessages)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(AddSignalRRecounterMessages));
 
         return services;
     }

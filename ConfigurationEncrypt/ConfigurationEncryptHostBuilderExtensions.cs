@@ -10,11 +10,10 @@ namespace ConfigurationEncrypt;
 // ReSharper disable once ClassNeverInstantiated.Global
 public static class ConfigurationEncryptHostBuilderExtensions
 {
-    public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, ILogger logger,
-        bool debugMode, string appKey)
+    public static bool AddConfigurationEncryption(this IConfigurationBuilder configurationBuilder, ILogger? debugLogger,
+        string appKey)
     {
-        if (debugMode)
-            logger.Information($"{nameof(AddConfigurationEncryption)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(AddConfigurationEncryption));
 
         var key = appKey + Environment.MachineName.Capitalize();
 
@@ -34,8 +33,7 @@ public static class ConfigurationEncryptHostBuilderExtensions
                 Path.Combine(pathToContentRoot, "appsetenkeys.json")).Build();
         configurationBuilder.AddConfiguration(config);
 
-        if (debugMode)
-            logger.Information($"{nameof(AddConfigurationEncryption)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(AddConfigurationEncryption));
 
         return true;
     }

@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
+using Serilog;
 using SystemTools.SystemToolsShared;
 
 namespace SwaggerTools.DependencyInjection;
@@ -10,11 +10,13 @@ namespace SwaggerTools.DependencyInjection;
 // ReSharper disable once ClassNeverInstantiated.Global
 public static class SwaggerDependencyInjection
 {
-    public static IServiceCollection AddSwagger(this IServiceCollection services, bool debugMode,
+    public static IServiceCollection AddSwagger(this IServiceCollection services, ILogger? debugLogger,
         bool useSwaggerWithJwtBearer, int versionCount = 1, string? applicationName = null)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddSwagger)} Started");
+        if (debugLogger is not null)
+            debugLogger.Information("{MethodName} Started", nameof(AddSwagger));
+        else
+            return services;
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
@@ -49,22 +51,17 @@ public static class SwaggerDependencyInjection
             x.AddSecurityRequirement(_ => oas);
         });
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddSwagger)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(AddSwagger));
 
         return services;
     }
 
-    public static bool UseSwaggerServices(this IApplicationBuilder app, bool debugMode, int versionCount = 1)
+    public static bool UseSwaggerServices(this IApplicationBuilder app, ILogger? debugLogger, int versionCount = 1)
     {
-        switch (debugMode)
-        {
-            case true:
-                Console.WriteLine($"{nameof(UseSwaggerServices)} Started");
-                break;
-            case false:
-                return true;
-        }
+        if (debugLogger is not null)
+            debugLogger.Information("{MethodName} Started", nameof(UseSwaggerServices));
+        else
+            return true;
 
         app.UseSwagger();
 
@@ -77,8 +74,7 @@ public static class SwaggerDependencyInjection
             }
         });
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(UseSwaggerServices)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(UseSwaggerServices));
 
         return true;
     }

@@ -2,17 +2,17 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace MediatorTools.DependencyInjection;
 
 // ReSharper disable once UnusedType.Global
 public static class MediatorDependencyInjection
 {
-    public static IServiceCollection AddMediator(this IServiceCollection services, IConfiguration configuration,
-        bool debugMode, params Assembly[] assemblies)
+    public static IServiceCollection AddMediator(this IServiceCollection services, ILogger? debugLogger,
+        IConfiguration configuration, params Assembly[] assemblies)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddMediator)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(AddMediator));
 
         var mediatRSettings = configuration.GetSection("MediatRLicenseKey");
 
@@ -25,8 +25,7 @@ public static class MediatorDependencyInjection
             foreach (var assembly in assemblies) cfg.RegisterServicesFromAssembly(assembly);
         });
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddMediator)} Finished ");
+        debugLogger?.Information("{MethodName} Finished", nameof(AddMediator));
 
         return services;
     }

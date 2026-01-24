@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 using SystemTools.SystemToolsShared.Errors;
 
 namespace ApiExceptionHandler.DependencyInjection;
@@ -12,10 +13,9 @@ namespace ApiExceptionHandler.DependencyInjection;
 // ReSharper disable once UnusedType.Global
 public static class ApiExceptionHandlerDependencyInjection
 {
-    public static bool UseApiExceptionHandler(this IApplicationBuilder app, bool debugMode)
+    public static bool UseApiExceptionHandler(this IApplicationBuilder app, ILogger? debugLogger)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(UseApiExceptionHandler)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(UseApiExceptionHandler));
 
         app.UseExceptionHandler(exceptionHandlerApp =>
         {
@@ -44,8 +44,7 @@ public static class ApiExceptionHandlerDependencyInjection
             });
         });
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(UseApiExceptionHandler)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(UseApiExceptionHandler));
 
         return true;
     }

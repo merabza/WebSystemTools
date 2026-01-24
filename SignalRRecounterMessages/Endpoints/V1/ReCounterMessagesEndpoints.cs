@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Routing;
+using Serilog;
 using SignalRRecounterMessages.CommandRequests;
 using SignalRRecounterMessages.Handlers;
 using SignalRRecounterMessages.QueryRequests;
@@ -18,10 +18,9 @@ namespace SignalRRecounterMessages.Endpoints.V1;
 // ReSharper disable once UnusedType.Global
 public static class ReCounterMessagesEndpoints
 {
-    public static bool MapReCounterMessagesEndpoints(this IEndpointRouteBuilder endpoints, bool debugMode)
+    public static bool MapReCounterMessagesEndpoints(this IEndpointRouteBuilder endpoints, ILogger? debugLogger)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(MapReCounterMessagesEndpoints)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(MapReCounterMessagesEndpoints));
 
         var group = endpoints.MapGroup(RecountMessagesRoutes.ApiBase + RecountMessagesRoutes.ReCounterRoute.Recounter)
             .RequireAuthorization();
@@ -37,8 +36,7 @@ public static class ReCounterMessagesEndpoints
         group.MapPost(RecountMessagesRoutes.ReCounterRoute.IsProcessRunning, IsProcessRunning);
         // POST api/v1/recounter/clearredundantlemmas
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(MapReCounterMessagesEndpoints)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(MapReCounterMessagesEndpoints));
 
         return true;
     }

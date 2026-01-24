@@ -11,16 +11,16 @@ using Microsoft.Extensions.Logging;
 using SystemTools.SystemToolsShared;
 using SystemTools.TestApiContracts.V1.Routes;
 using TestToolsData.Models;
+using ILogger = Serilog.ILogger;
 
 namespace TestToolsApi.Endpoints.V1;
 
 // ReSharper disable once UnusedType.Global
 public static class TestEndpoints
 {
-    public static bool UseTestEndpoints(this IEndpointRouteBuilder endpoints, bool debugMode)
+    public static bool UseTestEndpoints(this IEndpointRouteBuilder endpoints, ILogger? debugLogger)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(UseTestEndpoints)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(UseTestEndpoints));
 
         var group = endpoints.MapGroup(TestApiRoutes.ApiBase + TestApiRoutes.Test.TestBase);
 
@@ -30,8 +30,7 @@ public static class TestEndpoints
         group.MapGet(TestApiRoutes.Test.GetAppSettingsVersion, AppSettingsVersion);
         group.MapGet(TestApiRoutes.Test.GetSettings, Settings);
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(UseTestEndpoints)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(UseTestEndpoints));
 
         return true;
     }
