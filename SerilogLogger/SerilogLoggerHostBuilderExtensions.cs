@@ -11,7 +11,7 @@ namespace SerilogLogger;
 // ReSharper disable once UnusedType.Global
 public static class SerilogLoggerHostBuilderExtensions
 {
-    public static ILogger UseSerilogLogger(this IHostBuilder hostBuilder, IConfiguration configuration, bool debugMode)
+    public static ILogger UseSerilogLogger(this IHostBuilder hostBuilder, bool debugMode, IConfiguration configuration)
     {
         if (debugMode)
             Console.WriteLine($"{nameof(UseSerilogLogger)} Started");
