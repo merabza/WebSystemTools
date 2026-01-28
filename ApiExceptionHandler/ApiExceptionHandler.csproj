@@ -9,10 +9,11 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Serilog" Version="4.3.0" />
+        <PackageReference Include="Serilog" Version="4.3.0" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\SystemTools\SystemTools.SystemToolsShared\SystemTools.SystemToolsShared.csproj" />
+        <ProjectReference
+            Include="..\..\SystemTools\SystemTools.SystemToolsShared\SystemTools.SystemToolsShared.csproj" />
     </ItemGroup>
 
 </Project>
