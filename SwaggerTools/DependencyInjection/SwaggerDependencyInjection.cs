@@ -51,7 +51,7 @@ public static class SwaggerDependencyInjection
             x.AddSecurityRequirement(_ => oas);
         });
 
-        debugLogger?.Information("{MethodName} Finished", nameof(AddSwagger));
+        debugLogger.Information("{MethodName} Finished", nameof(AddSwagger));
 
         return services;
     }
