@@ -3,11 +3,11 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using ApiContracts;
-using ApiKeysManagement;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SystemTools.ApiContracts;
+using SystemTools.ApiKeysManagement;
 
 namespace ApiKeyIdentity;
 

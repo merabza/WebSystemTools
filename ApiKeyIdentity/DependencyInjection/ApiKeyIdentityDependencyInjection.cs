@@ -1,10 +1,10 @@
-﻿using System;
-using ApiKeysManagement;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Serilog;
+using SystemTools.ApiKeysManagement;
 
 namespace ApiKeyIdentity.DependencyInjection;
 
@@ -12,10 +12,9 @@ namespace ApiKeyIdentity.DependencyInjection;
 // ReSharper disable once UnusedType.Global
 public static class ApiKeyIdentityDependencyInjection
 {
-    public static IServiceCollection AddApiKeyIdentity(this IServiceCollection services, bool debugMode)
+    public static IServiceCollection AddApiKeyIdentity(this IServiceCollection services, ILogger? debugLogger)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddApiKeyIdentity)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(AddApiKeyIdentity));
 
         services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<ICurrentUserByApiKey, CurrentUserByApiKey>();
@@ -29,21 +28,18 @@ public static class ApiKeyIdentityDependencyInjection
 
         services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddApiKeyIdentity)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(AddApiKeyIdentity));
 
         return services;
     }
 
-    public static bool UseApiKeysAuthorization(this IApplicationBuilder app, bool debugMode)
+    public static bool UseApiKeysAuthorization(this IApplicationBuilder app, ILogger? debugLogger)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(UseApiKeysAuthorization)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(UseApiKeysAuthorization));
 
         app.UseAuthorization();
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(UseApiKeysAuthorization)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(UseApiKeysAuthorization));
 
         return true;
     }

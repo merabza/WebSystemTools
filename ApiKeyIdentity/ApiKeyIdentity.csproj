@@ -13,8 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\SystemTools\ApiContracts\ApiContracts.csproj" />
-        <ProjectReference Include="..\..\SystemTools\ApiKeysManagement\ApiKeysManagement.csproj" />
+        <ProjectReference Include="..\..\SystemTools\SystemTools.ApiContracts\SystemTools.ApiContracts.csproj" />
+        <ProjectReference Include="..\..\SystemTools\SystemTools.ApiKeysManagement\SystemTools.ApiKeysManagement.csproj" />
     </ItemGroup>
 
 </Project>
