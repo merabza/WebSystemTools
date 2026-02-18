@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using SystemTools.SystemToolsShared;
 
 namespace SignalRMessages.DependencyInjection;
@@ -7,18 +7,16 @@ namespace SignalRMessages.DependencyInjection;
 // ReSharper disable once UnusedType.Global
 public static class SignalRMessagesDependencyInjection
 {
-    public static IServiceCollection AddSignalRMessages(this IServiceCollection services, bool debugMode)
+    public static IServiceCollection AddSignalRMessages(this IServiceCollection services, ILogger? debugLogger)
     {
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddSignalRMessages)} Started");
+        debugLogger?.Information("{MethodName} Started", nameof(AddSignalRMessages));
 
         services.AddSingleton<IMessagesDataManager, MessagesDataManager>();
         services.AddSignalR()
             .AddJsonProtocol(options => { options.PayloadSerializerOptions.PropertyNamingPolicy = null; })
             .AddHubOptions<MessagesHub>(options => { options.EnableDetailedErrors = true; });
 
-        if (debugMode)
-            Console.WriteLine($"{nameof(AddSignalRMessages)} Finished");
+        debugLogger?.Information("{MethodName} Finished", nameof(AddSignalRMessages));
 
         return services;
     }
