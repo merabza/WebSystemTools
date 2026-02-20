@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>WebSystemTools</PackageId>
+        <Version>1.0.0</Version>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WebSystemTools.ApiExceptionHandler\WebSystemTools.ApiExceptionHandler.csproj" />
+      <ProjectReference Include="..\WebSystemTools.ApiKeyIdentity\WebSystemTools.ApiKeyIdentity.csproj" />
+      <ProjectReference Include="..\WebSystemTools.ConfigurationEncrypt\WebSystemTools.ConfigurationEncrypt.csproj" />
+      <ProjectReference Include="..\WebSystemTools.CorsTools\WebSystemTools.CorsTools.csproj" />
+      <ProjectReference Include="..\WebSystemTools.MediatorTools\WebSystemTools.MediatorTools.csproj" />
+      <ProjectReference Include="..\WebSystemTools.SerilogLogger\WebSystemTools.SerilogLogger.csproj" />
+      <ProjectReference Include="..\WebSystemTools.SignalRMessages\WebSystemTools.SignalRMessages.csproj" />
+      <ProjectReference Include="..\WebSystemTools.SignalRRecounterMessages\WebSystemTools.SignalRRecounterMessages.csproj" />
+      <ProjectReference Include="..\WebSystemTools.StaticFilesTools\WebSystemTools.StaticFilesTools.csproj" />
+      <ProjectReference Include="..\WebSystemTools.SwaggerTools\WebSystemTools.SwaggerTools.csproj" />
+      <ProjectReference Include="..\WebSystemTools.TestToolsApi\WebSystemTools.TestToolsApi.csproj" />
+      <ProjectReference Include="..\WebSystemTools.TestToolsData\WebSystemTools.TestToolsData.csproj" />
+      <ProjectReference Include="..\WebSystemTools.ValidationTools\WebSystemTools.ValidationTools.csproj" />
+      <ProjectReference Include="..\WebSystemTools.WindowsServiceTools\WebSystemTools.WindowsServiceTools.csproj" />
+    </ItemGroup>
+
+
+</Project>

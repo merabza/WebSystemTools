@@ -1,0 +1,32 @@
+<Solution>
+    <Folder Name="/Solution Items/">
+        <File Path=".editorconfig" />
+        <File Path="Directory.Build.props" />
+        <File Path="Directory.Packages.props" />
+    </Folder>
+    <Folder Name="/SystemTools/">
+        <Project Path="../SystemTools/SystemTools.ApiContracts/SystemTools.ApiContracts.csproj" />
+        <Project Path="../SystemTools/SystemTools.ApiKeysManagement/SystemTools.ApiKeysManagement.csproj" />
+        <Project Path="../SystemTools/SystemTools.MediatRMessagingAbstractions/SystemTools.MediatRMessagingAbstractions.csproj" />
+        <Project Path="../SystemTools/SystemTools.ReCounterAbstraction/SystemTools.ReCounterAbstraction.csproj" />
+        <Project Path="../SystemTools/SystemTools.ReCounterContracts/SystemTools.ReCounterContracts.csproj" />
+        <Project Path="../SystemTools/SystemTools.StringMessagesApiContracts/SystemTools.StringMessagesApiContracts.csproj" />
+        <Project Path="../SystemTools/SystemTools.SystemToolsShared/SystemTools.SystemToolsShared.csproj" />
+        <Project Path="../SystemTools/SystemTools.TestApiContracts/SystemTools.TestApiContracts.csproj" />
+    </Folder>
+    <Project Path="WebSystemTools.ApiExceptionHandler/WebSystemTools.ApiExceptionHandler.csproj" />
+    <Project Path="WebSystemTools.ApiKeyIdentity/WebSystemTools.ApiKeyIdentity.csproj" />
+    <Project Path="WebSystemTools.ConfigurationEncrypt/WebSystemTools.ConfigurationEncrypt.csproj" />
+    <Project Path="WebSystemTools.CorsTools/WebSystemTools.CorsTools.csproj" />
+    <Project Path="WebSystemTools.MediatorTools/WebSystemTools.MediatorTools.csproj" />
+    <Project Path="WebSystemTools.SerilogLogger/WebSystemTools.SerilogLogger.csproj" />
+    <Project Path="WebSystemTools.SignalRMessages/WebSystemTools.SignalRMessages.csproj" />
+    <Project Path="WebSystemTools.SignalRRecounterMessages/WebSystemTools.SignalRRecounterMessages.csproj" />
+    <Project Path="WebSystemTools.StaticFilesTools/WebSystemTools.StaticFilesTools.csproj" />
+    <Project Path="WebSystemTools.SwaggerTools/WebSystemTools.SwaggerTools.csproj" />
+    <Project Path="WebSystemTools.TestToolsApi/WebSystemTools.TestToolsApi.csproj" />
+    <Project Path="WebSystemTools.TestToolsData/WebSystemTools.TestToolsData.csproj" />
+    <Project Path="WebSystemTools.ValidationTools/WebSystemTools.ValidationTools.csproj" />
+    <Project Path="WebSystemTools.WindowsServiceTools/WebSystemTools.WindowsServiceTools.csproj" />
+    <Project Path="WebSystemTools/WebSystemTools.csproj" />
+</Solution>
