@@ -74,7 +74,7 @@ public static class SwaggerDependencyInjection
             }
         });
 
-        debugLogger?.Information("{MethodName} Finished", nameof(UseSwaggerServices));
+        debugLogger.Information("{MethodName} Finished", nameof(UseSwaggerServices));
 
         return true;
     }
