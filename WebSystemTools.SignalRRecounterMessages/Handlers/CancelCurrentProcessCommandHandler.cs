@@ -24,7 +24,8 @@ public sealed class CancelCurrentProcessCommandHandler : ICommandHandler<CancelC
     public async Task<OneOf<bool, Err[]>> Handle(CancelCurrentProcessRequestCommand request,
         CancellationToken cancellationToken)
     {
-        if (_services.GetService(typeof(ReCounterQueuedHostedService)) is not ReCounterQueuedHostedService reCounterQueuedHostedService)
+        if (_services.GetService(typeof(ReCounterQueuedHostedService)) is not ReCounterQueuedHostedService
+            reCounterQueuedHostedService)
         {
             throw new InvalidOperationException(
                 $"Required service {nameof(ReCounterQueuedHostedService)} is not registered.");

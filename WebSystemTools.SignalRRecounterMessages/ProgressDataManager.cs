@@ -13,14 +13,14 @@ namespace WebSystemTools.SignalRRecounterMessages;
 public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAsyncDisposable
 {
     private static readonly Lock SyncRoot = new();
-
-    private int _sentCount;
     private readonly Dictionary<string, List<string>> _connectedUsers = [];
     private readonly IHubContext<ReCounterMessagesHub, IProgressDataMessenger> _hub;
     private readonly ILogger<ProgressDataManager> _logger;
     private int _currentChangeId;
     private ProgressData? _lastChangesData;
     private int _sentChangeId;
+
+    private int _sentCount;
 
     private Timer? _timer;
     private bool _timerStarted;
