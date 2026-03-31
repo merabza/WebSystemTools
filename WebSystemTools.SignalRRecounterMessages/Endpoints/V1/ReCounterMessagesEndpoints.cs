@@ -54,7 +54,7 @@ public static class ReCounterMessagesEndpoints
         Debug.WriteLine($"Call {nameof(CurrentProcessStatusQueryHandler)} from {nameof(CurrentProcessStatus)}");
 
         var query = new CurrentProcessStatusRequestQuery();
-        OneOf<ProgressData, Err[]> result = await mediator.Send(query, cancellationToken);
+        OneOf<ProgressData, Error[]> result = await mediator.Send(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} finished", cancellationToken);
         return result.Match(Results.Ok, Results.BadRequest);
@@ -69,7 +69,7 @@ public static class ReCounterMessagesEndpoints
         Debug.WriteLine($"Call {nameof(IsProcessRunningQueryHandler)} from {nameof(IsProcessRunning)}");
 
         var query = new IsProcessRunningRequestQuery();
-        OneOf<bool, Err[]> result = await mediator.Send(query, cancellationToken);
+        OneOf<bool, Error[]> result = await mediator.Send(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} finished", cancellationToken);
         return result.Match(Results.Ok, Results.BadRequest);
@@ -84,7 +84,7 @@ public static class ReCounterMessagesEndpoints
         Debug.WriteLine($"Call {nameof(CancelCurrentProcessCommandHandler)} from {nameof(CancelCurrentProcess)}");
 
         var query = new CancelCurrentProcessRequestCommand();
-        OneOf<bool, Err[]> result = await mediator.Send(query, cancellationToken);
+        OneOf<bool, Error[]> result = await mediator.Send(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} finished", cancellationToken);
         return result.Match(Results.Ok, Results.BadRequest);

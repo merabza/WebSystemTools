@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using System;
+using System.Net.Mime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -29,10 +30,10 @@ public static class ApiExceptionHandlerDependencyInjection
 
                 var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
 
-                var e = exceptionHandlerPathFeature?.Error;
+                Exception? e = exceptionHandlerPathFeature?.Error;
                 if (e is not null)
                 {
-                    var mess = new[] { SystemToolsErrors.UnexpectedApiException(e) };
+                    Error[] mess = new[] { SystemToolsErrors.UnexpectedApiException(e) };
                     var serializerSettings = new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()

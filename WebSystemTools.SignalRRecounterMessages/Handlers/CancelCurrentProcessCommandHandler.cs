@@ -21,7 +21,7 @@ public sealed class CancelCurrentProcessCommandHandler : ICommandHandler<CancelC
         _services = services;
     }
 
-    public async Task<OneOf<bool, Err[]>> Handle(CancelCurrentProcessRequestCommand request,
+    public async Task<OneOf<bool, Error[]>> Handle(CancelCurrentProcessRequestCommand request,
         CancellationToken cancellationToken)
     {
         if (_services.GetService(typeof(ReCounterQueuedHostedService)) is not ReCounterQueuedHostedService

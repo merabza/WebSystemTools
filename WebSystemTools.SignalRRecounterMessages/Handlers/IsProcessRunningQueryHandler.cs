@@ -21,7 +21,7 @@ public sealed class IsProcessRunningQueryHandler : IQueryHandler<IsProcessRunnin
         _services = services;
     }
 
-    public Task<OneOf<bool, Err[]>> Handle(IsProcessRunningRequestQuery request, CancellationToken cancellationToken)
+    public Task<OneOf<bool, Error[]>> Handle(IsProcessRunningRequestQuery request, CancellationToken cancellationToken)
     {
         object service = _services.GetService(typeof(ReCounterQueuedHostedService)) ??
                          throw new InvalidOperationException(
@@ -30,6 +30,6 @@ public sealed class IsProcessRunningQueryHandler : IQueryHandler<IsProcessRunnin
         // ReSharper disable once using
         using var reCounterQueuedHostedService = (ReCounterQueuedHostedService)service;
 
-        return Task.FromResult(OneOf<bool, Err[]>.FromT0(reCounterQueuedHostedService.IsProcessRunning()));
+        return Task.FromResult(OneOf<bool, Error[]>.FromT0(reCounterQueuedHostedService.IsProcessRunning()));
     }
 }

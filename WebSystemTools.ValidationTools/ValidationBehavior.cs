@@ -13,7 +13,7 @@ using ICommand = System.Windows.Input.ICommand;
 namespace WebSystemTools.ValidationTools;
 
 public sealed class
-    ValidationBehavior<TCommandOrQuery, TResponse> : IPipelineBehavior<TCommandOrQuery, OneOf<TResponse, Err[]>>
+    ValidationBehavior<TCommandOrQuery, TResponse> : IPipelineBehavior<TCommandOrQuery, OneOf<TResponse, Error[]>>
     where TCommandOrQuery : ICommand, ICommand<TResponse>, IQuery<TResponse>
 {
     private readonly IEnumerable<IValidator<TCommandOrQuery>> _validators;
@@ -24,8 +24,8 @@ public sealed class
         _validators = validators;
     }
 
-    public async Task<OneOf<TResponse, Err[]>> Handle(TCommandOrQuery request,
-        RequestHandlerDelegate<OneOf<TResponse, Err[]>> next, CancellationToken cancellationToken)
+    public async Task<OneOf<TResponse, Error[]>> Handle(TCommandOrQuery request,
+        RequestHandlerDelegate<OneOf<TResponse, Error[]>> next, CancellationToken cancellationToken)
     {
         if (!_validators.Any())
         {
@@ -38,8 +38,8 @@ public sealed class
 
         if (failures.Count != 0)
         {
-            return await Task.FromResult(failures
-                .Select(x => new Err { ErrorCode = x.ErrorCode, ErrorMessage = x.ErrorMessage }).Distinct().ToArray());
+            return await Task.FromResult(failures.Select(x => new Error { Code = x.ErrorCode, Name = x.ErrorMessage })
+                .Distinct().ToArray());
         }
 
         return await next(cancellationToken);
