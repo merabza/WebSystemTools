@@ -10,20 +10,12 @@ using WebSystemTools.SignalRRecounterMessages.QueryRequests;
 namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class IsProcessRunningQueryHandler : IQueryHandler<IsProcessRunningRequestQuery, bool>
+public sealed class IsProcessRunningQueryHandler(IServiceProvider services)
+    : IQueryHandler<IsProcessRunningRequestQuery, bool>
 {
-    private readonly IServiceProvider _services;
-
-    //IReCounterBackgroundTaskQueue backgroundTaskQueue, 
-    // ReSharper disable once ConvertToPrimaryConstructor
-    public IsProcessRunningQueryHandler(IServiceProvider services)
-    {
-        _services = services;
-    }
-
     public Task<OneOf<bool, Error[]>> Handle(IsProcessRunningRequestQuery request, CancellationToken cancellationToken)
     {
-        object service = _services.GetService(typeof(ReCounterQueuedHostedService)) ??
+        object service = services.GetService(typeof(ReCounterQueuedHostedService)) ??
                          throw new InvalidOperationException(
                              $"Unable to resolve service of type {nameof(ReCounterQueuedHostedService)}.");
 

@@ -10,20 +10,13 @@ using WebSystemTools.SignalRRecounterMessages.QueryRequests;
 namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class CurrentProcessStatusQueryHandler : IQueryHandler<CurrentProcessStatusRequestQuery, ProgressData>
+public sealed class CurrentProcessStatusQueryHandler(IProgressDataManager progressDataManager)
+    : IQueryHandler<CurrentProcessStatusRequestQuery, ProgressData>
 {
-    private readonly IProgressDataManager _progressDataManager;
-
-    // ReSharper disable once ConvertToPrimaryConstructor
-    public CurrentProcessStatusQueryHandler(IProgressDataManager progressDataManager)
-    {
-        _progressDataManager = progressDataManager;
-    }
-
     public Task<OneOf<ProgressData, Error[]>> Handle(CurrentProcessStatusRequestQuery request,
         CancellationToken cancellationToken)
     {
         return Task.FromResult(
-            OneOf<ProgressData, Error[]>.FromT0(_progressDataManager.AccumulatedProgressData ?? new ProgressData()));
+            OneOf<ProgressData, Error[]>.FromT0(progressDataManager.AccumulatedProgressData ?? new ProgressData()));
     }
 }

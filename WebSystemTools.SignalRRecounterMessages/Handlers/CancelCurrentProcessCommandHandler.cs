@@ -10,21 +10,13 @@ using WebSystemTools.SignalRRecounterMessages.CommandRequests;
 namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class CancelCurrentProcessCommandHandler : ICommandHandler<CancelCurrentProcessRequestCommand, bool>
+public sealed class CancelCurrentProcessCommandHandler(IServiceProvider services)
+    : ICommandHandler<CancelCurrentProcessRequestCommand, bool>
 {
-    private readonly IServiceProvider _services;
-
-    //IReCounterBackgroundTaskQueue backgroundTaskQueue, 
-    // ReSharper disable once ConvertToPrimaryConstructor
-    public CancelCurrentProcessCommandHandler(IServiceProvider services)
-    {
-        _services = services;
-    }
-
     public async Task<OneOf<bool, Error[]>> Handle(CancelCurrentProcessRequestCommand request,
         CancellationToken cancellationToken)
     {
-        if (_services.GetService(typeof(ReCounterQueuedHostedService)) is not ReCounterQueuedHostedService
+        if (services.GetService(typeof(ReCounterQueuedHostedService)) is not ReCounterQueuedHostedService
             reCounterQueuedHostedService)
         {
             throw new InvalidOperationException(

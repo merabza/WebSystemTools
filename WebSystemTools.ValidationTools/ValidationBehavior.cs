@@ -44,8 +44,8 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
             return await next(cancellationToken);
         }
 
-        Error[] errors = failures.Select(x => new Error { Code = x.ErrorCode, Name = x.ErrorMessage })
-            .Distinct().ToArray();
+        Error[] errors = failures.Select(x => new Error { Code = x.ErrorCode, Name = x.ErrorMessage }).Distinct()
+            .ToArray();
         return ErrorsToResponse.Value(errors);
     }
 
@@ -59,10 +59,9 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
         if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(OneOf<,>) &&
             t.GetGenericArguments()[1] == typeof(Error[]))
         {
-            MethodInfo fromT1 = t.GetMethod(nameof(OneOf<object, Error[]>.FromT1),
-                                   BindingFlags.Public | BindingFlags.Static) ??
-                               throw new InvalidOperationException(
-                                   $"OneOf<,>.FromT1 not found on '{t.FullName}'.");
+            MethodInfo fromT1 =
+                t.GetMethod(nameof(OneOf<object, Error[]>.FromT1), BindingFlags.Public | BindingFlags.Static) ??
+                throw new InvalidOperationException($"OneOf<,>.FromT1 not found on '{t.FullName}'.");
             ParameterExpression param = Expression.Parameter(typeof(Error[]), "errors");
             return Expression.Lambda<Func<Error[], TResponse>>(Expression.Call(fromT1, param), param).Compile();
         }
