@@ -33,7 +33,7 @@ public static class ApiExceptionHandlerDependencyInjection
                 Exception? e = exceptionHandlerPathFeature?.Error;
                 if (e is not null)
                 {
-                    Error[] mess = new[] { SystemToolsErrors.UnexpectedApiException(e) };
+                    Error[] mess = [SystemToolsErrors.UnexpectedApiException(e)];
                     var serializerSettings = new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
