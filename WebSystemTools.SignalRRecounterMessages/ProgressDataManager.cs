@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using SystemTools.ReCounterAbstraction;
 using SystemTools.ReCounterContracts;
 
@@ -18,6 +17,7 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
     private readonly IHubContext<ReCounterMessagesHub, IProgressDataMessenger> _hub;
     private readonly ILogger<ProgressDataManager> _logger;
     private int _currentChangeId;
+    private TimeSpan _sendDelay = TimeSpan.FromSeconds(1);
     private int _sentChangeId;
 
     private Timer? _timer;
@@ -93,6 +93,22 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         }
     }
 
+    //პროცესის დაწყებისას კლიენტიდან მოსული დაყოვნება. ტაიმერი დაგროვილ ინფორმაციას
+    //ამ დაყოვნების პერიოდით გზავნის, ანუ წინა გაგზავნიდან დაყოვნების დროის გასვლამდე ახალი არ იგზავნება
+    public void SetSendDelay(TimeSpan sendDelay)
+    {
+        if (sendDelay <= TimeSpan.Zero)
+        {
+            return;
+        }
+
+        _sendDelay = sendDelay;
+        if (_timerStarted)
+        {
+            _timer?.Change(_sendDelay, _sendDelay);
+        }
+    }
+
     public void StopTimer()
     {
         _timer?.Change(Timeout.Infinite, 0);
@@ -108,6 +124,7 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
             AccumulatedProgressData ??= new ProgressData();
             AccumulatedProgressData.Clear();
         }
+
         _currentChangeId++;
     }
 
@@ -176,7 +193,7 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         _logger.LogInformation("ProgressDataManager Timer running.");
         _timerStarted = true;
         // ReSharper disable once DisposableConstructor
-        _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+        _timer = new Timer(DoWork, null, TimeSpan.Zero, _sendDelay);
     }
 
     private void DoWork(object? state)
@@ -199,7 +216,6 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         {
             return;
         }
-
 
         if (userName is null)
         {
