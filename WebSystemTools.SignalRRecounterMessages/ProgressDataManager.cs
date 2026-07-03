@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using SystemTools.ReCounterAbstraction;
 using SystemTools.ReCounterContracts;
 
@@ -17,10 +18,7 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
     private readonly IHubContext<ReCounterMessagesHub, IProgressDataMessenger> _hub;
     private readonly ILogger<ProgressDataManager> _logger;
     private int _currentChangeId;
-    private ProgressData? _lastChangesData;
     private int _sentChangeId;
-
-    private int _sentCount;
 
     private Timer? _timer;
     private bool _timerStarted;
@@ -102,6 +100,17 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         _logger.LogInformation("ProgressDataManager Timer stopped.");
     }
 
+    public void Clear()
+    {
+        CheckTimer();
+        lock (SyncRoot)
+        {
+            AccumulatedProgressData ??= new ProgressData();
+            AccumulatedProgressData.Clear();
+        }
+        _currentChangeId++;
+    }
+
     public async ValueTask SetProgressData(string? userName, string name, string message, bool instantly,
         CancellationToken cancellationToken = default)
     {
@@ -110,8 +119,6 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         {
             AccumulatedProgressData ??= new ProgressData();
             AccumulatedProgressData.Add(name, message);
-            _lastChangesData = new ProgressData();
-            _lastChangesData.Add(name, message);
         }
 
         _currentChangeId++;
@@ -130,8 +137,6 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         {
             AccumulatedProgressData ??= new ProgressData();
             AccumulatedProgressData.Add(name, value);
-            _lastChangesData = new ProgressData();
-            _lastChangesData.Add(name, value);
         }
 
         _currentChangeId++;
@@ -150,8 +155,6 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         {
             AccumulatedProgressData ??= new ProgressData();
             AccumulatedProgressData.Add(name, value);
-            _lastChangesData = new ProgressData();
-            _lastChangesData.Add(name, value);
         }
 
         _currentChangeId++;
@@ -191,6 +194,13 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
 
     private async Task SendData(string? userName, CancellationToken cancellationToken = default)
     {
+        //თუ მოთხოვნილია პროცესის შეჩერება, გამოვიდეთ მეთოდიდან
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return;
+        }
+
+
         if (userName is null)
         {
             return;
@@ -202,23 +212,33 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
         }
 
         _sentChangeId = _currentChangeId;
-        _sentCount++;
 
+        //ყოველთვის იგზავნება სრული (აკუმულირებული) მდგომარეობა, რომ კლიენტმა ერთ შეტყობინებაში
+        //მიიღოს ProcPosition-იც და ProcLength-იც. ასლი კეთდება lock-ის ქვეშ, რომ სერიალიზაციისას
+        //პარალელურმა ცვლილებამ არ დააზიანოს.
         ProgressData? progressData;
         lock (SyncRoot)
         {
-            progressData = _lastChangesData;
-        }
-
-        if (_sentCount % 10 == 0)
-        {
-            progressData = AccumulatedProgressData;
+            progressData = AccumulatedProgressData is null
+                ? null
+                : new ProgressData
+                {
+                    BoolData = new Dictionary<string, bool>(AccumulatedProgressData.BoolData),
+                    IntData = new Dictionary<string, int>(AccumulatedProgressData.IntData),
+                    StrData = new Dictionary<string, string>(AccumulatedProgressData.StrData)
+                };
         }
 
         if (progressData is not null)
         {
             foreach (string connectionId in conList)
             {
+                //თუ მოთხოვნილია პროცესის შეჩერება, გამოვიდეთ მეთოდიდან
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
                 await _hub.Clients.Client(connectionId).SendProgressData(progressData, cancellationToken);
             }
         }
