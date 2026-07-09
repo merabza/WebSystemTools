@@ -1,4 +1,4 @@
-<Project>
+﻿<?xml version="1.0" encoding="utf-8"?><Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
@@ -20,12 +20,12 @@
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.2.1" />
-    <PackageVersion Include="SystemTools.ApiContracts" Version="1.0.9686.26889" />
-    <PackageVersion Include="SystemTools.ApiKeysManagement" Version="1.0.9686.26889" />
-    <PackageVersion Include="SystemTools.MediatRMessagingAbstractions" Version="1.0.9686.26889" />
-    <PackageVersion Include="SystemTools.ReCounterAbstraction" Version="1.0.9686.26889" />
-    <PackageVersion Include="SystemTools.StringMessagesApiContracts" Version="1.0.9686.26889" />
-    <PackageVersion Include="SystemTools.SystemToolsShared" Version="1.0.9686.26889" />
-    <PackageVersion Include="SystemTools.TestApiContracts" Version="1.0.9686.26889" />
+    <PackageVersion Include="SystemTools.ApiContracts" Version="1.0.9686.33588" />
+    <PackageVersion Include="SystemTools.ApiKeysManagement" Version="1.0.9686.33588" />
+    <PackageVersion Include="SystemTools.MediatRMessagingAbstractions" Version="1.0.9686.33588" />
+    <PackageVersion Include="SystemTools.ReCounterAbstraction" Version="1.0.9686.33588" />
+    <PackageVersion Include="SystemTools.StringMessagesApiContracts" Version="1.0.9686.33588" />
+    <PackageVersion Include="SystemTools.SystemToolsShared" Version="1.0.9686.33588" />
+    <PackageVersion Include="SystemTools.TestApiContracts" Version="1.0.9686.33588" />
   </ItemGroup>
 </Project>
