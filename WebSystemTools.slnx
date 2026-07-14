@@ -28,5 +28,4 @@
     <Project Path="WebSystemTools.TestToolsData/WebSystemTools.TestToolsData.csproj" />
     <Project Path="WebSystemTools.ValidationTools/WebSystemTools.ValidationTools.csproj" />
     <Project Path="WebSystemTools.WindowsServiceTools/WebSystemTools.WindowsServiceTools.csproj" />
-    <Project Path="WebSystemTools/WebSystemTools.csproj" />
 </Solution>
