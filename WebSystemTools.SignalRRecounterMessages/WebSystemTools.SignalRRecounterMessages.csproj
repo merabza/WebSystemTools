@@ -6,8 +6,11 @@
 
     <ItemGroup>
         <PackageReference Include="MediatR" />
-        <PackageReference Include="SystemTools.MediatRMessagingAbstractions" />
-        <PackageReference Include="SystemTools.ReCounterAbstraction" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\SystemTools\SystemTools.MediatRMessagingAbstractions\SystemTools.MediatRMessagingAbstractions.csproj" />
+      <ProjectReference Include="..\..\SystemTools\SystemTools.ReCounterAbstraction\SystemTools.ReCounterAbstraction.csproj" />
     </ItemGroup>
 
 </Project>
