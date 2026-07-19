@@ -13,7 +13,6 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.10" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.29.0.143774" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
@@ -21,12 +20,5 @@
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.2.3" />
-    <PackageVersion Include="SystemTools.ApiContracts" Version="1.0.9691.25983" />
-    <PackageVersion Include="SystemTools.ApiKeysManagement" Version="1.0.9691.25983" />
-    <PackageVersion Include="SystemTools.MediatRMessagingAbstractions" Version="1.0.9691.25983" />
-    <PackageVersion Include="SystemTools.ReCounterAbstraction" Version="1.0.9691.25983" />
-    <PackageVersion Include="SystemTools.StringMessagesApiContracts" Version="1.0.9691.25983" />
-    <PackageVersion Include="SystemTools.SystemToolsShared" Version="1.0.9691.25983" />
-    <PackageVersion Include="SystemTools.TestApiContracts" Version="1.0.9691.25983" />
   </ItemGroup>
 </Project>
