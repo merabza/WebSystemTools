@@ -29,7 +29,7 @@ public static class CorsDependencyInjection
         services.AddCors(options =>
         {
             string[] origins =
-                (from child in originsSection.GetChildren() where child.Value is not null select child.Value).ToArray();
+                [.. from child in originsSection.GetChildren() where child.Value is not null select child.Value];
             options.AddPolicy(MyAllowSpecificOrigins,
                 policy => policy.WithOrigins(origins).AllowAnyHeader().AllowAnyMethod());
         });
