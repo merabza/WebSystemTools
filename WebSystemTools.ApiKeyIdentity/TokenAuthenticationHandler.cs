@@ -56,7 +56,7 @@ public sealed class TokenAuthenticationHandler : AuthenticationHandler<Authentic
         var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
         var user = new GenericPrincipal(claimsIdentity,
-            claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray());
+            [.. claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value)]);
 
         Request.HttpContext.User = user;
 
