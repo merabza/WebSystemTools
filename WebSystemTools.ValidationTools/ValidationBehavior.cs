@@ -57,17 +57,18 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
     private static Func<Error[], TResponse> BuildErrorsToResponse()
     {
         Type t = typeof(TResponse);
-        if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(OneOf<,>) &&
-            t.GetGenericArguments()[1] == typeof(Error[]))
+        if (!t.IsGenericType || t.GetGenericTypeDefinition() != typeof(OneOf<,>) ||
+            t.GetGenericArguments()[1] != typeof(Error[]))
         {
-            MethodInfo fromT1 =
-                t.GetMethod(nameof(OneOf<object, Error[]>.FromT1), BindingFlags.Public | BindingFlags.Static) ??
-                throw new InvalidOperationException($"OneOf<,>.FromT1 not found on '{t.FullName}'.");
-            ParameterExpression param = Expression.Parameter(typeof(Error[]), "errors");
-            return Expression.Lambda<Func<Error[], TResponse>>(Expression.Call(fromT1, param), param).Compile();
+            return _ => throw new ValidationException(
+                $"{nameof(ValidationBehavior<,>)} expects TResponse to be OneOf<*, Error[]>; got '{t.FullName}'.");
         }
 
-        return _ => throw new ValidationException(
-            $"{nameof(ValidationBehavior<TRequest, TResponse>)} expects TResponse to be OneOf<*, Error[]>; got '{t.FullName}'.");
+        MethodInfo fromT1 =
+            t.GetMethod(nameof(OneOf<,>.FromT1), BindingFlags.Public | BindingFlags.Static) ??
+            throw new InvalidOperationException($"OneOf<,>.FromT1 not found on '{t.FullName}'.");
+        ParameterExpression param = Expression.Parameter(typeof(Error[]), "errors");
+        return Expression.Lambda<Func<Error[], TResponse>>(Expression.Call(fromT1, param), param).Compile();
+
     }
 }
