@@ -36,16 +36,17 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
         }
 
         var context = new ValidationContext<TRequest>(request);
-        List<ValidationFailure> failures = _validators.Select(x => x.Validate(context)).SelectMany(x => x.Errors)
-            .Where(x => x is not null).ToList();
+        List<ValidationFailure> failures =
+        [
+            .. _validators.Select(x => x.Validate(context)).SelectMany(x => x.Errors).Where(x => x is not null)
+        ];
 
         if (failures.Count == 0)
         {
             return await next(cancellationToken);
         }
 
-        Error[] errors = failures.Select(x => new Error { Code = x.ErrorCode, Name = x.ErrorMessage }).Distinct()
-            .ToArray();
+        Error[] errors = [.. failures.Select(x => new Error { Code = x.ErrorCode, Name = x.ErrorMessage }).Distinct()];
         return ErrorsToResponse.Value(errors);
     }
 
