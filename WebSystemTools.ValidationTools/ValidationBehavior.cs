@@ -64,11 +64,9 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
                 $"{nameof(ValidationBehavior<,>)} expects TResponse to be OneOf<*, Error[]>; got '{t.FullName}'.");
         }
 
-        MethodInfo fromT1 =
-            t.GetMethod(nameof(OneOf<,>.FromT1), BindingFlags.Public | BindingFlags.Static) ??
-            throw new InvalidOperationException($"OneOf<,>.FromT1 not found on '{t.FullName}'.");
+        MethodInfo fromT1 = t.GetMethod(nameof(OneOf<,>.FromT1), BindingFlags.Public | BindingFlags.Static) ??
+                            throw new InvalidOperationException($"OneOf<,>.FromT1 not found on '{t.FullName}'.");
         ParameterExpression param = Expression.Parameter(typeof(Error[]), "errors");
         return Expression.Lambda<Func<Error[], TResponse>>(Expression.Call(fromT1, param), param).Compile();
-
     }
 }
