@@ -13,7 +13,7 @@ namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 public sealed class IsProcessRunningQueryHandler(IServiceProvider services)
     : IQueryHandler<IsProcessRunningRequestQuery, bool>
 {
-    public Task<OneOf<bool, Error[]>> Handle(IsProcessRunningRequestQuery request, CancellationToken cancellationToken)
+    public Task<OneOf<bool, ErrorOmd[]>> Handle(IsProcessRunningRequestQuery request, CancellationToken cancellationToken)
     {
         object service = services.GetService(typeof(ReCounterQueuedHostedService)) ??
                          throw new InvalidOperationException(
@@ -22,6 +22,6 @@ public sealed class IsProcessRunningQueryHandler(IServiceProvider services)
         // ReSharper disable once using
         using var reCounterQueuedHostedService = (ReCounterQueuedHostedService)service;
 
-        return Task.FromResult(OneOf<bool, Error[]>.FromT0(reCounterQueuedHostedService.IsProcessRunning()));
+        return Task.FromResult(OneOf<bool, ErrorOmd[]>.FromT0(reCounterQueuedHostedService.IsProcessRunning()));
     }
 }

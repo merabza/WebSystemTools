@@ -13,7 +13,7 @@ namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 public sealed class CancelCurrentProcessCommandHandler(IServiceProvider services)
     : ICommandHandler<CancelCurrentProcessRequestCommand, bool>
 {
-    public async Task<OneOf<bool, Error[]>> Handle(CancelCurrentProcessRequestCommand request,
+    public async Task<OneOf<bool, ErrorOmd[]>> Handle(CancelCurrentProcessRequestCommand request,
         CancellationToken cancellationToken)
     {
         if (services.GetService(typeof(ReCounterQueuedHostedService)) is not ReCounterQueuedHostedService
