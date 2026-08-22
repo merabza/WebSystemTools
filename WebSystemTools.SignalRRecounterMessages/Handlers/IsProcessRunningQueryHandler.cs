@@ -13,7 +13,8 @@ namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 public sealed class IsProcessRunningQueryHandler(IServiceProvider services)
     : IQueryHandler<IsProcessRunningRequestQuery, bool>
 {
-    public Task<OneOf<bool, ErrorOmd[]>> Handle(IsProcessRunningRequestQuery request, CancellationToken cancellationToken)
+    public Task<OneOf<bool, ErrorOmd[]>> Handle(IsProcessRunningRequestQuery request,
+        CancellationToken cancellationToken)
     {
         object service = services.GetService(typeof(ReCounterQueuedHostedService)) ??
                          throw new InvalidOperationException(
