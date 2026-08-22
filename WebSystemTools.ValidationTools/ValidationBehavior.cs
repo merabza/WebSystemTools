@@ -17,7 +17,7 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
     where TRequest : IRequest<TResponse>
 {
     // Cached per closed generic. Compiled once on first validation failure for this (TRequest, TResponse).
-    private static readonly Lazy<Func<Error[], TResponse>> ErrorsToResponse = new(BuildErrorsToResponse);
+    private static readonly Lazy<Func<ErrorOmd[], TResponse>> ErrorsToResponse = new(BuildErrorsToResponse);
 
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -46,27 +46,28 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
             return await next(cancellationToken);
         }
 
-        Error[] errors = [.. failures.Select(x => new Error { Code = x.ErrorCode, Name = x.ErrorMessage }).Distinct()];
+        ErrorOmd[] errors =
+            [.. failures.Select(x => new ErrorOmd { Code = x.ErrorCode, Name = x.ErrorMessage }).Distinct()];
         return ErrorsToResponse.Value(errors);
     }
 
     // The behavior is registered as an open generic and is wired up for every request type.
-    // It only knows how to short-circuit when TResponse is OneOf<*, Error[]>; for any other
+    // It only knows how to short-circuit when TResponse is OneOf<*, ErrorOmd[]>; for any other
     // shape, surfacing a ValidationException is the safer default — silently letting an
     // invalid request through would defeat the purpose of the pipeline.
-    private static Func<Error[], TResponse> BuildErrorsToResponse()
+    private static Func<ErrorOmd[], TResponse> BuildErrorsToResponse()
     {
         Type t = typeof(TResponse);
         if (!t.IsGenericType || t.GetGenericTypeDefinition() != typeof(OneOf<,>) ||
-            t.GetGenericArguments()[1] != typeof(Error[]))
+            t.GetGenericArguments()[1] != typeof(ErrorOmd[]))
         {
             return _ => throw new ValidationException(
-                $"{nameof(ValidationBehavior<,>)} expects TResponse to be OneOf<*, Error[]>; got '{t.FullName}'.");
+                $"{nameof(ValidationBehavior<,>)} expects TResponse to be OneOf<*, ErrorOmd[]>; got '{t.FullName}'.");
         }
 
         MethodInfo fromT1 = t.GetMethod(nameof(OneOf<,>.FromT1), BindingFlags.Public | BindingFlags.Static) ??
                             throw new InvalidOperationException($"OneOf<,>.FromT1 not found on '{t.FullName}'.");
-        ParameterExpression param = Expression.Parameter(typeof(Error[]), "errors");
-        return Expression.Lambda<Func<Error[], TResponse>>(Expression.Call(fromT1, param), param).Compile();
+        ParameterExpression param = Expression.Parameter(typeof(ErrorOmd[]), "errors");
+        return Expression.Lambda<Func<ErrorOmd[], TResponse>>(Expression.Call(fromT1, param), param).Compile();
     }
 }
