@@ -11,7 +11,7 @@ namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CancelCurrentProcessCommandHandler(IServiceProvider services)
-    : ICommandHandler<CancelCurrentProcessRequestCommand, bool>
+    : ICommandHandlerOmd<CancelCurrentProcessRequestCommand, bool>
 {
     public async Task<OneOf<bool, ErrorOmd[]>> Handle(CancelCurrentProcessRequestCommand request,
         CancellationToken cancellationToken)

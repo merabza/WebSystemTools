@@ -3,4 +3,4 @@
 namespace WebSystemTools.SignalRRecounterMessages.CommandRequests;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public record CancelCurrentProcessRequestCommand : ICommand<bool>;
+public record CancelCurrentProcessRequestCommand : ICommandOmd<bool>;

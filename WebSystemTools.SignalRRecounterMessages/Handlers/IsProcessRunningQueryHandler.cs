@@ -11,7 +11,7 @@ namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class IsProcessRunningQueryHandler(IServiceProvider services)
-    : IQueryHandler<IsProcessRunningRequestQuery, bool>
+    : IQueryHandlerOmd<IsProcessRunningRequestQuery, bool>
 {
     public Task<OneOf<bool, ErrorOmd[]>> Handle(IsProcessRunningRequestQuery request,
         CancellationToken cancellationToken)

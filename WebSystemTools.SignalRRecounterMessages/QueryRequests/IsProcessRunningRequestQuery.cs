@@ -3,4 +3,4 @@
 namespace WebSystemTools.SignalRRecounterMessages.QueryRequests;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public record IsProcessRunningRequestQuery : IQuery<bool>;
+public record IsProcessRunningRequestQuery : IQueryOmd<bool>;

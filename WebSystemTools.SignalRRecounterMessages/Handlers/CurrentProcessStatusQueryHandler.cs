@@ -11,7 +11,7 @@ namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CurrentProcessStatusQueryHandler(IProgressDataManager progressDataManager)
-    : IQueryHandler<CurrentProcessStatusRequestQuery, ProgressData>
+    : IQueryHandlerOmd<CurrentProcessStatusRequestQuery, ProgressData>
 {
     public Task<OneOf<ProgressData, ErrorOmd[]>> Handle(CurrentProcessStatusRequestQuery request,
         CancellationToken cancellationToken)
