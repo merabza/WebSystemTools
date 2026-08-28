@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
+using SystemTools.SharedKernel;
 using SystemTools.SystemToolsShared.Errors;
 
 namespace WebSystemTools.ApiExceptionHandler.DependencyInjection;
@@ -33,12 +34,12 @@ public static class ApiExceptionHandlerDependencyInjection
                 Exception? e = exceptionHandlerPathFeature?.Error;
                 if (e is not null)
                 {
-                    ErrorOmd[] mess = [SystemToolsErrors.UnexpectedApiException(e)];
+                    Error error = SystemToolsErrors.UnexpectedApiException(e);
                     var serializerSettings = new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     };
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(mess, serializerSettings));
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(error, serializerSettings));
                 }
                 //return Results.BadRequest(e.Message + Environment.NewLine + e.StackTrace);
             });

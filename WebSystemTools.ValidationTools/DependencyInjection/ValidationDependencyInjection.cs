@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -14,7 +13,9 @@ public static class ValidationDependencyInjection
     {
         debugLogger?.Information("{MethodName} Started", nameof(AddFluentValidation));
 
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        //ძველი MediatR-ის ValidationBehavior დაკომენტარებულია — ვალიდაცია ახლა
+        //SystemTools.Application.Abstractions-ის დეკორატორებით ხდება.
+        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         foreach (Assembly assembly in assemblies)
         {
             services.AddValidatorsFromAssembly(assembly);
