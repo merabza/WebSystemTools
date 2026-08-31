@@ -9,10 +9,8 @@ namespace WebSystemTools.CorsTools.DependencyInjection;
 // ReSharper disable once ClassNeverInstantiated.Global
 public static class CorsDependencyInjection
 {
-    public const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
-    public static IServiceCollection AddCorsService(this IServiceCollection services, ILogger? debugLogger,
-        IConfiguration configuration)
+    public static IServiceCollection AddCorsService(this IServiceCollection services, string myAllowSpecificOrigins,
+        ILogger? debugLogger, IConfiguration configuration)
     {
         debugLogger?.Information("{MethodName} Started", nameof(AddCorsService));
 
@@ -30,7 +28,7 @@ public static class CorsDependencyInjection
         {
             string[] origins =
                 [.. from child in originsSection.GetChildren() where child.Value is not null select child.Value];
-            options.AddPolicy(MyAllowSpecificOrigins,
+            options.AddPolicy(myAllowSpecificOrigins,
                 policy => policy.WithOrigins(origins).AllowAnyHeader().AllowAnyMethod());
         });
 
@@ -39,11 +37,11 @@ public static class CorsDependencyInjection
         return services;
     }
 
-    public static bool UseCorsService(this IApplicationBuilder app, ILogger? debugLogger)
+    public static bool UseCorsService(this IApplicationBuilder app, string myAllowSpecificOrigins, ILogger? debugLogger)
     {
         debugLogger?.Information("{MethodName} Started", nameof(UseCorsService));
 
-        app.UseCors(MyAllowSpecificOrigins);
+        app.UseCors(myAllowSpecificOrigins);
 
         debugLogger?.Information("{MethodName} Finished", nameof(UseCorsService));
 
