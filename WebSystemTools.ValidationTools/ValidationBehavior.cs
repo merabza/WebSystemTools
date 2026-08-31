@@ -21,7 +21,7 @@
 
 //    private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-//    // ReSharper disable once ConvertToPrimaryConstructor
+//    
 //    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
 //    {
 //        _validators = validators;
