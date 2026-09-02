@@ -1,22 +1,20 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using OneOf;
-using SystemTools.MediatRMessagingAbstractions;
+using SystemTools.Application.Abstractions.Messaging;
 using SystemTools.ReCounterAbstraction;
 using SystemTools.ReCounterContracts;
-using SystemTools.SystemToolsShared.Errors;
+using SystemTools.SharedKernel;
 using WebSystemTools.SignalRRecounterMessages.QueryRequests;
 
 namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CurrentProcessStatusQueryHandler(IProgressDataManager progressDataManager)
-    : IQueryHandlerOmd<CurrentProcessStatusRequestQuery, ProgressData>
+    : IQueryHandler<CurrentProcessStatusRequestQuery, ProgressData>
 {
-    public Task<OneOf<ProgressData, ErrorOmd[]>> Handle(CurrentProcessStatusRequestQuery request,
+    public Task<Result<ProgressData>> Handle(CurrentProcessStatusRequestQuery request,
         CancellationToken cancellationToken)
     {
-        return Task.FromResult(
-            OneOf<ProgressData, ErrorOmd[]>.FromT0(progressDataManager.AccumulatedProgressData ?? new ProgressData()));
+        return Task.FromResult<Result<ProgressData>>(progressDataManager.AccumulatedProgressData ?? new ProgressData());
     }
 }

@@ -1,6 +1,6 @@
-﻿using SystemTools.MediatRMessagingAbstractions;
+﻿using SystemTools.Application.Abstractions.Messaging;
 
 namespace WebSystemTools.SignalRRecounterMessages.QueryRequests;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public record IsProcessRunningRequestQuery : IQueryOmd<bool>;
+public record IsProcessRunningRequestQuery : IQuery<bool>;

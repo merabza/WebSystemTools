@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using OneOf;
-using SystemTools.MediatRMessagingAbstractions;
+using SystemTools.Application.Abstractions.Messaging;
 using SystemTools.ReCounterAbstraction;
-using SystemTools.SystemToolsShared.Errors;
+using SystemTools.SharedKernel;
 using WebSystemTools.SignalRRecounterMessages.CommandRequests;
 
 namespace WebSystemTools.SignalRRecounterMessages.Handlers;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public sealed class CancelCurrentProcessCommandHandler(IServiceProvider services)
-    : ICommandHandlerOmd<CancelCurrentProcessRequestCommand, bool>
+    : ICommandHandler<CancelCurrentProcessRequestCommand, bool>
 {
-    public async Task<OneOf<bool, ErrorOmd[]>> Handle(CancelCurrentProcessRequestCommand request,
+    public async Task<Result<bool>> Handle(CancelCurrentProcessRequestCommand request,
         CancellationToken cancellationToken)
     {
         if (services.GetService(typeof(ReCounterQueuedHostedService)) is not ReCounterQueuedHostedService
@@ -25,6 +24,6 @@ public sealed class CancelCurrentProcessCommandHandler(IServiceProvider services
 
         await reCounterQueuedHostedService.StopAsync(cancellationToken);
         await reCounterQueuedHostedService.StartAsync(cancellationToken);
-        return await Task.FromResult(true);
+        return true;
     }
 }

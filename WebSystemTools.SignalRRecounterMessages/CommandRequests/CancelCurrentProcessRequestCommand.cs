@@ -1,6 +1,6 @@
-﻿using SystemTools.MediatRMessagingAbstractions;
+﻿using SystemTools.Application.Abstractions.Messaging;
 
 namespace WebSystemTools.SignalRRecounterMessages.CommandRequests;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public record CancelCurrentProcessRequestCommand : ICommandOmd<bool>;
+public record CancelCurrentProcessRequestCommand : ICommand<bool>;

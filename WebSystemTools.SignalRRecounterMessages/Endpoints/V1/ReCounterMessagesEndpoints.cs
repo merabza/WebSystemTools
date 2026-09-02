@@ -1,17 +1,16 @@
 ﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Routing;
-using OneOf;
 using Serilog;
+using SystemTools.Application.Abstractions.Messaging;
 using SystemTools.ReCounterAbstraction;
 using SystemTools.ReCounterContracts;
 using SystemTools.ReCounterContracts.V1.Routes;
-using SystemTools.SystemToolsShared.Errors;
+using SystemTools.SharedKernel;
 using WebSystemTools.SignalRRecounterMessages.CommandRequests;
 using WebSystemTools.SignalRRecounterMessages.Handlers;
 using WebSystemTools.SignalRRecounterMessages.QueryRequests;
@@ -46,7 +45,8 @@ public static class ReCounterMessagesEndpoints
     }
 
     // GET api/v1/recounter/currentprocessstatus
-    private static async Task<IResult> CurrentProcessStatus(IMediator mediator,
+    private static async Task<IResult> CurrentProcessStatus(
+        IQueryHandler<CurrentProcessStatusRequestQuery, ProgressData> handler,
         CancellationToken cancellationToken = default)
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
@@ -54,14 +54,14 @@ public static class ReCounterMessagesEndpoints
         Debug.WriteLine($"Call {nameof(CurrentProcessStatusQueryHandler)} from {nameof(CurrentProcessStatus)}");
 
         var query = new CurrentProcessStatusRequestQuery();
-        OneOf<ProgressData, ErrorOmd[]> result = await mediator.Send(query, cancellationToken);
+        Result<ProgressData> result = await handler.Handle(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(CurrentProcessStatus)} finished", cancellationToken);
-        return result.Match(Results.Ok, Results.BadRequest);
+        return result.Match(Results.Ok, failure => Results.BadRequest(failure.Error.ToErrorArray()));
     }
 
     // POST api/v1/recounter/isprocessrunning
-    private static async Task<IResult> IsProcessRunning(IMediator mediator,
+    private static async Task<IResult> IsProcessRunning(IQueryHandler<IsProcessRunningRequestQuery, bool> handler,
         CancellationToken cancellationToken = default)
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
@@ -69,14 +69,15 @@ public static class ReCounterMessagesEndpoints
         Debug.WriteLine($"Call {nameof(IsProcessRunningQueryHandler)} from {nameof(IsProcessRunning)}");
 
         var query = new IsProcessRunningRequestQuery();
-        OneOf<bool, ErrorOmd[]> result = await mediator.Send(query, cancellationToken);
+        Result<bool> result = await handler.Handle(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(IsProcessRunning)} finished", cancellationToken);
-        return result.Match(Results.Ok, Results.BadRequest);
+        return result.Match(Results.Ok, failure => Results.BadRequest(failure.Error.ToErrorArray()));
     }
 
     // POST api/v1/recounter/cancelcurrentprocess
-    private static async Task<IResult> CancelCurrentProcess(IMediator mediator,
+    private static async Task<IResult> CancelCurrentProcess(
+        ICommandHandler<CancelCurrentProcessRequestCommand, bool> handler,
         CancellationToken cancellationToken = default)
     {
         //var userName = httpRequest.HttpContext.User.Identity?.Name;
@@ -84,9 +85,9 @@ public static class ReCounterMessagesEndpoints
         Debug.WriteLine($"Call {nameof(CancelCurrentProcessCommandHandler)} from {nameof(CancelCurrentProcess)}");
 
         var query = new CancelCurrentProcessRequestCommand();
-        OneOf<bool, ErrorOmd[]> result = await mediator.Send(query, cancellationToken);
+        Result<bool> result = await handler.Handle(query, cancellationToken);
 
         //await messagesDataManager.SendMessage(userName, $"{nameof(CancelCurrentProcess)} finished", cancellationToken);
-        return result.Match(Results.Ok, Results.BadRequest);
+        return result.Match(Results.Ok, failure => Results.BadRequest(failure.Error.ToErrorArray()));
     }
 }
