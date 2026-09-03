@@ -24,8 +24,9 @@ public static class ApiExceptionHandlerDependencyInjection
             {
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-                // using static System.Net.Mime.MediaTypeNames;
-                context.Response.ContentType = MediaTypeNames.Text.Plain;
+                //შეცდომა JSON-ია და ისევე იგზავნება, როგორც BadRequest-ის შემთხვევაში — Error-ების მასივად
+                //(იხ. ErrorExtensions.ToErrorArray), რომ ApiClient-მა ორივე ერთნაირად წაიკითხოს
+                context.Response.ContentType = MediaTypeNames.Application.Json;
 
                 //await context.Response.WriteAsync("An exception was thrown.");
 
@@ -39,7 +40,8 @@ public static class ApiExceptionHandlerDependencyInjection
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     };
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(error, serializerSettings));
+                    string json = JsonConvert.SerializeObject(error.ToErrorArray(), serializerSettings);
+                    await context.Response.WriteAsync(json);
                 }
                 //return Results.BadRequest(e.Message + Environment.NewLine + e.StackTrace);
             });
