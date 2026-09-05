@@ -40,7 +40,7 @@ public static class ApiExceptionHandlerDependencyInjection
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     };
-                    string json = JsonConvert.SerializeObject(error.ToErrorArray(), serializerSettings);
+                    string json = JsonConvert.SerializeObject(error, serializerSettings);
                     await context.Response.WriteAsync(json);
                 }
                 //return Results.BadRequest(e.Message + Environment.NewLine + e.StackTrace);
