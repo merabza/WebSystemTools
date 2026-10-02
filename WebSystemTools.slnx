@@ -15,6 +15,10 @@
         <Project Path="../SystemTools/SystemTools.SystemToolsShared/SystemTools.SystemToolsShared.csproj" />
         <Project Path="../SystemTools/SystemTools.TestApiContracts/SystemTools.TestApiContracts.csproj" />
     </Folder>
+    <Folder Name="/Tests/">
+        <Project Path="WebSystemTools.ApiKeyIdentity.Tests/WebSystemTools.ApiKeyIdentity.Tests.csproj" />
+        <Project Path="WebSystemTools.SwaggerTools.Tests/WebSystemTools.SwaggerTools.Tests.csproj" />
+    </Folder>
     <Project Path="WebSystemTools.ApiExceptionHandler/WebSystemTools.ApiExceptionHandler.csproj" />
     <Project Path="WebSystemTools.ApiKeyIdentity/WebSystemTools.ApiKeyIdentity.csproj" />
     <Project Path="WebSystemTools.ConfigurationEncrypt/WebSystemTools.ConfigurationEncrypt.csproj" />

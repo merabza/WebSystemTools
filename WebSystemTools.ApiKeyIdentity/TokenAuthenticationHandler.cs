@@ -87,8 +87,14 @@ public sealed class TokenAuthenticationHandler : AuthenticationHandler<Authentic
             return true;
         }
 
-        _logger.LogError("RemoteIpAddress is - {RemoteIpAddress}", remoteIpAddress);
-        _logger.LogError("API Key is invalid - {ApiKey}", apiKey);
+        //უარყოფილი გასაღები შეიძლება ნამდვილს ერთი სიმბოლოთი განსხვავდებოდეს,
+        //ამიტომ ლოგში მხოლოდ IP და გასაღების სიგრძე იწერება
+        if (_logger.IsEnabled(LogLevel.Error))
+        {
+            _logger.LogError("API Key is invalid. RemoteIpAddress is {RemoteIpAddress}, API Key length is {ApiKeyLength}",
+                remoteIpAddress, apiKey.Length);
+        }
+
         return false;
     }
 }

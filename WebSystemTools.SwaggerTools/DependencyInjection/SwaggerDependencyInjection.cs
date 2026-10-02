@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 using Serilog;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using SystemTools.ApiContracts;
 using SystemTools.SystemToolsShared;
 
 namespace WebSystemTools.SwaggerTools.DependencyInjection;
@@ -10,8 +12,21 @@ namespace WebSystemTools.SwaggerTools.DependencyInjection;
 // ReSharper disable once ClassNeverInstantiated.Global
 public static class SwaggerDependencyInjection
 {
+    //Swagger-ში გამოცხადებული API გასაღების სქემის სახელი
+    private const string ApiKeySecuritySchemeName = "ApiKey";
+
+    //ძველი ხელმოწერა: true — JWT bearer, false — სქემის გარეშე.
+    //API გასაღებით მომუშავე აპლიკაციები ESwaggerSecurityScheme.ApiKey-ს იყენებენ
     public static IServiceCollection AddSwagger(this IServiceCollection services, ILogger? debugLogger,
         bool useSwaggerWithJwtBearer, int versionCount = 1, string? applicationName = null)
+    {
+        return services.AddSwagger(debugLogger,
+            useSwaggerWithJwtBearer ? ESwaggerSecurityScheme.JwtBearer : ESwaggerSecurityScheme.None, versionCount,
+            applicationName);
+    }
+
+    public static IServiceCollection AddSwagger(this IServiceCollection services, ILogger? debugLogger,
+        ESwaggerSecurityScheme securityScheme, int versionCount = 1, string? applicationName = null)
     {
         if (debugLogger is not null)
         {
@@ -35,31 +50,49 @@ public static class SwaggerDependencyInjection
                 x.SwaggerDoc(appVersion, new OpenApiInfo { Title = $"{appName} API", Version = appVersion });
             }
 
-            if (!useSwaggerWithJwtBearer)
+            switch (securityScheme)
             {
-                return;
+                case ESwaggerSecurityScheme.JwtBearer:
+                    AddSecurityScheme(x, JwtBearerDefaults.AuthenticationScheme,
+                        new OpenApiSecurityScheme
+                        {
+                            Description = "JWT Authorization header using the bearer scheme",
+                            Name = "Authorization",
+                            In = ParameterLocation.Header,
+                            Type = SecuritySchemeType.ApiKey
+                        });
+                    break;
+                case ESwaggerSecurityScheme.ApiKey:
+                    //გასაღები query პარამეტრად იგზავნება (?ApiKey=...), როგორც მას WebSystemTools.ApiKeyIdentity კითხულობს
+                    AddSecurityScheme(x, ApiKeySecuritySchemeName,
+                        new OpenApiSecurityScheme
+                        {
+                            Description = "API key in the ApiKey query parameter",
+                            Name = ApiKeysConstants.ApiKeyParameterName,
+                            In = ParameterLocation.Query,
+                            Type = SecuritySchemeType.ApiKey
+                        });
+                    break;
+                case ESwaggerSecurityScheme.None:
+                    break;
             }
-
-            x.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme,
-                new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the bearer scheme",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
-                });
-
-            var oas = new OpenApiSecurityRequirement();
-            var b = new OpenApiSecuritySchemeReference(JwtBearerDefaults.AuthenticationScheme);
-
-            oas.Add(b, [nameof(ReferenceType.SecurityScheme)]);
-
-            x.AddSecurityRequirement(_ => oas);
         });
 
         debugLogger.Information("{MethodName} Finished", nameof(AddSwagger));
 
         return services;
+    }
+
+    //სქემის გამოცხადება და მისი მოთხოვნა ყველა მეთოდისთვის, რომ Swagger UI-ის Authorize-ში შეყვანილი მნიშვნელობა
+    //ყოველ მოთხოვნას დაემატოს. მითითებას დოკუმენტი სჭირდება: მის გარეშე მოთხოვნა JSON-ში ცარიელი იწერება
+    private static void AddSecurityScheme(SwaggerGenOptions options, string schemeName,
+        OpenApiSecurityScheme securityScheme)
+    {
+        options.AddSecurityDefinition(schemeName, securityScheme);
+        options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+        {
+            [new OpenApiSecuritySchemeReference(schemeName, document)] = []
+        });
     }
 
     public static bool UseSwaggerServices(this IApplicationBuilder app, ILogger? debugLogger, int versionCount = 1)
