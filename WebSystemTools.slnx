@@ -17,6 +17,7 @@
     </Folder>
     <Folder Name="/Tests/">
         <Project Path="WebSystemTools.ApiKeyIdentity.Tests/WebSystemTools.ApiKeyIdentity.Tests.csproj" />
+        <Project Path="WebSystemTools.SerilogLogger.Tests/WebSystemTools.SerilogLogger.Tests.csproj" />
         <Project Path="WebSystemTools.SwaggerTools.Tests/WebSystemTools.SwaggerTools.Tests.csproj" />
     </Folder>
     <Project Path="WebSystemTools.ApiExceptionHandler/WebSystemTools.ApiExceptionHandler.csproj" />
