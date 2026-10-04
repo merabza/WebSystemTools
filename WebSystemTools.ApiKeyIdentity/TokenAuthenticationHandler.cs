@@ -91,7 +91,8 @@ public sealed class TokenAuthenticationHandler : AuthenticationHandler<Authentic
         //ამიტომ ლოგში მხოლოდ IP და გასაღების სიგრძე იწერება
         if (_logger.IsEnabled(LogLevel.Error))
         {
-            _logger.LogError("API Key is invalid. RemoteIpAddress is {RemoteIpAddress}, API Key length is {ApiKeyLength}",
+            _logger.LogError(
+                "API Key is invalid. RemoteIpAddress is {RemoteIpAddress}, API Key length is {ApiKeyLength}",
                 remoteIpAddress, apiKey.Length);
         }
 
