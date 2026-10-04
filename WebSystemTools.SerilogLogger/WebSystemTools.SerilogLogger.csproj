@@ -7,4 +7,8 @@
         <PackageReference Include="Serilog.Sinks.File" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="WebSystemTools.SerilogLogger.Tests" />
+    </ItemGroup>
+
 </Project>

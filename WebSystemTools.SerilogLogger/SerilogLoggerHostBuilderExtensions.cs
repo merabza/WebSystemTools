@@ -25,7 +25,10 @@ public static class SerilogLoggerHostBuilderExtensions
             Console.OutputEncoding = Encoding.UTF8;
         }
 
-        Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+        //API key query-შია და ASP.NET Core-ის ჩანაწერები მისამართს სრულად წერენ. enricher-ი კოდშია, რომ გასაღები
+        //ნებისმიერი კონფიგურაციისას დაიმალოს
+        Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).Enrich
+            .With(new ApiKeyRedactionEnricher()).CreateLogger();
         //Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
         LogSerilogFilePath(configuration);
 
