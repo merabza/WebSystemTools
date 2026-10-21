@@ -33,5 +33,6 @@
     <Project Path="WebSystemTools.TestToolsApi/WebSystemTools.TestToolsApi.csproj" />
     <Project Path="WebSystemTools.TestToolsData/WebSystemTools.TestToolsData.csproj" />
     <Project Path="WebSystemTools.ValidationTools/WebSystemTools.ValidationTools.csproj" />
+    <Project Path="WebSystemTools.WebApi.Abstractions/WebSystemTools.WebApi.Abstractions.csproj" />
     <Project Path="WebSystemTools.WindowsServiceTools/WebSystemTools.WindowsServiceTools.csproj" />
 </Solution>
