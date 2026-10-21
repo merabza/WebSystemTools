@@ -5,7 +5,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\SystemTools\SystemTools.StringMessagesApiContracts\SystemTools.StringMessagesApiContracts.csproj" />
+      <PackageReference Include="SystemTools.StringMessagesApiContracts" />
     </ItemGroup>
 
 

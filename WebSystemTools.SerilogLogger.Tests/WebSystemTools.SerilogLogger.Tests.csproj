@@ -10,12 +10,12 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="SystemTools.ApiContracts" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\SystemTools\SystemTools.ApiContracts\SystemTools.ApiContracts.csproj" />
         <ProjectReference Include="..\WebSystemTools.SerilogLogger\WebSystemTools.SerilogLogger.csproj" />
     </ItemGroup>
 

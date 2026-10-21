@@ -5,11 +5,8 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Options" />
         <PackageReference Include="Serilog" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\SystemTools\SystemTools.ApiContracts\SystemTools.ApiContracts.csproj" />
-      <ProjectReference Include="..\..\SystemTools\SystemTools.ApiKeysManagement\SystemTools.ApiKeysManagement.csproj" />
+        <PackageReference Include="SystemTools.ApiContracts" />
+        <PackageReference Include="SystemTools.ApiKeysManagement" />
     </ItemGroup>
 
 </Project>
