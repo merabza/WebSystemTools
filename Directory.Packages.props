@@ -5,15 +5,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
-    <PackageVersion Include="MediatR" Version="14.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.13" />
+    <PackageVersion Include="MediatR" Version="14.3.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.14" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <PackageVersion Include="Moq" Version="4.21.0" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.35.0.4138" />
@@ -22,7 +22,7 @@
     <PackageVersion Include="Serilog.Settings.Configuration" Version="10.0.1" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.3.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.3.1" />
     <PackageVersion Include="SystemTools.ApiContracts" Version="1.0.9791.20931" />
     <PackageVersion Include="SystemTools.ApiKeysManagement" Version="1.0.9791.20931" />
     <PackageVersion Include="SystemTools.Application.Abstractions" Version="1.0.9791.20931" />
