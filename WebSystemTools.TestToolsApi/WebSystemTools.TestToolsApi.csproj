@@ -2,14 +2,14 @@
 
     <ItemGroup>
         <ProjectReference Include="..\WebSystemTools.TestToolsData\WebSystemTools.TestToolsData.csproj" />
+        <ProjectReference Include="..\..\SystemTools\SystemTools.SystemToolsShared\SystemTools.SystemToolsShared.csproj" />
+        <ProjectReference Include="..\..\SystemTools\SystemTools.TestApiContracts\SystemTools.TestApiContracts.csproj" />
     </ItemGroup>
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Serilog" />
-        <PackageReference Include="SystemTools.SystemToolsShared" />
-        <PackageReference Include="SystemTools.TestApiContracts" />
     </ItemGroup>
 
 </Project>
