@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SystemTools\SystemTools.SharedKernel\SystemTools.SharedKernel.csproj" />
+    <PackageReference Include="SystemTools.SharedKernel" />
   </ItemGroup>
 
 </Project>
