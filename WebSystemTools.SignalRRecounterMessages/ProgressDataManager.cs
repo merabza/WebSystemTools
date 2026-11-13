@@ -14,6 +14,10 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
 {
     private static readonly Lock SyncRoot = new();
     private readonly Dictionary<string, List<string>> _connectedUsers = [];
+
+    //_connectedUsers-ს ერთდროულად ცვლის hub-ის რამდენიმე კავშირი (OnConnectedAsync/OnDisconnectedAsync)
+    //და კითხულობს ტაიმერი, ამიტომ მასზე ყველა წვდომა ამ lock-ის ქვეშ ხდება
+    private readonly Lock _connectedUsersLock = new();
     private readonly IHubContext<ReCounterMessagesHub, IProgressDataMessenger> _hub;
     private readonly ILogger<ProgressDataManager> _logger;
     private int _currentChangeId;
@@ -56,15 +60,18 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
             return;
         }
 
-        if (!_connectedUsers.TryGetValue(userName, out List<string>? conList))
+        lock (_connectedUsersLock)
         {
-            conList = [];
-            _connectedUsers.Add(userName, conList);
-        }
+            if (!_connectedUsers.TryGetValue(userName, out List<string>? conList))
+            {
+                conList = [];
+                _connectedUsers.Add(userName, conList);
+            }
 
-        if (!conList.Contains(connectionId))
-        {
-            conList.Add(connectionId);
+            if (!conList.Contains(connectionId))
+            {
+                conList.Add(connectionId);
+            }
         }
     }
 
@@ -76,20 +83,22 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
             return;
         }
 
-        if (!_connectedUsers.TryGetValue(userName, out List<string>? conList))
+        lock (_connectedUsersLock)
         {
-            return;
-        }
+            if (!_connectedUsers.TryGetValue(userName, out List<string>? conList))
+            {
+                return;
+            }
 
-        if (!conList.Contains(connectionId))
-        {
-            return;
-        }
+            if (!conList.Remove(connectionId))
+            {
+                return;
+            }
 
-        conList.Remove(connectionId);
-        if (conList.Count == 0)
-        {
-            _connectedUsers.Remove(userName);
+            if (conList.Count == 0)
+            {
+                _connectedUsers.Remove(userName);
+            }
         }
     }
 
@@ -203,9 +212,15 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
             return;
         }
 
-        foreach (KeyValuePair<string, List<string>> user in _connectedUsers)
+        string[] userNames;
+        lock (_connectedUsersLock)
         {
-            SendData(user.Key, CancellationToken.None).Wait();
+            userNames = [.. _connectedUsers.Keys];
+        }
+
+        foreach (string userName in userNames)
+        {
+            SendData(userName, CancellationToken.None).Wait();
         }
     }
 
@@ -222,9 +237,15 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
             return;
         }
 
-        if (!_connectedUsers.TryGetValue(userName, out List<string>? conList))
+        string[] connectionIds;
+        lock (_connectedUsersLock)
         {
-            return;
+            if (!_connectedUsers.TryGetValue(userName, out List<string>? conList))
+            {
+                return;
+            }
+
+            connectionIds = [.. conList];
         }
 
         _sentChangeId = _currentChangeId;
@@ -247,7 +268,7 @@ public sealed class ProgressDataManager : IProgressDataManager, IDisposable, IAs
 
         if (progressData is not null)
         {
-            foreach (string connectionId in conList)
+            foreach (string connectionId in connectionIds)
             {
                 //თუ მოთხოვნილია პროცესის შეჩერება, გამოვიდეთ მეთოდიდან
                 if (cancellationToken.IsCancellationRequested)
